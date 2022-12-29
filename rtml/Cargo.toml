@@ -1,0 +1,12 @@
+[package]
+name = "rtml"
+version = "0.2.0"
+edition = "2021"
+license-file = "../LICENSE"
+description = "(r)ust macros for h(tml) expansion => rtml"
+documentation = "https://docs.rs/rtml"
+readme = "../README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
