@@ -5,6 +5,7 @@ edition = "2021"
 license-file = "../LICENSE"
 description = "(r)ust macros for h(tml) expansion => rtml"
 documentation = "https://docs.rs/rtml"
+repository = "https://github.com/coffeebe4code/rtml.git"
 readme = "../README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
