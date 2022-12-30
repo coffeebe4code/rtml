@@ -948,6 +948,9 @@ macro_rules! u {
 
 #[macro_export]
 macro_rules! ul {
+    ( .iter $closure:expr, $($inner:tt)* ) => {
+        format_args!("<ul>{}{}</ul>", $closure, $($inner)*).to_string()
+    };
     ( .if $cond:expr, $($inner:tt)* ) => {
         if $cond {
             concat!("<ul>", $($inner)*,"</ul>")
@@ -955,7 +958,7 @@ macro_rules! ul {
         else { "" }
     };
     ( $($inner:tt)* ) => {
-            concat!("<ul>", $($inner)*,"</ul>")
+            format!("<ul>{}</ul>", $($inner)*)
     };
 }
 
@@ -993,4 +996,16 @@ macro_rules! wbr {
 fn test_conditional() {
     assert_eq!(ul![ .if true, "List Item 1"], "<ul>List Item 1</ul>");
     assert_eq!(ul![ .if false, "List Item 1"], "");
+}
+
+#[test]
+fn test_iter() {
+    //assert_eq!(
+    //    ul![ .iter (|| li!{ "hello" }), "List Item 1"],
+    //    "<ul><li>hello</li>List Item 1</ul>"
+    //);
+    assert_eq!(
+        ul! { .iter ((0..10).map(|x| li! { format!("li-item-{}", x) })) },
+        "<ul><li>hello</li>List Item 1</ul>"
+    );
 }
