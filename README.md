@@ -55,11 +55,6 @@ the output html will be.
 
 When there are attributes, they go first, before adding any inner nested html.
 
-__**conditional expressions**__
-
-See [divs example](macro.div.html) for conditional expressions
-
-
 __**note**__
 
 Although very easy to use, it is not complete, no global attributes or global events are on any of the html tags yet. So even very simple things like style are not yet included on any of the tags
