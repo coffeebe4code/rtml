@@ -240,11 +240,11 @@ macro_rules! dialog {
 /// );
 ///
 /// assert_eq!(
-///     div!{.cond = true, "This is a div's conditional inner text!" },
+///     div!{ .if true, "This is a div's conditional inner text!" },
 ///     "<div>This is a div's conditional inner text!</div>"
 /// );
 /// assert_eq!(
-///     div!{.cond = false, "This isn't going to render" },
+///     div!{ .if false, "This isn't going to render" },
 ///     ""
 /// );
 ///
@@ -252,7 +252,7 @@ macro_rules! dialog {
 /// ```
 #[macro_export]
 macro_rules! div {
-    ( .cond = $cond:expr, $($inner:tt)* ) => {
+    ( .if $cond:expr, $($inner:tt)* ) => {
         if $cond {
             concat!("<div>", $($inner)*,"</div>")
         }
@@ -948,7 +948,7 @@ macro_rules! u {
 
 #[macro_export]
 macro_rules! ul {
-    ( .cond = $cond:expr, $($inner:tt)* ) => {
+    ( .if $cond:expr, $($inner:tt)* ) => {
         if $cond {
             concat!("<ul>", $($inner)*,"</ul>")
         }
@@ -991,6 +991,6 @@ macro_rules! wbr {
 
 #[test]
 fn test_conditional() {
-    assert_eq!(ul![.cond = true, "List Item 1"], "<ul>List Item 1</ul>");
-    assert_eq!(ul![.cond = false, "List Item 1"], "");
+    assert_eq!(ul![ .if true, "List Item 1"], "<ul>List Item 1</ul>");
+    assert_eq!(ul![ .if false, "List Item 1"], "");
 }
