@@ -27,9 +27,6 @@ macro_rules! a {
     ( $(.$attr:ident = $val:expr)*, $($inner:tt)*) => {
         tag_inner!(ATag,$(attr_inner!($attr,$val))*, $($inner)*)
     };
-    ( .href = $val:expr, $($inner:tt)*) => {
-        tag_inner!(ATag, attr_inner!(HrefAttr, $val), $($inner)*)
-    };
     ($($inner:tt)*) => {
         tag_inner!(ATag, "", $($inner)*)
     };
