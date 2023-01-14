@@ -37,7 +37,7 @@ fn main() {
 the output html will be.
 ```html
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
   <head>
     <title>Page Title</title>
   </head>
