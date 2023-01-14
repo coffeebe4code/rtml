@@ -1,12 +1,7 @@
 use std::fmt::Display;
 
-//pub trait Attribute: Display {
-//    fn render(&self) -> fmt::Arguments {
-//        format_args!("{}=", self)
-//    }
-//}
-
 pub trait GlobalAttribute {}
+pub trait EventAttribute {}
 
 pub trait Attribute: Display + 'static {}
 

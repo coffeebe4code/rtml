@@ -612,19 +612,6 @@ macro_rules! noscript {
 }
 
 #[macro_export]
-macro_rules! object {
-    ( .data = $data:expr, .type = $typ:expr ) => {
-        concat!("<object data='", $data, "' type='", $typ, "'></object>")
-    };
-    ( .data = $data:expr, .type = $typ:expr, .width = $width:expr, .height = $height:expr ) => {
-        concat!("<object data='", $data, "' type='", $typ, "' width='", $width, "' height='", $height, "'></object>")
-    };
-    ( .data = $data:expr, .type = $typ:expr, $($inner:tt)* ) => {
-        concat!("<object data='", $data, "' type='", $typ, "'>", $($inner)*,"</object>")
-    };
-}
-
-#[macro_export]
 macro_rules! ol {
     ( $($inner:tt)* ) => {
         concat!("<ol>", $($inner)*,"</ol>")

@@ -2,7 +2,7 @@ pub mod attributes;
 pub mod macros;
 pub mod tags;
 
-use attributes::Attribute;
+use attributes::*;
 use std::fmt;
 use tags::Tag;
 
@@ -18,6 +18,20 @@ impl Render for fmt::Arguments<'_> {
     }
 }
 
+macro_rules! globalattributeit {
+    ($attr:ident, $val:expr) => {
+        #[allow(non_camel_case_types)]
+        pub struct $attr;
+        impl fmt::Display for $attr {
+            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+                return write!(f, "{}=\"", $val);
+            }
+        }
+        impl Attribute for $attr {}
+        impl GlobalAttribute for $attr {}
+    };
+}
+
 macro_rules! attributeit {
     ($attr:ident, $val:expr) => {
         #[allow(non_camel_case_types)]
@@ -30,6 +44,7 @@ macro_rules! attributeit {
         impl Attribute for $attr {}
     };
 }
+
 macro_rules! tagit {
     ($tag:ident, $val:expr) => {
         pub struct $tag;
@@ -53,22 +68,132 @@ impl fmt::Display for data {
 impl Attribute for data {}
 
 // Global Attributes
-attributeit! {accesskey, "accesskey"}
-attributeit! {class, "class"}
-attributeit! {contenteditable, "contenteditable"}
-attributeit! {dir, "dir"}
-attributeit! {draggable, "draggable"}
-attributeit! {hidden, "hidden"}
-attributeit! {id, "id"}
-attributeit! {lang, "lang"}
-attributeit! {spellcheck, "spellcheck"}
-attributeit! {style, "style"}
-attributeit! {tabindex, "tabindex"}
-attributeit! {title, "title"}
-attributeit! {translate, "translate"}
+globalattributeit! {accesskey, "accesskey"}
+globalattributeit! {class, "class"}
+globalattributeit! {contenteditable, "contenteditable"}
+globalattributeit! {dir, "dir"}
+globalattributeit! {draggable, "draggable"}
+globalattributeit! {hidden, "hidden"}
+globalattributeit! {id, "id"}
+globalattributeit! {lang, "lang"}
+globalattributeit! {spellcheck, "spellcheck"}
+globalattributeit! {style, "style"}
+globalattributeit! {tabindex, "tabindex"}
+globalattributeit! {title, "title"}
+globalattributeit! {translate, "translate"}
+
+// type unimplemented for now
+// loop unimplemented for now
+// accept-charset unimplemented for now
+// for unimplemented for now
+// http-equiv unimplemented for now
+// async unimplemented for now
 
 // Specific Attributes
+// a
 attributeit! {href, "href"}
+attributeit! {src, "src"}
+attributeit! {download, "download"}
+attributeit! {media, "media"}
+attributeit! {ping, "ping"}
+attributeit! {referrerpolicy, "referrerpolicy"}
+attributeit! {rel, "rel"}
+attributeit! {hreflang, "hreflang"}
+attributeit! {target, "target"}
+// area
+attributeit! {alt, "alt"}
+attributeit! {coords, "coords"}
+attributeit! {shape, "shape"}
+// audio
+attributeit! {autoplay, "autoplay"}
+attributeit! {controls, "controls"}
+attributeit! {muted, "muted"}
+attributeit! {preload, "preload"}
+attributeit! {cite, "cite"}
+// button
+attributeit! {autofocus, "autofocus"}
+attributeit! {disabled, "disabled"}
+attributeit! {form, "form"}
+attributeit! {formaction, "formaction"}
+attributeit! {formenctype, "formenctype"}
+attributeit! {formmethod, "formmethod"}
+attributeit! {formnovalidate, "formnovalidate"}
+attributeit! {formtarget, "formtarget"}
+attributeit! {name, "name"}
+attributeit! {value, "value"}
+// canvas
+attributeit! {height, "height"}
+attributeit! {width, "width"}
+// col
+attributeit! {span, "span"}
+// del
+attributeit! {datetime, "datetime"}
+// details
+attributeit! {open, "open"}
+// form
+attributeit! {action, "action"}
+attributeit! {autocomplete, "autocomplete"}
+attributeit! {enctype, "enctype"}
+attributeit! {method, "method"}
+attributeit! {novalidate, "novalidate"}
+// html
+attributeit! {xmlns, "xmlns"}
+// iframe
+attributeit! {allow, "allow"}
+attributeit! {allowfullscreen, "allowfullscreen"}
+attributeit! {allowpaymentrequest, "allowpaymentrequest"}
+attributeit! {loading, "loading"}
+attributeit! {sandbox, "sandbox"}
+attributeit! {srcdoc, "srcdoc"}
+// img
+attributeit! {crossorigin, "crossorigin"}
+attributeit! {ismap, "ismap"}
+attributeit! {longdesc, "longdesc"}
+attributeit! {sizes, "sizes"}
+attributeit! {usemap, "usemap"}
+// input
+attributeit! {accept, "accept"}
+attributeit! {checked, "checked"}
+attributeit! {dirname, "dirname"}
+attributeit! {list, "list"}
+attributeit! {max, "max"}
+attributeit! {maxlength, "maxlength"}
+attributeit! {min, "min"}
+attributeit! {minlength, "minlength"}
+attributeit! {multiple, "multiple"}
+attributeit! {pattern, "pattern"}
+attributeit! {placeholder, "placeholder"}
+attributeit! {readonly, "readonly"}
+attributeit! {required, "required"}
+attributeit! {step, "step"}
+// meta
+attributeit! {content, "content"}
+// meter
+attributeit! {high, "high"}
+attributeit! {low, "low"}
+attributeit! {optimum, "optimum"}
+// ol
+attributeit! {reversed, "reversed"}
+attributeit! {start, "start"}
+// optgroup
+attributeit! {label, "label"}
+// option
+attributeit! {selected, "selected"}
+// script
+attributeit! {defer, "defer"}
+attributeit! {integrity, "integrity"}
+attributeit! {nomodule, "nomodule"}
+// select
+attributeit! {size, "size"}
+// td
+attributeit! {rowspan, "rowspan"}
+// textarea
+attributeit! {wrap, "wrap"}
+// th
+attributeit! {headers, "headers"}
+attributeit! {scope, "scope"}
+// track
+attributeit! {kind, "kind"}
 
 tagit! {ATag, "a"}
 tagit! {AbbrTag, "abbr"}
@@ -137,7 +262,6 @@ tagit! {MetaTag, "meta"}
 tagit! {MeterTag, "meter"}
 tagit! {NavTag, "nav"}
 tagit! {NoscriptTag, "noscript"}
-tagit! {ObjectTag, "object"}
 tagit! {OlTag, "ol"}
 tagit! {OptgroupTag, "optgroup"}
 tagit! {OptionTag, "option"}
