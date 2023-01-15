@@ -24,11 +24,11 @@ use crate::*;
 /// ```
 #[macro_export]
 macro_rules! a {
-    ( $(.$attr:ident = $val:expr)*, $($inner:tt)*) => {
-        tag_inner!(ATag,$(attr_inner!($attr,$val))*, $($inner)*)
-    };
-    ($($inner:tt)*) => {
+    ($($inner:expr)*) => {
         tag_inner!(ATag, "", $($inner)*)
+    };
+    ( $(.$attr:ident = $val:expr),*, $($inner:expr)*) => {
+        tag_inner!(ATag, attr_inner!($($attr,$val)*), $($inner)*)
     };
 }
 
@@ -992,15 +992,25 @@ macro_rules! wbr {
 
 #[macro_export]
 macro_rules! tag_inner {
-    ($tag:expr, $attrs:expr, $($inner:tt)*) => {
-        format_args!("<{}{}>{}</{}>", $tag, $attrs, $($inner)* , $tag)
+    ($render:expr) => {
+        String::from($render)
+    };
+    ($tag:expr, $attrs:expr) => {
+        format_args!("<{}{}></{}>", $tag, $attrs, $tag)
+    };
+    ($head_tag:expr, $head_attr:expr, $($inner:expr),+) => {
+        format_args!("<{}{}>{}</{}>", $head_tag, $head_attr, tag_inner!($($inner),*), $head_tag)
     };
 }
 
 #[macro_export]
 macro_rules! attr_inner {
-    ($attrs:expr, $val:expr) => {
-        format_args!(" {}{}\"", $attrs, $val)
+    () => { format_args!("{}", "") };
+    ($attr:ident, $val:expr) => {
+        format_args!(" {}{}\"", $attr, $val)
+    };
+    ($head_attr:ident, $head_val:expr, $(attr:ident, $vals:expr),+) => {
+        format_args!(" {}{}\"{}", $head_attr, $head_val, attr_inner!($($attrs:ident, $vals:expr),*))
     };
 }
 
@@ -1008,6 +1018,19 @@ macro_rules! attr_inner {
 fn test_conditional() {
     assert_eq!(ul![ .if true, "List Item 1"], "<ul>List Item 1</ul>");
     assert_eq!(ul![ .if false, "List Item 1"], "");
+}
+
+#[test]
+fn test_multi_attributes() {
+    assert_eq!(
+        a![
+            .href = "/google",
+            .download = "index.html",
+            p!["nested p tag"]
+        ]
+        .render(),
+        "<a href=\"/google\"><p>nested p tag</p></a>"
+    );
 }
 
 #[test]
