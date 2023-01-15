@@ -88,6 +88,7 @@ globalattributeit! {translate, "translate"}
 // for unimplemented for now
 // http-equiv unimplemented for now
 // async unimplemented for now
+// kind unimplemented for now
 
 // Specific Attributes
 // a
@@ -192,8 +193,6 @@ attributeit! {wrap, "wrap"}
 // th
 attributeit! {headers, "headers"}
 attributeit! {scope, "scope"}
-// track
-attributeit! {kind, "kind"}
 
 tagit! {ATag, "a"}
 tagit! {AbbrTag, "abbr"}
