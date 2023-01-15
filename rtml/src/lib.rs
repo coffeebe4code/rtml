@@ -12,6 +12,8 @@ pub trait Render: ToString {
     }
 }
 
+impl Render for &'static str {}
+
 impl Render for fmt::Arguments<'_> {
     fn render(&self) -> String {
         format!("{}", self)

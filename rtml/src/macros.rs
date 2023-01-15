@@ -25,7 +25,7 @@ use crate::*;
 #[macro_export]
 macro_rules! a {
     ( $(.$attr:ident = $val:expr)*, $($inner:tt)*) => {
-        tag_inner!(ATag,$(attr_inner!($attr,$val))*, $($inner)*)
+        tag_inner!(ATag,attr_inner!($($attr,$val)*), $($inner)*)
     };
     ($($inner:tt)*) => {
         tag_inner!(ATag, "", $($inner)*)
@@ -240,34 +240,34 @@ macro_rules! dialog {
 /// ```
 /// # #[macro_use] extern crate rtml;
 /// # fn main() {
-/// use rtml::div;
+/// use rtml::*;
 ///
 /// assert_eq!(
-///     div!{ "This is a div's inner text!" },
+///     div!{ "This is a div's inner text!" }.render(),
 ///     "<div>This is a div's inner text!</div>"
 /// );
 ///
-/// assert_eq!(
-///     div!{ .if true, "This is a div's conditional inner text!" },
-///     "<div>This is a div's conditional inner text!</div>"
-/// );
-/// assert_eq!(
-///     div!{ .if false, "This isn't going to render" },
-///     ""
-/// );
+/// //assert_eq!(
+/// //    div!{ .if true, "This is a div's conditional inner text!" }.render(),
+/// //    "<div>This is a div's conditional inner text!</div>"
+/// //);
+/// //assert_eq!(
+/// //    div!{ .if false, "This isn't going to render" }.render(),
+/// //    ""
+/// //);
 ///
 /// # }
 /// ```
 #[macro_export]
 macro_rules! div {
-    ( .if $cond:expr, $($inner:tt)* ) => {
-        if $cond {
-            concat!("<div>", $($inner)*,"</div>")
-        }
-        else { "" }
+    ($text:expr) => {
+        $text.to_format()
     };
-    ( $($inner:tt)* ) => {
-        concat!("<div>", $($inner)*,"</div>")
+    ($head_text$($inner:tt)*) => {
+        tag_inner!(DivTag, "", $($inner)*)
+    };
+    ( $(.$attr:ident = $val:expr)*, $($inner:tt)*) => {
+        tag_inner!(DivTag,attr_inner!($($attr,$val)*), $($inner)*)
     };
 }
 
@@ -992,15 +992,26 @@ macro_rules! wbr {
 
 #[macro_export]
 macro_rules! tag_inner {
-    ($tag:expr, $attrs:expr, $($inner:tt)*) => {
-        format_args!("<{}{}>{}</{}>", $tag, $attrs, $($inner)* , $tag)
+    () => { "" };
+    ($render:expr) => {
+        String::from($render)
+    };
+    ($tag:expr, $attrs:expr) => {
+        format_args!("<{}{}></{}>", $tag, $attrs, $tag)
+    };
+    ($head_tag:expr, $head_attr:expr, $($inner:expr),+) => {
+        format_args!("<{}{}>{}</{}>", $head_tag, $head_attr, tag_inner!($($inner),*), $head_tag)
     };
 }
 
 #[macro_export]
 macro_rules! attr_inner {
+    () => { "" };
     ($attrs:expr, $val:expr) => {
         format_args!(" {}{}\"", $attrs, $val)
+    };
+    ($head_attr:expr, $head_val:expr, $(attrs:expr, $vals:expr),+) => {
+        format_args!(" {}{}\"{}", $head_attr, $head_val, attr_inner!($($attrs:expr, $vals:expr),*))
     };
 }
 
@@ -1012,6 +1023,22 @@ fn test_conditional() {
 
 #[test]
 fn test_nested() {
+    assert_eq!(
+        div! { "This is a div's inner text!", div!{"Nested div"} }.render(),
+        "<div>This is a div's inner text!<div>Nested div</div></div>"
+    );
+}
+
+#[test]
+fn test_multi_attributes() {
+    assert_eq!(
+        a![.href="/google", p!["nested p tag"]].render(),
+        "<a href=\"/google\"><p>nested p tag</p></a>"
+    );
+}
+
+#[test]
+fn test_multi_tags() {
     assert_eq!(
         a![.href="/google", p!["nested p tag"]].render(),
         "<a href=\"/google\"><p>nested p tag</p></a>"
