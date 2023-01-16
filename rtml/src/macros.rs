@@ -26,14 +26,29 @@ use crate::*;
 macro_rules! a {
     () => { tag_inner!(ATag) };
     ( $(.$attr:ident = $value:expr,)+) => {
-        tag_inner!(ATag, attr_inner!($(.$attr = $value,)*))
+        tag_inner!(ATag, $(.$attr = $value,)*)
+    };
+    ( $(.$attr:ident = $value:expr,)+ $($inner:expr,)+) => {
+        tag_inner!(ATag, $(.$attr = $value,)* tag_inner!($($inner)*))
+    };
+    ( $($inner:expr)+) => {
+        tag_inner!(ATag, $($inner)*)
     };
 }
 
 #[test]
 fn test_a() {
     assert_eq!(a! {}.render(), "<a></a>");
+    assert_eq!(a! {"Link Text"}.render(), "<a>Link Text</a>");
     assert_eq!(a! {.href="link",}.render(), "<a href=\"link\"></a>");
+    assert_eq!(
+        a! {.href="link","Text",}.render(),
+        "<a href=\"link\">Text</a>"
+    );
+    assert_eq!(
+        a! {.href="link","Text", a!{"Nested"},}.render(),
+        "<a href=\"link\">Text<a>Nested</a></a>"
+    );
 }
 
 #[macro_export]
@@ -999,13 +1014,22 @@ macro_rules! tag_inner {
     ($tag:ident) => {
         format_args!("<{}></{}>", $tag, $tag)
     };
+    ($tag:expr, $($inner:expr,)+) => {
+        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
+    };
+    ($tag_head:ident, $($inner:expr,)+) => {
+        format_args!("<{}>{}</{}>", $tag_head, tag_inner!($($inner)*, $tag_head)
+    };
+    ($tag:ident, $($inner:expr,)+) => {
+        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
+    };
     ($tag:ident, $(.$attr:ident = $value:expr,)+) => {
         format_args!("<{}{}></{}>", $tag, attr_inner!($(.$attr = $value,)*), $tag)
     };
     ($tag:ident, $(.$attr:ident = $value:expr,)+ $($inner:expr)+) => {
-        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($(.$attr = $value,)*), $($inner)*, $tag)
+        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($(.$attr = $value,)*), tag_inner!($($inner,)*), $tag)
     };
-    ($tag:ident, $($inner:expr)*) => {
+    ($tag:ident, $($inner:expr)+) => {
         format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
     };
 }
