@@ -1009,44 +1009,42 @@ macro_rules! wbr {
     };
 }
 
-//#[macro_export]
-//macro_rules! tag_inner {
-//    ($tag:ident) => {
-//        format_args!("<{}></{}>", $tag, $tag)
-//    };
-//    ($tag:expr, $($inner:expr,)+) => {
-//        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
-//    };
-//    ($tag_head:ident, $($inner:expr,)+) => {
-//        format_args!("<{}>{}</{}>", $tag_head, tag_inner!($($inner)*, $tag_head)
-//    };
-//    ($tag:ident, $($inner:expr,)+) => {
-//        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
-//    };
-//    ($tag:ident, $(.$attr:ident = $value:expr,)+) => {
-//        format_args!("<{}{}></{}>", $tag, attr_inner!($(.$attr = $value,)*), $tag)
-//    };
-//    ($tag:ident, $(.$attr:ident = $value:expr,)+ $($inner:expr)+) => {
-//        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($(.$attr = $value,)*), tag_inner!($($inner,)*), $tag)
-//    };
-//    ($tag:ident, $($inner:expr)+) => {
-//        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
-//    };
-//}
-//
-//#[test]
-//fn test_tag_inner() {
-//    assert_eq!(tag_inner!(ATag).render(), "<a></a>");
-//    assert_eq!(tag_inner!(ATag, "inner").render(), "<a>inner</a>");
-//    assert_eq!(
-//        tag_inner!(ATag, .href = "link", .download= "file.html",).render(),
-//        "<a href=\"link\" download=\"file.html\"></a>"
-//    );
-//    assert_eq!(
-//        tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
-//        "<a href=\"link\" download=\"file.html\">Cool Link</a>"
-//    );
-//}
+#[macro_export]
+macro_rules! tag_inner {
+    (,$inner:expr) => {
+        format_args!("{}", $inner)
+    };
+    (,$inner:expr $(,inner:expr)+) => {
+        format_args!("{}{}", $inner, tag_inner!($(,$inner)*))
+    };
+    ($tag:ident) => {
+        format_args!("<{}></{}>", $tag, $tag)
+    };
+    ($tag:ident $(,$inner:expr)+) => {
+        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
+    };
+    ($tag:ident $(,.$attr:ident = $value:expr)*) => {
+        format_args!("<{}{}></{}>", $tag, attr_inner!($(,.$attr = $value)*), $tag)
+    };
+    ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
+        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($(,.$attr = $value)*), tag_inner!($(,$inner)*), $tag)
+    };
+}
+
+#[test]
+fn test_tag_inner() {
+    assert_eq!(tag_inner!(ATag).render(), "<a></a>");
+    assert_eq!(tag_inner!(ATag, "inner").render(), "<a>inner</a>");
+    assert_eq!(
+        tag_inner!(ATag, .href = "link", .download= "file.html").render(),
+        "<a href=\"link\" download=\"file.html\"></a>"
+    );
+    assert_eq!(
+        tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link", tag_inner!(ATag))
+            .render(),
+        "<a href=\"link\" download=\"file.html\">Cool Link</a>"
+    );
+}
 
 #[macro_export]
 macro_rules! attr_inner {
