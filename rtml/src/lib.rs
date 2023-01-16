@@ -26,7 +26,7 @@ macro_rules! globalattributeit {
         pub struct $attr;
         impl fmt::Display for $attr {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                return write!(f, "{}=\"", $val);
+                return write!(f, "{}", $val);
             }
         }
         impl Attribute for $attr {}
@@ -40,7 +40,7 @@ macro_rules! attributeit {
         pub struct $attr;
         impl fmt::Display for $attr {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                return write!(f, "{}=\"", $val);
+                return write!(f, "{}", $val);
             }
         }
         impl Attribute for $attr {}
