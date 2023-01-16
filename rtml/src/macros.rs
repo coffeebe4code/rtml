@@ -24,12 +24,16 @@ use crate::*;
 /// ```
 #[macro_export]
 macro_rules! a {
-    ( $(.$attr:ident = $val:expr,)*, $($inner:tt)*) => {
-        tag_inner!(ATag,attr_inner!($($attr,$val)*), $($inner)*)
+    () => { tag_inner!(ATag) };
+    ( $(.$attr:ident = $value:expr,)+) => {
+        tag_inner!(ATag, attr_inner!($(.$attr = $value,)*))
     };
-    ($($inner:tt)*) => {
-        tag_inner!(ATag, "", $($inner)*)
-    };
+}
+
+#[test]
+fn test_a() {
+    assert_eq!(a! {}.render(), "<a></a>");
+    assert_eq!(a! {.href="link",}.render(), "<a href=\"link\"></a>");
 }
 
 #[macro_export]
@@ -995,13 +999,13 @@ macro_rules! tag_inner {
     ($tag:ident) => {
         format_args!("<{}></{}>", $tag, $tag)
     };
-    ($tag:ident, $($inner:expr)*) => {
-        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
-    };
-    ($tag:ident, $(.$attr:ident = $value:expr,)*) => {
+    ($tag:ident, $(.$attr:ident = $value:expr,)+) => {
         format_args!("<{}{}></{}>", $tag, attr_inner!($(.$attr = $value,)*), $tag)
     };
-    ($tag:ident, $(.$attr:ident = $value:expr,)* $($inner:expr)*) => {
+    ($tag:ident, $(.$attr:ident = $value:expr,)+ $($inner:expr)+) => {
+        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($(.$attr = $value,)*), $($inner)*, $tag)
+    };
+    ($tag:ident, $($inner:expr)*) => {
         format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
     };
 }
@@ -1011,8 +1015,12 @@ fn test_tag_inner() {
     assert_eq!(tag_inner!(ATag).render(), "<a></a>");
     assert_eq!(tag_inner!(ATag, "inner").render(), "<a>inner</a>");
     assert_eq!(
-        tag_inner!(ATag, .href = "link", .download= "yes please",).render(),
-        "<a href=\"link\" download=\"yes please\"></a>"
+        tag_inner!(ATag, .href = "link", .download= "file.html",).render(),
+        "<a href=\"link\" download=\"file.html\"></a>"
+    );
+    assert_eq!(
+        tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
+        "<a href=\"link\" download=\"file.html\">Cool Link</a>"
     );
 }
 
