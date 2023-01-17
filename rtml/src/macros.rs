@@ -24,12 +24,9 @@ use crate::*;
 /// ```
 #[macro_export]
 macro_rules! a {
-    //() => { tag_inner!(ATag) };
-    //( $(.$attr:ident = $value:expr)* ) => {
-    //    tag_inner!(ATag $(,.$attr = $value)*)
-    //};
-    ( $(.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ATag $(,.$attr = $value)* $(,$inner)*)
+    () => {tag_inner!(ATag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(ATag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
     ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ATag, $inner_left $(,$inner)*)
     };
@@ -40,8 +37,8 @@ fn test_a() {
     assert_eq!(a! {}.render(), "<a></a>");
     assert_eq!(a! {"Link Text"}.render(), "<a>Link Text</a>");
     assert_eq!(
-        a! {"Link Text", a!["inner"]}.render(),
-        "<a>Link Text<a>inner</a></a>"
+        a! {"Link Text", a!["inner"], "more"}.render(),
+        "<a>Link Text<a>inner</a>more</a>"
     );
     assert_eq!(a! {.href="link"}.render(), "<a href=\"link\"></a>");
     assert_eq!(
@@ -52,132 +49,192 @@ fn test_a() {
         a! {.href="link","Text", a!{"Nested"}}.render(),
         "<a href=\"link\">Text<a>Nested</a></a>"
     );
+    assert_eq!(
+        a! {.href="link", .download="yes","Text", a!{"Nested"}}.render(),
+        "<a href=\"link\" download=\"yes\">Text<a>Nested</a></a>"
+    );
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     abbr![.title="World Health Organization", "WHO"].render(),
+///     "<abbr title=\"World Health Organization\">WHO</abbr>"
+/// );
+///
+/// # }
+/// ```
 #[macro_export]
 macro_rules! abbr {
-    ($($inner:tt)* ) => {
-        format_args!("<{}>{}</{}>", AbbrTag, $($inner)*, AbbrTag)
+    () => {tag_inner!(AbbrTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(AbbrTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( .title = $val:expr, $($inner:tt)* ) => {
-        format_args!("<{} {}{}\">{}</{}>", AbbrTag, TitleAttr, String::from($val), $($inner)*, AbbrTag)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AbbrTag, $inner_left $(,$inner)*)
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     address!["P. Sherman", br![], "42 Wallaby way", br![], "Sydney, Australia"].render(),
+///     "<address>P. Sherman<br>42 Wallaby way<br>Sydney, Australia</address>"
+/// );
+///
+/// # }
+/// ```
 #[macro_export]
 macro_rules! address {
-    ( $($inner:tt)* ) => {
-        concat!("<address>", $($inner)*,"</address>")
+    () => {tag_inner!(AddressTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(AddressTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AddressTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! area {
-    ( .alt = $val:expr, .coords = $coords:expr, .href = $href:expr, .shape = $shape:expr ) => {
-        concat!(
-            "<area alt='",
-            $val,
-            "' coords='",
-            $coords,
-            "' href='",
-            $href,
-            "' shape='",
-            $shape,
-            "'>"
-        )
+    () => {tag_inner!(AreaTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(AreaTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AreaTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! article {
-    ( $($inner:tt)* ) => {
-        concat!("<article>", $($inner)*,"</article>")
+    () => {tag_inner!(ArticleTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(ArticleTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ArticleTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! aside {
-    ( $($inner:tt)* ) => {
-        concat!("<aside>", $($inner)*,"</aside>")
+    () => {tag_inner!(AsideTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(AsideTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AsideTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! audio {
-    ( .src = $src:expr, $($inner:tt)* ) => {
-        concat!("<audio src='", $src, "'>", $($inner)*,"</audio>")
+    () => {tag_inner!(AudioTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(AudioTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AudioTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! b {
-    ( $($inner:tt)* ) => {
-        concat!("<b>", $($inner)*, "</b>")
+    () => {tag_inner!(BTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(BTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! base {
-    ( .href = $val:expr ) => {
-        concat!("<base href='", $val, "'>")
+    () => {tag_inner!(BaseTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(BaseTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BaseTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! bdi {
-    ( .dir = $val:expr, $($inner:tt)* ) => {
-        concat!("<bdi dir='", $val, "'>", $($inner)*, "</bdi>")
+    () => {tag_inner!(BdiTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(BdiTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BdiTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! bdo {
-    ( .dir = $val:expr, $($inner:tt)* ) => {
-        concat!("<bdo dir='", $val, "'>", $($inner)*, "</bdo>")
+    () => {tag_inner!(BdoTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(BdoTag,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BdoTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! blockquote {
-    ( .cite = $val:expr, $($inner:tt)* ) => {
-        concat!("<blockquote cite='", $val, "'>", $($inner)*,"</blockquote>")
+    () => {tag_inner!(BlockquoteTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(BlockquoteTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BlockquoteTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! body {
-    ( $($inner:tt)* ) => {
-        concat!("<body>", $($inner)*,"</body>")
-	};
+    () => {tag_inner!(BodyTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(BodyTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BodyTag, $inner_left $(,$inner)*)
+    };
+}
+
+#[macro_export]
+macro_rules! br {
+    () => {
+        format_args!("<{}>", BrTag)
+    };
 }
 
 #[macro_export]
 macro_rules! button {
-    ( $($inner:tt)* ) => {
-        concat!("<button>", $($inner)*, "</button>")
+    () => {tag_inner!(ButtonTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(ButtonTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( .form = $form:expr, $($inner:tt)*) => {
-        concat!("<button form='", $form, "'>", $($inner)*, "</button>")
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ButtonTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! canvas {
-    ( .height = $height:expr, .width = $width:expr ) => {
-        concat!(
-            "<canvas height='",
-            $height,
-            "' width='",
-            $width,
-            "'></canvas>"
-        )
+    () => {tag_inner!(CanvasTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(CanvasTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(CanvasTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! caption {
-    ( $($inner:tt)* ) => {
-        concat!("<caption>", $($inner)*,"</caption>")
+    () => {tag_inner!(CaptionTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(CaptionTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(CaptionTag, $inner_left $(,$inner)*)
     };
 }
 
@@ -282,14 +339,11 @@ macro_rules! dialog {
 /// ```
 #[macro_export]
 macro_rules! div {
-    ($text:expr) => {
-        $text.to_format()
+    () => {tag_inner!(DivTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(DivTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    //($head_text$($inner:tt)*) => {
-    //    tag_inner!(DivTag, "", $($inner)*)
-    //};
-    ( $(.$attr:ident = $val:expr)*, $($inner:tt)*) => {
-        tag_inner!(DivTag,attr_inner!($($attr,$val)*), $($inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DivTag, $inner_left $(,$inner)*)
     };
 }
 
@@ -1024,7 +1078,7 @@ macro_rules! tag_inner {
         format_args!("<{}></{}>", $tag, $tag)
     };
     ($tag:ident $(,$inner:expr)+) => {
-        format_args!("<{}>{}</{}>", $tag, $($inner)*, $tag)
+        format_args!("<{}>{}</{}>", $tag, tag_inner!($(,$inner)*), $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)*) => {
         format_args!("<{}{}></{}>", $tag, attr_inner!($(,.$attr = $value)*), $tag)
