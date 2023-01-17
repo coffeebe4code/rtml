@@ -1,55 +1,58 @@
 use crate::*;
 
-///// # Example
-///// ```
-///// # #[macro_use] extern crate rtml;
-///// # fn main() {
-///// use rtml::*;
-/////
-///// assert_eq!(
-/////     a![.href="https://www.example.com", "Link text"].render(),
-/////     "<a href=\"https://www.example.com\">Link text</a>"
-///// );
-/////
-///// assert_eq!(
-/////     a![.href="/path/to/page", "Click here"].render(),
-/////     "<a href=\"/path/to/page\">Click here</a>"
-///// );
-///// assert_eq!(
-/////     a![.href="mailto:user@example.com", "Send email"].render(),
-/////     "<a href=\"mailto:user@example.com\">Send email</a>"
-///// );
-/////
-///// # }
-///// ```
-//#[macro_export]
-//macro_rules! a {
-//    () => { tag_inner!(ATag) };
-//    ( $(.$attr:ident = $value:expr,)+) => {
-//        tag_inner!(ATag, $(.$attr = $value,)*)
-//    };
-//    ( $(.$attr:ident = $value:expr,)+ $($inner:expr,)+) => {
-//        tag_inner!(ATag, $(.$attr = $value,)* tag_inner!($($inner)*))
-//    };
-//    ( $($inner:expr)+) => {
-//        tag_inner!(ATag, $($inner)*)
-//    };
-//}
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     a![.href="https://www.example.com", "Link text"].render(),
+///     "<a href=\"https://www.example.com\">Link text</a>"
+/// );
+///
+/// assert_eq!(
+///     a![.href="/path/to/page", "Click here"].render(),
+///     "<a href=\"/path/to/page\">Click here</a>"
+/// );
+/// assert_eq!(
+///     a![.href="mailto:user@example.com", "Send email"].render(),
+///     "<a href=\"mailto:user@example.com\">Send email</a>"
+/// );
+///
+/// # }
+/// ```
+#[macro_export]
+macro_rules! a {
+    //() => { tag_inner!(ATag) };
+    //( $(.$attr:ident = $value:expr)* ) => {
+    //    tag_inner!(ATag $(,.$attr = $value)*)
+    //};
+    ( $(.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+        tag_inner!(ATag $(,.$attr = $value)* $(,$inner)*)
+    };
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ATag, $inner_left $(,$inner)*)
+    };
+}
 
-//#[test]
-//fn test_a() {
-//    assert_eq!(a! {}.render(), "<a></a>");
-//    assert_eq!(a! {"Link Text"}.render(), "<a>Link Text</a>");
-//    assert_eq!(a! {.href="link",}.render(), "<a href=\"link\"></a>");
-//    assert_eq!(
-//        a! {.href="link","Text",}.render(),
-//        "<a href=\"link\">Text</a>"
-//    );
-//    assert_eq!(
-//        a! {.href="link","Text", a!{"Nested"},}.render(),
-//        "<a href=\"link\">Text<a>Nested</a></a>"
-//    );
-//}
+#[test]
+fn test_a() {
+    assert_eq!(a! {}.render(), "<a></a>");
+    assert_eq!(a! {"Link Text"}.render(), "<a>Link Text</a>");
+    assert_eq!(
+        a! {"Link Text", a!["inner"]}.render(),
+        "<a>Link Text<a>inner</a></a>"
+    );
+    assert_eq!(a! {.href="link"}.render(), "<a href=\"link\"></a>");
+    assert_eq!(
+        a! {.href="link","Text", "Another"}.render(),
+        "<a href=\"link\">TextAnother</a>"
+    );
+    assert_eq!(
+        a! {.href="link","Text", a!{"Nested"}}.render(),
+        "<a href=\"link\">Text<a>Nested</a></a>"
+    );
+}
 
 #[macro_export]
 macro_rules! abbr {
@@ -1011,11 +1014,11 @@ macro_rules! wbr {
 
 #[macro_export]
 macro_rules! tag_inner {
-    (,$inner:expr) => {
-        format_args!("{}", $inner)
+    (,$inner_left:expr) => {
+        format_args!("{}", $inner_left)
     };
-    (,$inner:expr $(,inner:expr)+) => {
-        format_args!("{}{}", $inner, tag_inner!($(,$inner)*))
+    (,$inner_left:expr $(,$inner:expr)+) => {
+        format_args!("{}{}", $inner_left, tag_inner!($(,$inner)*))
     };
     ($tag:ident) => {
         format_args!("<{}></{}>", $tag, $tag)
@@ -1040,9 +1043,13 @@ fn test_tag_inner() {
         "<a href=\"link\" download=\"file.html\"></a>"
     );
     assert_eq!(
+        tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
+        "<a href=\"link\" download=\"file.html\">Cool Link</a>"
+    );
+    assert_eq!(
         tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link", tag_inner!(ATag))
             .render(),
-        "<a href=\"link\" download=\"file.html\">Cool Link</a>"
+        "<a href=\"link\" download=\"file.html\">Cool Link<a></a></a>"
     );
 }
 
