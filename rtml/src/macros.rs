@@ -332,22 +332,12 @@ macro_rules! details {
 }
 
 #[macro_export]
-macro_rules! dfn {
-    () => {tag_inner!(DfnTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DfnTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DfnTag, $inner_left $(,$inner)*)
-    };
-}
-
-#[macro_export]
 macro_rules! dialog {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(DialogTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(DialogTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DialogTag, $inner_left $(,$inner)*)
     };
 }
 
@@ -385,241 +375,231 @@ macro_rules! div {
 
 #[macro_export]
 macro_rules! dl {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(DlTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(DlTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DlTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! dt {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(DtTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(DtTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DtTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! em {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(EmTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(EmTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(EmTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! embed {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(EmbedTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(EmbedTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(EmbedTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! fieldset {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(FieldsetTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(FieldsetTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FieldsetTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! figcaption {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(FigcaptionTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(FigcaptionTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FigcaptionTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! figure {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(FigureTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(FigureTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FigureTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! footer {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(FooterTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(FooterTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FooterTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! form {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(FormTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(FormTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FormTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! h1 {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(H1Tag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(H1Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H1Tag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! h2 {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(H2Tag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(H2Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H2Tag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! h3 {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(H3Tag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(H3Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H3Tag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! h4 {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(H4Tag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(H4Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H4Tag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! h5 {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(H5Tag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(H5Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H5Tag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! h6 {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(H6Tag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(H6Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H6Tag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! head {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(HeadTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(HeadTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(HeadTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! header {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(HeaderTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(HeaderTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
-    };
-}
-
-#[macro_export]
-macro_rules! hgroup {
-    () => {tag_inner!(ColgroupTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(HeaderTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! hr {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(HrTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(HrTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(HrTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! html {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(HtmlTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(HtmlTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(HtmlTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! i {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(ITag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(ITag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ITag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! iframe {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(IframeTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(IframeTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(IframeTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! img {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(ImgTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(ImgTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ImgTag, $inner_left $(,$inner)*)
     };
 }
 
 #[macro_export]
 macro_rules! input {
-    () => {tag_inner!(ColgroupTag) };
+    () => {tag_inner!(InputTag) };
     ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        tag_inner!(InputTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
+    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(InputTag, $inner_left $(,$inner)*)
     };
 }
 
@@ -1197,6 +1177,9 @@ macro_rules! tag_inner {
     };
     (,$inner_left:expr $(,$inner:expr)+) => {
         format_args!("{}{}", $inner_left, tag_inner!($(,$inner)*))
+    };
+    ($tag:ident,) => {
+        format_args!("<{}></{}>", $tag, $tag)
     };
     ($tag:ident) => {
         format_args!("<{}></{}>", $tag, $tag)
