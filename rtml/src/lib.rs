@@ -273,7 +273,7 @@ tagit! {PictureTag, "picture"}
 tagit! {PreTag, "pre"}
 tagit! {ProgressTag, "progress"}
 tagit! {QTag, "q"}
-tagit! {RTag, "rp"}
+tagit! {RpTag, "rp"}
 tagit! {RtTag, "rt"}
 tagit! {RubyTag, "ruby"}
 tagit! {STag, "s"}
