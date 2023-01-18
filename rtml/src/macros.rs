@@ -65,10 +65,14 @@ fn test_a() {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     abbr![.title="World Health Organization", "WHO"].render(),
-///     "<abbr title=\"World Health Organization\">WHO</abbr>"
+///     abbr![.title="Hypertext Markup Language", "HTML"].render(),
+///     "<abbr title=\"Hypertext Markup Language\">HTML</abbr>"
 /// );
 ///
+/// assert_eq!(
+///     abbr![.title="Scalable Vector Graphics", "SVG"].render(),
+///     "<abbr title=\"Scalable Vector Graphics\">SVG</abbr>"
+/// );
 /// # }
 /// ```
 #[macro_export]
@@ -104,6 +108,19 @@ macro_rules! address {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     area![.shape="rect", .coords="0,0,100,100", .href="example.com"].render(),
+///     "<area shape=\"rect\" coords=\"0,0,100,100\" href=\"example.com\"></area>"
+/// );
+///
+/// # }
+/// ```
 #[macro_export]
 macro_rules! area {
     () => {tag_inner!(AreaTag) };
@@ -114,6 +131,23 @@ macro_rules! area {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     article!["This is an article."].render(),
+///     "<article>This is an article.</article>"
+/// );
+///
+/// assert_eq!(
+///     article!["This is an article with a ", b!["bold"], " word."].render(),
+///     "<article>This is an article with a <b>bold</b> word.</article>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! article {
     () => {tag_inner!(ArticleTag) };
@@ -124,6 +158,18 @@ macro_rules! article {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     aside!["This is an aside."].render(),
+///     "<aside>This is an aside.</aside>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! aside {
     () => {tag_inner!(AsideTag) };
@@ -134,16 +180,43 @@ macro_rules! aside {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     audio![.src="example.mp3"].render(),
+///     "<audio src=\"example.mp3\"></audio>"
+/// );
+///
+/// assert_eq!(
+///     audio![.src="example.mp3", .controls = "true"].render(),
+///     "<audio src=\"example.mp3\" controls=\"true\">"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! audio {
-    () => {tag_inner!(AudioTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(AudioTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AudioTag, $inner_left $(,$inner)*)
+    () => {tag_no_inner!(AudioTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
+        tag_no_inner!(AudioTag ,.$attr_left = $value_left $(,.$attr = $value)*)
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     b!["This is bold text"].render(),
+///     "<b>This is bold text</b>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! b {
     () => {tag_inner!(BTag) };
@@ -154,6 +227,18 @@ macro_rules! b {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     base![.href="https://example.com"].render(),
+///     "<base href='https://example.com'>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! base {
     () => {tag_inner!(BaseTag) };
@@ -164,6 +249,18 @@ macro_rules! base {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     bdi!["This text will be displayed in a different direction"].render(),
+///     "<bdi>This text will be displayed in a different direction</bdi>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! bdi {
     () => {tag_inner!(BdiTag) };
@@ -174,6 +271,18 @@ macro_rules! bdi {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     bdo![.dir="rtl", "This text will be displayed in a right-to-left direction"].render(),
+///     "<bdo dir='rtl'>This text will be displayed in a right-to-left direction</bdo>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! bdo {
     () => {tag_inner!(BdoTag) };
@@ -184,6 +293,23 @@ macro_rules! bdo {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     blockquote!["This is a blockquote."].render(),
+///     "<blockquote>This is a blockquote.</blockquote>"
+/// );
+///
+/// assert_eq!(
+///     blockquote![.cite="https://example.com","This is a blockquote with citation"].render(),
+///     "<blockquote cite='https://example.com'>This is a blockquote with citation</blockquote>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! blockquote {
     () => {tag_inner!(BlockquoteTag) };
@@ -194,6 +320,18 @@ macro_rules! blockquote {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     body!["This is the body"].render(),
+///     "<body>This is the body</body>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! body {
     () => {tag_inner!(BodyTag) };
@@ -204,12 +342,38 @@ macro_rules! body {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     br![].render(),
+///     "<br>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! br {
     () => {
         format_args!("<{}>", BrTag)
     };
 }
+
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     button!["Click me"].render(),
+///     "<button>Click me</button>"
+/// );
+///
+/// # }
+/// ```
 
 #[macro_export]
 macro_rules! button {
@@ -221,6 +385,23 @@ macro_rules! button {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     canvas![].render(),
+///     "<canvas></canvas>"
+/// );
+///
+/// assert_eq!(
+///     canvas![.width="300", .height="150"].render(),
+///     "<canvas width=\"300\" height=\"150\"></canvas>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! canvas {
     () => {tag_inner!(CanvasTag) };
@@ -231,6 +412,18 @@ macro_rules! canvas {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     caption!["This is a caption"].render(),
+///     "<caption>This is a caption</caption>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! caption {
     () => {tag_inner!(CaptionTag) };
@@ -241,6 +434,18 @@ macro_rules! caption {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     cite!["This is a citation"].render(),
+///     "<cite>This is a citation</cite>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! cite {
     () => {tag_inner!(CiteTag) };
@@ -251,6 +456,18 @@ macro_rules! cite {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     code!["h1!{\"This is awesome!\"}"].render(),
+///     "<code>h1!{"This is awesome!"}</code>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! code {
     () => {tag_inner!(CodeTag) };
@@ -261,6 +478,23 @@ macro_rules! code {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     col![].render(),
+///     "<col>"
+/// );
+///
+/// assert_eq!(
+///     col![.span=2, .style="background-color:red"].render(),
+///     "<col span='2' style='background-color:red'>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! col {
     () => {tag_inner!(ColTag) };
@@ -271,6 +505,23 @@ macro_rules! col {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     colgroup![col![], col![]].render(),
+///     "<colgroup><col><col></colgroup>"
+/// );
+///
+/// assert_eq!(
+///     colgroup![col![.span=2, .style="background-color:red"], col![.span=3, .style="background-color:blue"]].render(),
+///     "<colgroup><col span='2' style='background-color:red'><col span='3' style='background-color:blue'></colgroup>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! colgroup {
     () => {tag_inner!(ColgroupTag) };
@@ -1202,6 +1453,41 @@ fn test_tag_inner() {
     assert_eq!(
         tag_inner!(ATag, .href = "link", .download= "file.html").render(),
         "<a href=\"link\" download=\"file.html\"></a>"
+    );
+    assert_eq!(
+        tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
+        "<a href=\"link\" download=\"file.html\">Cool Link</a>"
+    );
+    assert_eq!(
+        tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link", tag_inner!(ATag))
+            .render(),
+        "<a href=\"link\" download=\"file.html\">Cool Link<a></a></a>"
+    );
+}
+
+#[macro_export]
+macro_rules! tag_no_inner {
+    ($tag:ident,) => {
+        format_args!("<{}>", $tag)
+    };
+    ($tag:ident) => {
+        format_args!("<{}>", $tag)
+    };
+    ($tag:ident $(,.$attr:ident = $value:expr)*) => {
+        format_args!("<{}{}>", $tag, attr_inner!($(,.$attr = $value)*))
+    };
+}
+
+#[test]
+fn test_tag_no_inner() {
+    assert_eq!(tag_no_inner!(WbrTag).render(), "<wbr>");
+    assert_eq!(
+        tag_no_inner!(AreaTag, .shape = "rect").render(),
+        "<area shape=\"rect\">"
+    );
+    assert_eq!(
+        tag_no_inner!(SourceTag, .src = "link", .muted="true").render(),
+        "<source src=\"link\" muted=\"true\">"
     );
     assert_eq!(
         tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
