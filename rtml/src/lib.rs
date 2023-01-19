@@ -93,6 +93,91 @@ attributeit! {accept_charset, "accept-charset"}
 attributeit! {async_, "async"}
 attributeit! {kind_, "kind"}
 
+// Event
+// Window
+attributeit! {onafterprint, "onafterprint"}
+attributeit! {onbeforeprint, "onbeforeprint"}
+attributeit! {onbeforeunload, "onbeforeunload"}
+attributeit! {onerror, "onerror"}
+attributeit! {onhashchange, "onhashchange"}
+attributeit! {onload, "onload"}
+attributeit! {onmessage, "onmessage"}
+attributeit! {onoffline, "onoffline"}
+attributeit! {ononline, "ononline"}
+attributeit! {onpagehide, "onpagehide"}
+attributeit! {onpageshow, "onpageshow"}
+attributeit! {onpopstate, "onpopstate"}
+attributeit! {onresize, "onresize"}
+attributeit! {onunload, "onunload"}
+
+// Form
+attributeit! {onblur, "onblur"}
+attributeit! {onchange, "onchange"}
+attributeit! {oncontextmenu, "oncontextmenu"}
+attributeit! {onfocus, "onfocus"}
+attributeit! {oninput, "oninput"}
+attributeit! {onreset, "onreset"}
+attributeit! {onsearch, "onsearch"}
+attributeit! {onselect, "onselect"}
+attributeit! {onsubmit, "onsubmit"}
+
+// Keyboard
+attributeit! {onkeydown, "onkeydown"}
+attributeit! {onkeypress, "onkeypress"}
+attributeit! {onkeyup, "onkeyup"}
+
+// Mouse
+attributeit! {onclick, "onclick"}
+attributeit! {ondblclick, "ondblclick"}
+attributeit! {onmousedown, "onmousedown"}
+attributeit! {onmousemove, "onmousemove"}
+attributeit! {onmouseout, "onmouseout"}
+attributeit! {onmouseover, "onmouseover"}
+attributeit! {onmouseup, "onmouseup"}
+attributeit! {onwheel, "onwheel"}
+
+// Drag
+attributeit! {ondrag, "ondrag"}
+attributeit! {ondragend, "ondragend"}
+attributeit! {ondragenter, "ondragenter"}
+attributeit! {ondragleave, "ondragleave"}
+attributeit! {ondragover, "ondragover"}
+attributeit! {ondragstart, "ondragstart"}
+attributeit! {ondrop, "ondrop"}
+attributeit! {onscroll, "onscroll"}
+
+// Clipboard
+attributeit! {oncopy, "oncopy"}
+attributeit! {oncut, "oncut"}
+attributeit! {onpaste, "onpaste"}
+
+// Media
+attributeit! {onabort, "onabort"}
+attributeit! {oncanplay, "oncanplay"}
+attributeit! {oncanplaythrough, "oncanplaythrough"}
+attributeit! {oncuechange, "oncuechange"}
+attributeit! {ondurationchange, "ondurationchange"}
+attributeit! {onemptied, "onemptied"}
+attributeit! {onended, "onended"}
+attributeit! {onloadeddata, "onloadeddata"}
+attributeit! {onloadedmetadata, "onloadedmetadata"}
+attributeit! {onloadstart, "onloadstart"}
+attributeit! {onpause, "onpause"}
+attributeit! {onplay, "onplay"}
+attributeit! {onplaying, "onplaying"}
+attributeit! {onprogress, "onprogress"}
+attributeit! {onratechange, "onratechange"}
+attributeit! {onseeked, "onseeked"}
+attributeit! {onseeking, "onseeking"}
+attributeit! {onstalled, "onstalled"}
+attributeit! {onsuspend, "onsuspend"}
+attributeit! {ontimeupdate, "ontimeupdate"}
+attributeit! {onvolumechange, "onvolumechange"}
+attributeit! {onwaiting, "onwaiting"}
+
+// Misc
+attributeit! {ontoggle, "ontoggle"}
+
 // Specific Attributes
 // a
 attributeit! {href, "href"}
