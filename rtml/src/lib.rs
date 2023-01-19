@@ -84,13 +84,14 @@ globalattributeit! {tabindex, "tabindex"}
 globalattributeit! {title, "title"}
 globalattributeit! {translate, "translate"}
 
-// type unimplemented for now
-// loop unimplemented for now
-// accept-charset unimplemented for now
-// for unimplemented for now
-// http-equiv unimplemented for now
-// async unimplemented for now
-// kind unimplemented for now
+// Special
+attributeit! {type_, "type"}
+attributeit! {loop_, "loop"}
+attributeit! {for_, "for"}
+attributeit! {http_equiv, "http-equiv"}
+attributeit! {accept_charset, "accept-charset"}
+attributeit! {async_, "async"}
+attributeit! {kind_, "kind"}
 
 // Specific Attributes
 // a

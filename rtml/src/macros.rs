@@ -664,16 +664,6 @@ macro_rules! dialog {
 ///     div!{ "This is a div\"s inner text!" }.render(),
 ///     "<div>This is a div\"s inner text!</div>"
 /// );
-///
-/// //assert_eq!(
-/// //    div!{ .if true, "This is a div\"s conditional inner text!" }.render(),
-/// //    "<div>This is a div\"s conditional inner text!</div>"
-/// //);
-/// //assert_eq!(
-/// //    div!{ .if false, "This isn\"t going to render" }.render(),
-/// //    ""
-/// //);
-///
 /// # }
 /// ```
 #[macro_export]
@@ -763,10 +753,10 @@ macro_rules! em {
 ///     "<embed src=\"example.swf\">"
 /// );
 ///
-/// //assert_eq!(
-/// //    embed![.src="example.swf", .type="application/x-shockwave-flash", .width="400", .height="300"].render(),
-/// //    "<embed src=\"example.swf\" type=\"application/x-shockwave-flash\" width=\"400\" height=\"300\">"
-/// //);
+/// assert_eq!(
+///     embed![.src="example.swf", .type_="application/x-shockwave-flash", .width="400", .height="300"].render(),
+///     "<embed src=\"example.swf\" type=\"application/x-shockwave-flash\" width=\"400\" height=\"300\">"
+/// );
 /// # }
 /// ```
 #[macro_export]
@@ -1180,24 +1170,22 @@ macro_rules! img {
 /// # fn main() {
 /// use rtml::*;
 ///
-/// //assert_eq!(
-/// //    input![.type_="text", .name="name"].render(),
-/// //    "<input type=\"text\" name=\"name\">"
-/// //);
+/// assert_eq!(
+///     input![.type_="text", .name="name"].render(),
+///     "<input type=\"text\" name=\"name\">"
+/// );
 ///
-/// //assert_eq!(
-/// //    input![.type_="submit", .value="submit"].render(),
-/// //    "<input type=\"submit\" value=\"submit\">"
-/// //);
+/// assert_eq!(
+///     input![.type_="submit", .value="submit"].render(),
+///     "<input type=\"submit\" value=\"submit\">"
+/// );
 /// # }
 /// ```
 #[macro_export]
 macro_rules! input {
-    () => {tag_inner!(InputTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(InputTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(InputTag, $inner_left $(,$inner)*)
+    () => {tag_no_inner!(InputTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
+        tag_no_inner!(InputTag ,.$attr_left = $value_left $(,.$attr = $value)*)
     };
 }
 
@@ -1861,10 +1849,10 @@ macro_rules! samp {
 /// # fn main() {
 /// use rtml::*;
 ///
-/// //assert_eq!(
-/// //    script![.src="script.js", .type="text/javascript"].render(),
-/// //    "<script src=\"script.js\" type=\"text/javascript\"></script>"
-/// //);
+/// assert_eq!(
+///     script![.src="script.js", .type_="text/javascript"].render(),
+///     "<script src=\"script.js\" type=\"text/javascript\"></script>"
+/// );
 /// # }
 /// ```
 #[macro_export]
@@ -1953,19 +1941,17 @@ macro_rules! small {
 /// # fn main() {
 /// use rtml::*;
 ///
-/// //assert_eq!(
-/// //    source![.src="audio.ogg", .type="audio/ogg"].render(),
-/// //    "<source src=\"audio.ogg\" type=\"audio/ogg\">"
-/// //);
+/// assert_eq!(
+///     source![.src="audio.ogg", .type_="audio/ogg"].render(),
+///     "<source src=\"audio.ogg\" type=\"audio/ogg\">"
+/// );
 /// # }
 /// ```
 #[macro_export]
 macro_rules! source {
-    () => {tag_inner!(SourceTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SourceTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SourceTag, $inner_left $(,$inner)*)
+    () => {tag_no_inner!(SourceTag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
+        tag_no_inner!(SourceTag ,.$attr_left = $value_left $(,.$attr = $value)*)
     };
 }
 
@@ -2019,10 +2005,10 @@ macro_rules! strong {
 /// # fn main() {
 /// use rtml::*;
 ///
-/// //assert_eq!(
-/// //    style![.type="text/css", "body {background-color: black;} h1 {color: white;}"].render(),
-/// //    "<style type=\"text/css\">body {background-color: black;} h1 {color: white;}</style>"
-/// //);
+/// assert_eq!(
+///     style![.type_="text/css", "body {background-color: black;} h1 {color: white;}"].render(),
+///     "<style type=\"text/css\">body {background-color: black;} h1 {color: white;}</style>"
+/// );
 /// # }
 /// ```
 #[macro_export]
