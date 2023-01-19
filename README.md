@@ -30,7 +30,7 @@ fn main() {
             }
     };
 
-    println!("{}", html);
+    println!("{}", html.render());
 }
 ```
 
