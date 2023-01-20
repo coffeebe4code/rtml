@@ -1079,6 +1079,28 @@ macro_rules! hr {
 /// # fn main() {
 /// use rtml::*;
 ///
+/// let html = html! {
+///  .lang = "en",
+///      head!{
+///          title!{
+///              "Title of the document"
+///          }
+///      },
+///      body!{
+///              div!{
+///                  "text",
+///                  h1!{
+///                      "This is a heading"
+///                  },
+///                  p!{
+///                      "This is a paragraph"
+///                  }
+///              }
+///      }
+/// }.render();
+///
+/// println!("{}", html);
+///
 /// assert_eq!(
 ///     html![head![title!["This is a title"]], body!["This is the body"]].render(),
 ///     "<html><head><title>This is a title</title></head><body>This is the body</body></html>"
@@ -2313,7 +2335,7 @@ macro_rules! tag_inner {
         format_args!("<{}>{}</{}>", $tag, tag_inner!($(,$inner)*), $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)*) => {
-        format_args!("<{}{}></{}>", $tag, attr_inner!($(,.$attr = $value)*), $tag)
+        format_args!("<{}{}></{}>", $tag, attr_inner!($tag $(,.$attr = $value)*), $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
         format_args!("<{}{}>{}</{}>", $tag, attr_inner!($tag $(,.$attr = $value)*), tag_inner!($(,$inner)*), $tag)
@@ -2407,4 +2429,30 @@ fn test_attr_inner() {
         attr_inner!(FieldsetTag, .name = "yes").render(),
         " name=\"yes\""
     );
+}
+
+#[test]
+fn test_html() {
+    let html = html! {
+     .lang = "en",
+         head!{
+             title!{
+                 "Title of the document"
+             }
+         },
+         body!{
+                 div!{
+                     "text",
+                     h1!{
+                         "This is a heading"
+                     },
+                     p!{
+                         "This is a paragraph"
+                     }
+                 }
+         }
+    }
+    .render();
+
+    println!("{}", html);
 }

@@ -28,13 +28,14 @@ fn main() {
                         }
                     }
             }
-    };
+    }.render();
 
-    println!("{}", html.render());
+    println!("{}", html);
 }
 ```
 
-the output html will be.
+the output html will be in non pretty form.
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -55,9 +56,11 @@ the output html will be.
 
 When there are attributes, they go first, before adding any inner nested html.
 
-`div!{ .style="background-color: red;" }`
+```rust
+div!{ .style="background-color: red;" }
+```
 
-call `render()` when you want to build the html.
+call `render()` when the html needs to be built.
 
 __**Getting Started**__
 
@@ -73,14 +76,7 @@ use either specific tags you plan to use or reference all tags by adding this `u
 
 __**Attributes**__
 
-According to the html5 spec, there are 3 different kinds of attributes, `Global`, `Event`, and `Specific`.
-Every tag can implement any of the attributes from the `Global` or `Event` list.
-`Specific` attributes go to a specific tag. Some of the `Specific` tags can be on multiple tags. What makes this even more confusing, is the possible values an attribute can be for `Specific` can change between the tag.
-
-`Event` attributes are not implemented yet.
-One other goal of this project is to add extreme type safety on the possible attributes that can go on a tag and their specific value.
-
-There are some special ones in `rtml` as their attribute name is a keyword in rust itself, or an invalid token stream. It would be possible to allow them thanks to rusts macro expansion, but for simplicity, these special tags are represented as follows.
+There are some special attributes in `rtml` as their attribute name is a keyword in rust itself, or an invalid token stream. It would be possible to allow the rust keyword attributes thanks to rusts macro expansion, but for simplicity, these special tags are represented as follows.
 
 | html5 | rtml |
 |:------|:-----|
@@ -89,8 +85,54 @@ There are some special ones in `rtml` as their attribute name is a keyword in ru
 | loop | loop_ |
 | kind | kind_ |
 | async | async_ |
+| a | a_ |
 | http-equiv | http_equiv |
 | accept-charset | accept_charset |
+
+__**Type Safe Attributes**__
+
+rtml allows an additional layer of type safety with tag use. For example,
+
+```rust
+a! { .href="/documents", My Documents }
+```
+```html
+<a href="/documents">My Documents</a>
+```
+Is the correct attribute allowed on the `a` tag.
+If you were not familiar, you might try to use the `src` attribute which is invalid. Most other website building projects would not prevent incompatible attribute use.
+
+In rtml, there is a helpful error.
+
+```rust
+a! { .src="/documents", My Documents }
+```
+
+```html
+<a src="/documents">My Documents</a>
+```
+
+```
+the trait bound `src: ACompat` is not satisified
+the following other types implement the trait `ACompat`:
+accesskey
+class
+contenteditable
+dir
+download
+draggable
+hidden
+href
+and 13 others
+``` 
+
+Breaking this error down,
+
+`the trait bound src: ACompat...`
+
+- `src` : is the name of the attribute attempting to be used
+- `ACompat` : is the trait that would need to be implemented, every tag has their own version. Such as `DivCompat` and `StyleCompat`
+- `accesskey class contenteditable` : are a few of the attributes supported, Rust lists them in alphabetical order and therefore will not show all
 
 __**Components**__
 
