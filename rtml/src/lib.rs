@@ -48,14 +48,19 @@ macro_rules! attributeit {
 }
 
 macro_rules! tagit {
-    ($tag:ident, $val:expr) => {
+    ($tag:ident, $val:expr, $trait:ident $(,$attr:ident)*) => {
         pub struct $tag;
         impl fmt::Display for $tag {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 return write!(f, "{}", $val);
             }
         }
+        impl $tag {
+            pub fn type_check(&self, attr: &dyn $trait) -> () {}
+        }
+        pub trait $trait {}
         impl Tag for $tag {}
+        $(impl $trait for $attr {})*
     };
 }
 
@@ -282,7 +287,7 @@ attributeit! {wrap, "wrap"}
 attributeit! {headers, "headers"}
 attributeit! {scope, "scope"}
 
-tagit! {ATag, "a"}
+tagit! {ATag, "a", ARef, href }
 tagit! {AbbrTag, "abbr"}
 tagit! {AddressTag, "address"}
 tagit! {AreaTag, "area"}
