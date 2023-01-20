@@ -1418,26 +1418,6 @@ macro_rules! menu {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     menuitem![.label="Open"].render(),
-///     "<menuitem label=\"Open\">"
-/// );
-/// # }
-/// ```
-#[macro_export]
-macro_rules! menuitem {
-    () => {tag_no_inner!(MenuitemTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(MenuitemTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
-}
-
-/// # Example
-/// ```
-/// # #[macro_use] extern crate rtml;
-/// # fn main() {
-/// use rtml::*;
-///
-/// assert_eq!(
 ///     meta![.name="viewport", .content="width=device-width, initial-scale=1"].render(),
 ///     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
 /// );
@@ -1629,26 +1609,6 @@ macro_rules! p {
         tag_inner!(PTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
     };
     ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(PTag, $inner_left $(,$inner)*)
-    };
-}
-
-/// # Example
-/// ```
-/// # #[macro_use] extern crate rtml;
-/// # fn main() {
-/// use rtml::*;
-///
-/// assert_eq!(
-///     param![.name="movie", .value="movie.mp4"].render(),
-///     "<param name=\"movie\" value=\"movie.mp4\">"
-/// );
-/// # }
-/// ```
-#[macro_export]
-macro_rules! param {
-    () => {tag_no_inner!(ParamTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(ParamTag ,.$attr_left = $value_left $(,.$attr = $value)*)
     };
 }
 
@@ -2356,7 +2316,7 @@ macro_rules! tag_inner {
         format_args!("<{}{}></{}>", $tag, attr_inner!($(,.$attr = $value)*), $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
-        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($(,.$attr = $value)*), tag_inner!($(,$inner)*), $tag)
+        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($tag $(,.$attr = $value)*), tag_inner!($(,$inner)*), $tag)
     };
 }
 
@@ -2388,7 +2348,7 @@ macro_rules! tag_no_inner {
         format_args!("<{}>", $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)*) => {
-        format_args!("<{}{}>", $tag, attr_inner!($(,.$attr = $value)*))
+        format_args!("<{}{}>", $tag, attr_inner!($tag $(,.$attr = $value)*))
     };
 }
 
@@ -2417,24 +2377,34 @@ fn test_tag_no_inner() {
 #[macro_export]
 macro_rules! attr_inner {
     () => { format_args!("{}", "") };
-    (.$attr:ident = $value:expr) => {
-        format_args!(" {}=\"{}\"", $attr, $value)
+    ($tag:ident) => { format_args!("{}", "") };
+    ($tag:ident, .$attr:ident = $value:expr) => {
+        {
+            $tag.type_check(&$attr);
+            format_args!(" {}=\"{}\"", $attr, $value)
+        }
     };
     (,.$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {
         format_args!(" {}=\"{}\"{}", $attr, $value, attr_inner!($(,.$right_attr = $right_expr)*))
     };
-    (.$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {
-        format_args!(" {}=\"{}\"{}", $attr, $value, attr_inner!($(,.$right_attr = $right_expr)*))
+    ($tag:ident, .$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {
+        {
+            $tag.type_check(&$attr);
+            format_args!(" {}=\"{}\"{}", $attr, $value, attr_inner!($(,.$right_attr = $right_expr)*))
+        }
     };
 }
 
 #[test]
 fn test_attr_inner() {
-    assert_eq!(attr_inner!(.href = "link").render(), " href=\"link\"");
+    assert_eq!(attr_inner!(ATag,.href = "link").render(), " href=\"link\"");
     assert_eq!(
-        attr_inner!(.href = "link", .download = "yes please", .hreflang="en").render(),
+        attr_inner!(ATag, .href = "link", .download = "yes please", .hreflang="en").render(),
         " href=\"link\" download=\"yes please\" hreflang=\"en\""
     );
     assert_eq!(attr_inner!().render(), "");
-    assert_eq!(attr_inner!(.name= "yes").render(), " name=\"yes\"");
+    assert_eq!(
+        attr_inner!(FieldsetTag, .name = "yes").render(),
+        " name=\"yes\""
+    );
 }
