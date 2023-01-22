@@ -1,4 +1,5 @@
 pub mod attributes;
+pub mod css;
 pub mod macros;
 pub mod tags;
 
@@ -163,7 +164,7 @@ macro_rules! tagit {
         }
         #[allow(unused_variables)]
         impl $tag {
-            pub fn type_check(self, attr: &dyn $trait){}
+            pub fn type_check(&self, attr: &dyn $trait){}
         }
         #[warn(unused_variables)]
         pub trait $trait {}
