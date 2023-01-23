@@ -8,6 +8,8 @@ pub trait CssAttribute: CssSelector {}
 pub trait CssPseudo: CssSelector {}
 pub trait CssGlobal: CssSelector {}
 
+pub trait CssProperty {}
+
 use crate::Render;
 
 macro_rules! css {
@@ -38,21 +40,21 @@ macro_rules! class {
 }
 
 macro_rules! selector {
-    (.$class:literal $(selector::tt)*) => {{
-        format_args!(".{}", $selector)
-    }};
-    (#$id:literal $(selector::tt)*) => {{
+    (.$class:literal $(selector::tt)*) => {
+        format_args!(".{}", combinator!($selector))
+    };
+    (#$id:literal $(selector::tt)*) => {
         format_args!("#{}", $selector)
-    }};
-    ($tag:ident $(selector::tt)*) => {{
+    };
+    ($tag:ident $(selector::tt)*) => {
         format_args!(",\n{}", combinator!($selector))
-    }};
-    (> $(selector::tt)+) => {{
-        format_args!("> {}", combinator$selector)
-    }};
-    (_ $(selector::tt)+) => {{
+    };
+    (> $(selector::tt)+) => {
+        format_args!("> {}", combinator!($selector))
+    };
+    (_ $(selector::tt)+) => {
         format_args!(" {}", $selector)
-    }};
+    };
 }
 
 #[macro_export]
@@ -74,7 +76,24 @@ macro_rules! combinator {
     }};
 }
 
+#[macro_export]
+macro_rules! property {
+    ($val:literal $($inner:tt)*) => {
+        format_args!("  {}{}", $val)
+    };
+}
+
+#[macro_export]
+macro_rules! property_value {
+    (:$val:literal) => {
+        format_args!(":{};\n", $val)
+    };
+    (:$val:literal,) => {
+        format_args!(":{};\n", $val)
+    };
+}
+
 #[test]
-fn test_css() {
-    assert_eq!(css!("p {}", "div {}").render(), "p {}\n\ndiv {}");
+fn test_value() {
+    assert_eq!(property_value!(:"red",).render(), ":red;\n");
 }
