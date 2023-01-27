@@ -1,6 +1,6 @@
 [package]
 name = "rtml"
-version = "0.7.0"
+version = "0.8.0"
 edition = "2021"
 license-file = "../LICENSE"
 description = "(r)ust macros for h(tml) expansion => rtml"
@@ -11,3 +11,4 @@ readme = "../README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+paste = "1.0.11"
