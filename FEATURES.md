@@ -1,10 +1,14 @@
 ## Feature Roadmap
 
-__**0.8.0**__
+__**0.8.1**__
 
-- basic css support
+- add doc tests for css
+- add all properties
+- remove str:replace in properties, use static macro parameter "property-name"
+- add all tags for css
 
 ---
+- add attribute selectors in css
 - components
   * Requester - maintainer
 - loops and such
