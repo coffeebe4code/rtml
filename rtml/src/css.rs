@@ -61,11 +61,14 @@ selectorit!(p, CssElement);
 selectorit!(div, CssElement);
 selectorit!(abbr, CssElement);
 
-pub trait CssProperty {}
+pub trait CssProperty {
+    fn is_prop(&self) {}
+}
 
 macro_rules! propit {
     ($ident:ident) => {
         #[allow(non_camel_case_types)]
+        #[derive(Clone)]
         pub struct $ident;
         impl CssProperty for $ident {}
 
@@ -238,6 +241,28 @@ propit!(word_spacing);
 propit!(writing_mode);
 propit!(z_index);
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// let css = css!(
+///     p > div {
+///         background-color: "green",
+///     }
+///     p div {
+///         float: "left"
+///     }
+///    )
+///    .render();
+/// assert_eq!(
+///     css,
+///     "p > div {\n  background-color: green;\n  }\np div {\n  float: left;\n  }\n"
+/// );
+///
+/// # }
+/// ```
 #[macro_export]
 macro_rules! css {
     ($($next:tt)*) => {
@@ -312,9 +337,10 @@ macro_rules! property_value {
 #[macro_export]
 macro_rules! property {
     () => { "" };
-    ($head:ident : $val:literal) => {
-        format_args!("{}: {};\n  ", $head, property_value!($val))
-    };
+    ($head:ident : $val:literal) => {{
+        $head.is_prop();
+        format_args!("{}: {};\n  ", $head.to_owned(), property_value!($val))
+    }};
     (: $val:literal) => {
         format_args!(": {};\n  ", property_value!($val))
     };
@@ -324,11 +350,19 @@ macro_rules! property {
     ($head:ident : $val:literal, $($next:tt)*) => {
         format_args!("{}: {};\n  {}", $head, property_value!($val), property!($($next)*))
     };
-    ($head:ident-$($next:ident)+: $($rest:tt)*) => {
-        format_args!("{}{}", paste!{[<$head _ $($next)*>]} , property!(: $($rest)*))
+    ($head:ident$(-$next:ident)+: $($rest:tt)*) => {
+        {
+            let ident = paste!{[<$head $(_$next)*>]};
+            ident.is_prop();
+            format_args!("{}{}", ident.to_owned(), property!(: $($rest)*))
+        }
     };
-    (-$head:ident-$($next:ident)+: $($rest:tt)*) => {
-        format_args!("{}{}", paste!{[<$head _ $($next)*>]} , property!(: $($rest)*))
+    (-$head:ident$(-$next:ident)+: $($rest:tt)*) => {
+        {
+            let ident = paste!{[<_$head $(_$next)*>]};
+            ident.is_prop();
+        format_args!("{}{}", ident.to_owned(), property!(: $($rest)*))
+        }
     };
 }
 
@@ -341,6 +375,14 @@ fn test_value() {
 fn test_property() {
     assert_eq!(
         property!(background-color: "red",).render(),
+        "background-color: red;\n  "
+    );
+    assert_eq!(
+        property!(border-top-width: "20px",).render(),
+        "background-color: red;\n  "
+    );
+    assert_eq!(
+        property!(-webkit-line-clamp: "yes",).render(),
         "background-color: red;\n  "
     );
     assert_eq!(
