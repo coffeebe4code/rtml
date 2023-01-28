@@ -1,7 +1,3 @@
-use paste::paste;
-use std::fmt;
-use std::fmt::Display;
-
 pub trait CssSelector {}
 pub trait CssClass: CssSelector {}
 pub trait CssId: CssSelector {}
@@ -18,8 +14,8 @@ macro_rules! class {
         impl CssClass for $ident {}
         impl CssSelector for $ident {}
 
-        impl fmt::Display for $ident {
-            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        impl std::fmt::Display for $ident {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
                 return write!(f, "{}", stringify!($ident));
             }
         }
@@ -34,8 +30,8 @@ macro_rules! id {
         impl CssId for $ident {}
         impl CssSelector for $ident {}
 
-        impl fmt::Display for $ident {
-            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        impl std::fmt::Display for $ident {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
                 return write!(f, "{}", stringify!($ident));
             }
         }
@@ -49,8 +45,8 @@ macro_rules! selectorit {
         impl $trait for $ident {}
         impl CssSelector for $ident {}
 
-        impl fmt::Display for $ident {
-            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        impl std::fmt::Display for $ident {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
                 return write!(f, "{}", stringify!($ident));
             }
         }
@@ -67,19 +63,21 @@ pub trait CssProperty {
 
 macro_rules! propit {
     ($ident:ident) => {
-        #[allow(non_camel_case_types)]
+        paste::paste! {
         #[derive(Clone)]
-        pub struct $ident;
-        impl CssProperty for $ident {}
+        #[allow(non_camel_case_types)]
+        pub struct [<_$ident>];
+        impl CssProperty for [<_$ident>] {}
 
-        impl fmt::Display for $ident {
-            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        impl std::fmt::Display for [<_$ident>] {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
                 return write!(f, "{}", str::replace(stringify!($ident), "_", "-"));
             }
         }
+        }
     };
 }
-// webkit
+
 propit!(_webkit_line_clamp);
 propit!(_webkit_text_fill_color);
 propit!(_webkit_text_stroke);
@@ -181,7 +179,6 @@ propit!(bottom);
 propit!(break_after);
 propit!(break_before);
 propit!(break_inside);
-
 propit!(caption_side);
 propit!(caret_color);
 propit!(clear);
@@ -321,13 +318,11 @@ propit!(min_block_size);
 propit!(min_height);
 propit!(min_inline_size);
 propit!(min_width);
-
 propit!(offset);
 propit!(offset_anchar);
 propit!(offset_distance);
 propit!(offset_path);
 propit!(offset_rotate);
-
 propit!(mix_blend_mode);
 propit!(object_fit);
 propit!(object_position);
@@ -467,7 +462,7 @@ propit!(z_index);
 /// ```
 /// # #[macro_use] extern crate rtml;
 /// # fn main() {
-/// use rtml::css::*;
+/// use rtml::*;
 ///
 /// let css = css!(
 ///     p > div {
@@ -560,8 +555,9 @@ macro_rules! property_value {
 macro_rules! property {
     () => { "" };
     ($head:ident : $val:literal) => {{
-        $head.is_prop();
-        format_args!("{}: {};\n  ", $head.clone(), property_value!($val))
+        let ident = paste::paste!{[<_$head>]};
+        CssProperty::is_prop(&ident);
+        format_args!("{}: {};\n  ", ident.clone(), property_value!($val))
     }};
     (: $val:literal) => {
         format_args!(": {};\n  ", property_value!($val))
@@ -569,21 +565,25 @@ macro_rules! property {
     (: $val:literal, $($next:tt)*) => {
         format_args!(": {};\n  {}", property_value!($val), property!($($next)*))
     };
-    ($head:ident : $val:literal, $($next:tt)*) => {
-        format_args!("{}: {};\n  {}", $head, property_value!($val), property!($($next)*))
+    ($head:ident : $val:literal, $($next:tt)*) => {{
+            let ident = paste::paste!{[<_$head>]};
+            CssProperty::is_prop(&ident);
+
+        format_args!("{}: {};\n  {}", ident.clone(), property_value!($val), property!($($next)*))
+    }
     };
     ($head:ident$(-$next:ident)+: $($rest:tt)*) => {
         {
-            let ident = paste!{[<$head $(_$next)*>]};
-            ident.is_prop();
+            let ident = paste::paste!{[<_$head $(_$next)*>]};
+            CssProperty::is_prop(&ident);
             format_args!("{}{}", ident.clone(), property!(: $($rest)*))
         }
     };
     (-$head:ident$(-$next:ident)+: $($rest:tt)*) => {
         {
-            let ident = paste!{[<_$head $(_$next)*>]};
-            ident.is_prop();
-        format_args!("{}{}", ident.clone(), property!(: $($rest)*))
+            let ident = paste::paste!{[<__$head $(_$next)*>]};
+            CssProperty::is_prop(&ident);
+            format_args!("{}{}", ident.clone(), property!(: $($rest)*))
         }
     };
 }

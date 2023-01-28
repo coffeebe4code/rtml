@@ -3,15 +3,14 @@ pub mod css;
 pub mod render;
 pub mod tags;
 
+pub use crate::attributes::*;
+pub use crate::css::*;
+pub use crate::render::*;
+pub use crate::tags::*;
+
 #[cfg(test)]
 pub mod tests {
-    use super::attributes::*;
-    use super::css::*;
-    use super::render::*;
-    use super::tags::*;
     use super::*;
-    use paste::*;
-    use std::fmt;
 
     #[test]
     fn test_a() {
