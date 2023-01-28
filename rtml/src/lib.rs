@@ -143,6 +143,10 @@ pub mod tests {
             property!(background-color: "red", float: "left",).render(),
             "background-color: red;\n  float: left;\n  "
         );
+        assert_eq!(
+            property!(align-self: "stretch", float: "left",).render(),
+            "align-self: stretch;\n  float: left;\n  "
+        );
     }
 
     #[test]

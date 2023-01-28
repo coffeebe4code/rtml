@@ -1,9 +1,10 @@
 [package]
 name = "rtml"
-version = "0.8.1"
+version = "0.9.0"
 edition = "2021"
 license-file = "../LICENSE"
-description = "(r)ust macros for h(tml) expansion => rtml"
+description = "(r)ust macros for h(tml) expansion => rtml
+but also (r)ust type safe (css) => rcss"
 documentation = "https://docs.rs/rtml"
 repository = "https://github.com/coffeebe4code/rtml.git"
 readme = "../README.md"

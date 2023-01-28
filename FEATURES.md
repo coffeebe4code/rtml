@@ -1,14 +1,22 @@
 ## Feature Roadmap
 
-__**0.8.1**__
+__**0.9.0**__
 
-- add doc tests for css
-- add all properties
+- add documentation for css
+- fix the special tags with paste and _ as well as parse on -
+- add all tags for css
+- update readme documentation for special tags
 
 ---
 - remove str:replace in properties, use static macro parameter "property-name"
 - add all tags for css
 - add attribute selectors in css
+- add pseudo-classes in css
+- add pseudo-elements in css
+- add at-rules in css
+- add functions in css
+- add types in css
+- add property values in css
 - components
   * Requester - maintainer
 - loops and such
