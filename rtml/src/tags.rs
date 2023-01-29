@@ -25,19 +25,22 @@ macro_rules! tagit {
         #[warn(unused_variables)]
         pub trait $trait {}
         impl Tag for $tag {}
-        $(impl $trait for $attr {})*
+
+        $(
+            paste::paste! {impl $trait for [< $attr _ >] {}
+            })*
     };
 }
 
 // need a special dataAttr as its attribute name is dynamic
 #[allow(non_camel_case_types)]
-pub struct data(String);
-impl fmt::Display for data {
+pub struct data_(String);
+impl fmt::Display for data_ {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         return write!(f, "{}-{}=\"", "data", self.0);
     }
 }
-impl Attribute for data {}
+impl Attribute for data_ {}
 
 tagit! {ATag, "a", ACompat, download, href, hreflang, media, ping, referrerpolicy, rel, target }
 tagit! {AbbrTag, "abbr", AbbrCompat}
@@ -45,7 +48,7 @@ tagit! {AddressTag, "address", AddressCompat}
 tagit! {AreaTag, "area", AreaCompat, alt, coords, download, href, hreflang, media, rel, shape, target }
 tagit! {ArticleTag, "article", ArticleCompat}
 tagit! {AsideTag, "aside", AsideCompat}
-tagit! {AudioTag, "audio", AudioCompat, autoplay, controls, loop_, muted, preload, src }
+tagit! {AudioTag, "audio", AudioCompat, autoplay, controls, loop, muted, preload, src }
 tagit! {BTag, "b", BCompat}
 tagit! {BaseTag, "base", BaseCompat, href, target }
 tagit! {BdiTag, "bdi", BdiCompat}
@@ -53,7 +56,7 @@ tagit! {BdoTag, "bdo", BdoCompat}
 tagit! {BlockquoteTag, "blockquote", BlockquoteCompat, cite }
 tagit! {BodyTag, "body", BodyCompat}
 tagit! {BrTag, "br", BrCompat}
-tagit! {ButtonTag, "button", ButtonCompat, autofocus, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, name, type_, value }
+tagit! {ButtonTag, "button", ButtonCompat, autofocus, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, name, type, value }
 tagit! {CanvasTag, "canvas", CanvasCompat, height, width }
 tagit! {CaptionTag, "caption", CaptionCompat}
 tagit! {CiteTag, "cite", CiteCompat}
@@ -71,7 +74,7 @@ tagit! {DivTag, "div", DivCompat}
 tagit! {DlTag, "dl", DlCompat}
 tagit! {DtTag, "dt", DtCompat}
 tagit! {EmTag, "em", EmCompat}
-tagit! {EmbedTag, "embed", EmbedCompat, height, src, type_, width }
+tagit! {EmbedTag, "embed", EmbedCompat, height, src, type, width }
 tagit! {FieldsetTag, "fieldset", FieldsetCompat, disabled, form, name }
 tagit! {FigcaptionTag, "figcaption", FigcaptionCompat}
 tagit! {FigureTag, "figure", FigureCompat}
@@ -90,26 +93,26 @@ tagit! {HtmlTag, "html", HtmlCompat}
 tagit! {ITag, "i", ICompat}
 tagit! {IframeTag, "iframe", IframeCompat, allow, allowfullscreen, height, name, referrerpolicy, sandbox, src, srcdoc, width }
 tagit! {ImgTag, "img", ImgCompat, alt, crossorigin, decoding, height, referrerpolicy, sizes, src, srcset, usemap, width }
-tagit! {InputTag, "input", InputCompat, accept, alt, autocomplete, autofocus, checked, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, height, list, max, maxlength, min, minlength, multiple, name, pattern, placeholder, readonly, required, size, src, step, type_, value, width }
+tagit! {InputTag, "input", InputCompat, accept, alt, autocomplete, autofocus, checked, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, height, list, max, maxlength, min, minlength, multiple, name, pattern, placeholder, readonly, required, size, src, step, type, value, width }
 tagit! {InsTag, "ins", InsCompat, cite, datetime }
 tagit! {KbdTag, "kbd", KbdCompat}
 tagit! {LabelTag, "label", LabelCompat, form }
 tagit! {LegendTag, "legend", LegendCompat}
 tagit! {LiTag, "li", LiCompat, value }
-tagit! {LinkTag, "link", LinkCompat, as_, crossorigin, href, hreflang, media, rel, sizes, type_ }
+tagit! {LinkTag, "link", LinkCompat, as, crossorigin, href, hreflang, media, rel, sizes, type }
 tagit! {MainTag, "main", MainCompat}
 tagit! {MapTag, "map", MapCompat, name }
 tagit! {MarkTag, "mark", MarkCompat}
-tagit! {MenuTag, "menu", MenuCompat, type_ }
+tagit! {MenuTag, "menu", MenuCompat, type }
 tagit! {MetaTag, "meta", MetaCompat, charset, content, http_equiv, name }
 tagit! {MeterTag, "meter", MeterCompat, high, low, max, min, optimum, value }
 tagit! {NavTag, "nav", NavCompat}
 tagit! {NoscriptTag, "noscript", NoscriptCompat}
-tagit! {ObjectTag, "object", ObjectCompat, data, form, height, name, type_, width }
+tagit! {ObjectTag, "object", ObjectCompat, data, form, height, name, type, width }
 tagit! {OlTag, "ol", OlCompat, reversed, start }
 tagit! {OptgroupTag, "optgroup", OptgroupCompat, disabled, label }
 tagit! {OptionTag, "option", OptionCompat, disabled, label, selected, value }
-tagit! {OutputTag, "output", OutputCompat, for_, form, name }
+tagit! {OutputTag, "output", OutputCompat, for, form, name }
 tagit! {PTag, "p", PCompat}
 tagit! {PictureTag, "picture", PictureCompat}
 tagit! {PreTag, "pre", PreCompat}
@@ -120,14 +123,14 @@ tagit! {RtTag, "rt", RtCompat}
 tagit! {RubyTag, "ruby", RubyCompat}
 tagit! {STag, "s", SCompat}
 tagit! {SampTag, "samp", SampCompat}
-tagit! {ScriptTag, "script", ScriptCompat, async_, crossorigin, defer, integrity, nomodule, src, type_ }
+tagit! {ScriptTag, "script", ScriptCompat, async, crossorigin, defer, integrity, nomodule, src, type }
 tagit! {SectionTag, "section", SectionCompat}
 tagit! {SelectTag, "select", SelectCompat, autocomplete, autofocus, disabled, form, multiple, name, required, size }
 tagit! {SmallTag, "small", SmallCompat}
-tagit! {SourceTag, "source", SourceCompat, media, sizes, src, srcset, type_ }
+tagit! {SourceTag, "source", SourceCompat, media, sizes, src, srcset, type }
 tagit! {SpanTag, "span", SpanCompat}
 tagit! {StrongTag, "strong", StrongCompat}
-tagit! {StyleTag, "style", StyleCompat, media, nonce, type_ }
+tagit! {StyleTag, "style", StyleCompat, media, nonce, type }
 tagit! {SubTag, "sub", SubCompat}
 tagit! {SummaryTag, "summary", SummaryCompat}
 tagit! {SupTag, "sup", SupCompat}
@@ -142,11 +145,11 @@ tagit! {TheadTag, "thead", TheadCompat}
 tagit! {TimeTag, "time", TimeCompat, datetime }
 tagit! {TitleTag, "title", TitleCompat}
 tagit! {TrTag, "tr", TrCompat}
-tagit! {TrackTag, "track", TrackCompat, default, kind_, label, src, srclang }
+tagit! {TrackTag, "track", TrackCompat, default, kind, label, src, srclang }
 tagit! {UTag, "u", UCompat}
 tagit! {ULTag, "ul", ULCompat}
 tagit! {VarTag, "var", VarCompat}
-tagit! {VideoTag, "video", VideoCompat, autoplay, controls, crossorigin, height, loop_, muted, playsinline, poster, preload, src, width }
+tagit! {VideoTag, "video", VideoCompat, autoplay, controls, crossorigin, height, loop, muted, playsinline, poster, preload, src, width }
 tagit! {WbrTag, "wbr", WbrCompat}
 
 /// # Example
@@ -877,7 +880,7 @@ macro_rules! em {
 /// );
 ///
 /// assert_eq!(
-///     embed![.src="example.swf", .type_="application/x-shockwave-flash", .width="400", .height="300"].render(),
+///     embed![.src="example.swf", .type="application/x-shockwave-flash", .width="400", .height="300"].render(),
 ///     "<embed src=\"example.swf\" type=\"application/x-shockwave-flash\" width=\"400\" height=\"300\">"
 /// );
 /// # }
@@ -1316,12 +1319,12 @@ macro_rules! img {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     input![.type_="text", .name="name"].render(),
+///     input![.type="text", .name="name"].render(),
 ///     "<input type=\"text\" name=\"name\">"
 /// );
 ///
 /// assert_eq!(
-///     input![.type_="submit", .value="submit"].render(),
+///     input![.type="submit", .value="submit"].render(),
 ///     "<input type=\"submit\" value=\"submit\">"
 /// );
 /// # }
@@ -1955,7 +1958,7 @@ macro_rules! samp {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     script![.src="script.js", .type_="text/javascript"].render(),
+///     script![.src="script.js", .type="text/javascript"].render(),
 ///     "<script src=\"script.js\" type=\"text/javascript\"></script>"
 /// );
 /// # }
@@ -2047,7 +2050,7 @@ macro_rules! small {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     source![.src="audio.ogg", .type_="audio/ogg"].render(),
+///     source![.src="audio.ogg", .type="audio/ogg"].render(),
 ///     "<source src=\"audio.ogg\" type=\"audio/ogg\">"
 /// );
 /// # }
@@ -2111,7 +2114,7 @@ macro_rules! strong {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     style![.type_="text/css", "body {background-color: black;} h1 {color: white;}"].render(),
+///     style![.type="text/css", "body {background-color: black;} h1 {color: white;}"].render(),
 ///     "<style type=\"text/css\">body {background-color: black;} h1 {color: white;}</style>"
 /// );
 /// # }
@@ -2484,17 +2487,20 @@ macro_rules! attr_inner {
     ($tag:ident) => { format_args!("{}", "") };
     ($tag:ident, .$attr:ident = $value:expr) => {
         {
-            $tag.type_check(&$attr);
-            format_args!(" {}=\"{}\"", $attr, $value)
+            let ident = paste::paste! { [<$attr _>] };
+            $tag.type_check(&ident);
+            format_args!(" {}=\"{}\"", ident.clone(), $value)
         }
     };
-    (,.$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {
-        format_args!(" {}=\"{}\"{}", $attr, $value, attr_inner!($(,.$right_attr = $right_expr)*))
-    };
+    (,.$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {{
+        let ident = paste::paste! { [<$attr _>] };
+        format_args!(" {}=\"{}\"{}", ident.clone(), $value, attr_inner!($(,.$right_attr = $right_expr)*))
+    }};
     ($tag:ident, .$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {
         {
-            $tag.type_check(&$attr);
-            format_args!(" {}=\"{}\"{}", $attr, $value, attr_inner!($(,.$right_attr = $right_expr)*))
+            let ident = paste::paste! { [<$attr _>] };
+            $tag.type_check(&ident);
+            format_args!(" {}=\"{}\"{}", ident.clone(), $value, attr_inner!($(,.$right_attr = $right_expr)*))
         }
     };
 }

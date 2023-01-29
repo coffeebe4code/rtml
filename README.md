@@ -92,23 +92,17 @@ fn main() {
 }
 ```
 
-css has a limited sub implementation. Attribute selectors, Pseudo-classes, Pseudo-elements, At-rules, functions, and types are not yet implemented. They can be used, however, with string literals.
+css has a limited sub implementation. Attribute selectors, Pseudo-classes, Pseudo-elements, At-rules, functions, and types are not yet implemented.
 
 Css Properties, Selectors, and Combinators are implemented in full.
 
 
 __**Attributes**__
 
-There are some special attributes in `rtml` as their attribute name is a keyword in rust itself, or an invalid token stream. It would be possible to allow the rust keyword attributes thanks to rusts macro expansion, but for simplicity, these special tags are represented as follows.
+There are two attributes that have been changed to make parsing easier as '-' is not a valid token stream in an identifier. 
 
 | html5 | rtml |
 |:------|:-----|
-| type | type_ |
-| for | for_ |
-| loop | loop_ |
-| kind | kind_ |
-| async | async_ |
-| a | a_ |
 | http-equiv | http_equiv |
 | accept-charset | accept_charset |
 

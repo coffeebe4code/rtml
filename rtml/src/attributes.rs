@@ -15,121 +15,124 @@ pub trait AttributeValue: ToString {
 
 macro_rules! globalattributeit {
     ($attr:ident, $val:expr) => {
+        paste::paste! {
         #[allow(non_camel_case_types)]
-        pub struct $attr;
-        impl fmt::Display for $attr {
+        #[derive(Clone)]
+        pub struct [<$attr _>];
+        impl fmt::Display for [<$attr _>] {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 return write!(f, "{}", $val);
             }
         }
-        impl ACompat for $attr {}
-        impl AbbrCompat for $attr {}
-        impl AddressCompat for $attr {}
-        impl AreaCompat for $attr {}
-        impl ArticleCompat for $attr {}
-        impl AsideCompat for $attr {}
-        impl AudioCompat for $attr {}
-        impl BCompat for $attr {}
-        impl BaseCompat for $attr {}
-        impl BdiCompat for $attr {}
-        impl BdoCompat for $attr {}
-        impl BlockquoteCompat for $attr {}
-        impl BodyCompat for $attr {}
-        impl BrCompat for $attr {}
-        impl ButtonCompat for $attr {}
-        impl CanvasCompat for $attr {}
-        impl CaptionCompat for $attr {}
-        impl CiteCompat for $attr {}
-        impl CodeCompat for $attr {}
-        impl ColCompat for $attr {}
-        impl ColgroupCompat for $attr {}
-        impl DataCompat for $attr {}
-        impl DatalistCompat for $attr {}
-        impl DdCompat for $attr {}
-        impl DelCompat for $attr {}
-        impl DetailsCompat for $attr {}
-        impl DfnCompat for $attr {}
-        impl DialogCompat for $attr {}
-        impl DivCompat for $attr {}
-        impl DlCompat for $attr {}
-        impl DtCompat for $attr {}
-        impl EmCompat for $attr {}
-        impl EmbedCompat for $attr {}
-        impl FieldsetCompat for $attr {}
-        impl FigcaptionCompat for $attr {}
-        impl FigureCompat for $attr {}
-        impl FooterCompat for $attr {}
-        impl FormCompat for $attr {}
-        impl H1Compat for $attr {}
-        impl H2Compat for $attr {}
-        impl H3Compat for $attr {}
-        impl H4Compat for $attr {}
-        impl H5Compat for $attr {}
-        impl H6Compat for $attr {}
-        impl HeadCompat for $attr {}
-        impl HeaderCompat for $attr {}
-        impl HrCompat for $attr {}
-        impl HtmlCompat for $attr {}
-        impl ICompat for $attr {}
-        impl IframeCompat for $attr {}
-        impl ImgCompat for $attr {}
-        impl InputCompat for $attr {}
-        impl InsCompat for $attr {}
-        impl KbdCompat for $attr {}
-        impl LabelCompat for $attr {}
-        impl LegendCompat for $attr {}
-        impl LiCompat for $attr {}
-        impl LinkCompat for $attr {}
-        impl MainCompat for $attr {}
-        impl MapCompat for $attr {}
-        impl MarkCompat for $attr {}
-        impl MetaCompat for $attr {}
-        impl MeterCompat for $attr {}
-        impl NavCompat for $attr {}
-        impl NoscriptCompat for $attr {}
-        impl ObjectCompat for $attr {}
-        impl OlCompat for $attr {}
-        impl OptgroupCompat for $attr {}
-        impl OptionCompat for $attr {}
-        impl OutputCompat for $attr {}
-        impl PCompat for $attr {}
-        impl PictureCompat for $attr {}
-        impl PreCompat for $attr {}
-        impl ProgressCompat for $attr {}
-        impl QCompat for $attr {}
-        impl RpCompat for $attr {}
-        impl RtCompat for $attr {}
-        impl RubyCompat for $attr {}
-        impl SCompat for $attr {}
-        impl ScriptCompat for $attr {}
-        impl SectionCompat for $attr {}
-        impl SelectCompat for $attr {}
-        impl SmallCompat for $attr {}
-        impl SourceCompat for $attr {}
-        impl SpanCompat for $attr {}
-        impl StrongCompat for $attr {}
-        impl StyleCompat for $attr {}
-        impl SubCompat for $attr {}
-        impl SummaryCompat for $attr {}
-        impl SupCompat for $attr {}
-        impl TableCompat for $attr {}
-        impl TbodyCompat for $attr {}
-        impl TdCompat for $attr {}
-        impl TemplateCompat for $attr {}
-        impl TextareaCompat for $attr {}
-        impl TfootCompat for $attr {}
-        impl ThCompat for $attr {}
-        impl TheadCompat for $attr {}
-        impl TimeCompat for $attr {}
-        impl TitleCompat for $attr {}
-        impl TrCompat for $attr {}
-        impl TrackCompat for $attr {}
-        impl UCompat for $attr {}
-        impl VarCompat for $attr {}
-        impl VideoCompat for $attr {}
-        impl WbrCompat for $attr {}
+        impl ACompat for [< $attr _>] {}
+        impl AbbrCompat for [< $attr _>] {}
+        impl AddressCompat for [< $attr _>] {}
+        impl AreaCompat for [< $attr _>] {}
+        impl ArticleCompat for [< $attr _>] {}
+        impl AsideCompat for [< $attr _>] {}
+        impl AudioCompat for [< $attr _>] {}
+        impl BCompat for [< $attr _>] {}
+        impl BaseCompat for [< $attr _>] {}
+        impl BdiCompat for [< $attr _>] {}
+        impl BdoCompat for [< $attr _>] {}
+        impl BlockquoteCompat for [< $attr _>] {}
+        impl BodyCompat for [< $attr _>] {}
+        impl BrCompat for [< $attr _>] {}
+        impl ButtonCompat for [< $attr _>] {}
+        impl CanvasCompat for [< $attr _>] {}
+        impl CaptionCompat for [< $attr _>] {}
+        impl CiteCompat for [< $attr _>] {}
+        impl CodeCompat for [< $attr _>] {}
+        impl ColCompat for [< $attr _>] {}
+        impl ColgroupCompat for [< $attr _>] {}
+        impl DataCompat for [< $attr _>] {}
+        impl DatalistCompat for [< $attr _>] {}
+        impl DdCompat for [< $attr _>] {}
+        impl DelCompat for [< $attr _>] {}
+        impl DetailsCompat for [< $attr _>] {}
+        impl DfnCompat for [< $attr _>] {}
+        impl DialogCompat for [< $attr _>] {}
+        impl DivCompat for [< $attr _>] {}
+        impl DlCompat for [< $attr _>] {}
+        impl DtCompat for [< $attr _>] {}
+        impl EmCompat for [< $attr _>] {}
+        impl EmbedCompat for [< $attr _>] {}
+        impl FieldsetCompat for [< $attr _>] {}
+        impl FigcaptionCompat for [< $attr _>] {}
+        impl FigureCompat for [< $attr _>] {}
+        impl FooterCompat for [< $attr _>] {}
+        impl FormCompat for [< $attr _>] {}
+        impl H1Compat for [< $attr _>] {}
+        impl H2Compat for [< $attr _>] {}
+        impl H3Compat for [< $attr _>] {}
+        impl H4Compat for [< $attr _>] {}
+        impl H5Compat for [< $attr _>] {}
+        impl H6Compat for [< $attr _>] {}
+        impl HeadCompat for [< $attr _>] {}
+        impl HeaderCompat for [< $attr _>] {}
+        impl HrCompat for [< $attr _>] {}
+        impl HtmlCompat for [< $attr _>] {}
+        impl ICompat for [< $attr _>] {}
+        impl IframeCompat for [< $attr _>] {}
+        impl ImgCompat for [< $attr _>] {}
+        impl InputCompat for [< $attr _ >] {}
+        impl InsCompat for [< $attr _ >] {}
+        impl KbdCompat for [< $attr _ >] {}
+        impl LabelCompat for [< $attr _ >] {}
+        impl LegendCompat for [< $attr _ >] {}
+        impl LiCompat for [< $attr _ >] {}
+        impl LinkCompat for [< $attr _ >] {}
+        impl MainCompat for [< $attr _ >] {}
+        impl MapCompat for [< $attr _ >] {}
+        impl MarkCompat for [< $attr _ >] {}
+        impl MetaCompat for [< $attr _ >] {}
+        impl MeterCompat for [< $attr _ >] {}
+        impl NavCompat for [< $attr _ >] {}
+        impl NoscriptCompat for [< $attr _ >] {}
+        impl ObjectCompat for [< $attr _ >] {}
+        impl OlCompat for [< $attr _ >] {}
+        impl OptgroupCompat for [< $attr _ >] {}
+        impl OptionCompat for [< $attr _ >] {}
+        impl OutputCompat for [< $attr _ >] {}
+        impl PCompat for [< $attr _ >] {}
+        impl PictureCompat for [< $attr _ >] {}
+        impl PreCompat for [< $attr _ >] {}
+        impl ProgressCompat for [< $attr _ >] {}
+        impl QCompat for [< $attr _ >] {}
+        impl RpCompat for [< $attr _ >] {}
+        impl RtCompat for [< $attr _ >] {}
+        impl RubyCompat for [< $attr _ >] {}
+        impl SCompat for [< $attr _ >] {}
+        impl ScriptCompat for [< $attr _ >] {}
+        impl SectionCompat for [< $attr _ >] {}
+        impl SelectCompat for [< $attr _ >] {}
+        impl SmallCompat for [< $attr _ >] {}
+        impl SourceCompat for [< $attr _ >] {}
+        impl SpanCompat for [< $attr _ >] {}
+        impl StrongCompat for [< $attr _ >] {}
+        impl StyleCompat for [< $attr _ >] {}
+        impl SubCompat for [< $attr _ >] {}
+        impl SummaryCompat for [< $attr _ >] {}
+        impl SupCompat for [< $attr _ >] {}
+        impl TableCompat for [< $attr _ >] {}
+        impl TbodyCompat for [< $attr _ >] {}
+        impl TdCompat for [< $attr _ >] {}
+        impl TemplateCompat for [< $attr _ >] {}
+        impl TextareaCompat for [< $attr _ >] {}
+        impl TfootCompat for [< $attr _ >] {}
+        impl ThCompat for [< $attr _ >] {}
+        impl TheadCompat for [< $attr _ >] {}
+        impl TimeCompat for [< $attr _ >] {}
+        impl TitleCompat for [< $attr _ >] {}
+        impl TrCompat for [< $attr _ >] {}
+        impl TrackCompat for [< $attr _ >] {}
+        impl UCompat for [< $attr _ >] {}
+        impl VarCompat for [< $attr _ >] {}
+        impl VideoCompat for [< $attr _ >] {}
+        impl WbrCompat for [< $attr _ >] {}
 
-        impl GlobalAttribute for $attr {}
+        impl GlobalAttribute for [< $attr _ >] {}
+        }
     };
 }
 
@@ -137,13 +140,14 @@ macro_rules! attributeit {
     ($attr:ident, $val:expr) => {
         paste::paste! {
         #[allow(non_camel_case_types)]
-        pub struct [<$attr_>];
-        impl fmt::Display for [<$attr_>] {
+        #[derive(Clone)]
+        pub struct [< $attr _ >];
+        impl fmt::Display for [<$attr _>] {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 return write!(f, "{}", $val);
             }
         }
-        impl Attribute for [<$attr_> {}
+        impl Attribute for [<$attr _>] {}
         }
     };
 }

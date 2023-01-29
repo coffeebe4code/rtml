@@ -39,10 +39,10 @@ macro_rules! id {
 }
 
 macro_rules! selectorit {
-    ($ident:ident, $trait:ident) => {
+    ($ident:ident) => {
         #[allow(non_camel_case_types)]
         pub struct $ident;
-        impl $trait for $ident {}
+        impl CssElement for $ident {}
         impl CssSelector for $ident {}
 
         impl std::fmt::Display for $ident {
@@ -53,9 +53,115 @@ macro_rules! selectorit {
     };
 }
 
-selectorit!(p, CssElement);
-selectorit!(div, CssElement);
-selectorit!(abbr, CssElement);
+selectorit!(a);
+selectorit!(abbr);
+selectorit!(address);
+selectorit!(area);
+selectorit!(article);
+selectorit!(aside);
+selectorit!(audio);
+selectorit!(b);
+selectorit!(base);
+selectorit!(bdi);
+selectorit!(bdo);
+selectorit!(blockquote);
+selectorit!(body);
+selectorit!(br);
+selectorit!(button);
+selectorit!(canvas);
+selectorit!(caption);
+selectorit!(cite);
+selectorit!(code);
+selectorit!(col);
+selectorit!(colgroup);
+selectorit!(data);
+selectorit!(datalist);
+selectorit!(dd);
+selectorit!(del);
+selectorit!(details);
+selectorit!(dfn);
+selectorit!(dialog);
+selectorit!(div);
+selectorit!(dl);
+selectorit!(dt);
+selectorit!(em);
+selectorit!(embed);
+selectorit!(fieldset);
+selectorit!(figcaption);
+selectorit!(figure);
+selectorit!(footer);
+selectorit!(form);
+selectorit!(h1);
+selectorit!(h2);
+selectorit!(h3);
+selectorit!(h4);
+selectorit!(h5);
+selectorit!(h6);
+selectorit!(head);
+selectorit!(header);
+selectorit!(hr);
+selectorit!(html);
+selectorit!(i);
+selectorit!(iframe);
+selectorit!(img);
+selectorit!(input);
+selectorit!(ins);
+selectorit!(kbd);
+selectorit!(label);
+selectorit!(legend);
+selectorit!(li);
+selectorit!(link);
+selectorit!(main);
+selectorit!(map);
+selectorit!(mark);
+selectorit!(menu);
+selectorit!(meta);
+selectorit!(meter);
+selectorit!(nav);
+selectorit!(noscript);
+selectorit!(object);
+selectorit!(ol);
+selectorit!(optgroup);
+selectorit!(option);
+selectorit!(output);
+selectorit!(p);
+selectorit!(picture);
+selectorit!(pre);
+selectorit!(progress);
+selectorit!(q);
+selectorit!(rp);
+selectorit!(rt);
+selectorit!(ruby);
+selectorit!(s);
+selectorit!(samp);
+selectorit!(script);
+selectorit!(section);
+selectorit!(select);
+selectorit!(small);
+selectorit!(source);
+selectorit!(span);
+selectorit!(strong);
+selectorit!(style);
+selectorit!(sub);
+selectorit!(summary);
+selectorit!(sup);
+selectorit!(table);
+selectorit!(tbody);
+selectorit!(td);
+selectorit!(template);
+selectorit!(textarea);
+selectorit!(tfoot);
+selectorit!(th);
+selectorit!(thead);
+selectorit!(time);
+selectorit!(title);
+selectorit!(tr);
+selectorit!(track);
+selectorit!(u);
+selectorit!(ul);
+selectorit!(var);
+selectorit!(video);
+selectorit!(wbr);
 
 pub trait CssProperty {
     fn is_prop(&self) {}
