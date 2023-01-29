@@ -1,14 +1,12 @@
 ## Feature Roadmap
 
-__**0.9.0**__
-
-- fix the special tags with paste and _ 
-- add all tags for css
-- update readme documentation for special tags
-- remove str:replace in properties, use static macro parameter "property-name"
+__**0.10.0**__
 
 ---
+- make css and html parsing recursive descent
+  * Would make data- attributes, accept-charset, http-equiv, and other css rules easier
 - get data- attributes to work in tags
+- get chained combinators working (might need a special character)
 - parse on - for accept_charset and http_equiv
 - add attribute selectors in css
 - add pseudo-classes in css
