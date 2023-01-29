@@ -92,22 +92,7 @@ fn main() {
 }
 ```
 
-css has a limited sub implementation. Attribute selectors, Pseudo-classes, Pseudo-elements, At-rules, functions, and types are not yet implemented. They can be used with string literals.
-
-/// TODO:: css 
-```rust
-fn main() {
-    use rtml::*;
-    // Use the macros to generate some CSS
-    let css = css! {
-      p {
-        background: yellow;
-      }
-    }.render();
-
-    println!("{}", css);
-}
-```
+css has a limited sub implementation. Attribute selectors, Pseudo-classes, Pseudo-elements, At-rules, functions, and types are not yet implemented. They can be used, however, with string literals.
 
 Css Properties, Selectors, and Combinators are implemented in full.
 

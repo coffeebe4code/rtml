@@ -135,14 +135,16 @@ macro_rules! globalattributeit {
 
 macro_rules! attributeit {
     ($attr:ident, $val:expr) => {
+        paste::paste! {
         #[allow(non_camel_case_types)]
-        pub struct $attr;
-        impl fmt::Display for $attr {
+        pub struct [<$attr_>];
+        impl fmt::Display for [<$attr_>] {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 return write!(f, "{}", $val);
             }
         }
-        impl Attribute for $attr {}
+        impl Attribute for [<$attr_> {}
+        }
     };
 }
 
@@ -162,14 +164,14 @@ globalattributeit! {title, "title"}
 globalattributeit! {translate, "translate"}
 
 // Special
-attributeit! {type_, "type"}
-attributeit! {loop_, "loop"}
-attributeit! {for_, "for"}
+attributeit! {type, "type"}
+attributeit! {loop, "loop"}
+attributeit! {for, "for"}
 attributeit! {http_equiv, "http-equiv"}
 attributeit! {accept_charset, "accept-charset"}
-attributeit! {as_, "as"}
-attributeit! {async_, "async"}
-attributeit! {kind_, "kind"}
+attributeit! {as, "as"}
+attributeit! {async, "async"}
+attributeit! {kind, "kind"}
 
 // Event
 // Window
