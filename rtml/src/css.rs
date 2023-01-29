@@ -1,10 +1,44 @@
-pub trait CssSelector {}
-pub trait CssClass: CssSelector {}
-pub trait CssId: CssSelector {}
+pub trait CssSelector {
+    fn is_selector(&self) {}
+}
+pub trait CssClass: CssSelector {
+    fn is_class(&self) {}
+}
+pub trait CssId: CssSelector {
+    fn is_id(&self) {}
+}
 pub trait CssElement: CssSelector {}
 pub trait CssAttribute: CssSelector {}
 pub trait CssPseudo: CssSelector {}
 pub trait CssGlobal: CssSelector {}
+
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// // create your own custom class.
+/// class!(my_class);
+/// let css = css!(
+///     .my_class {
+///         color: "red"
+///     }).render();
+/// // this css renders to
+/// // .my_class {
+/// //   color: "red";
+/// //  }
+/// assert_eq!(css, ".my_class {\n  color: red;\n  }\n");
+///
+/// // it can be used in conjunction with html macros
+///
+/// let html = p! { .class = my_class, "red text!" }.render();
+/// // this html renders to
+/// // <p class="my_class">red text!</p>
+/// assert_eq!(html, "<p class=\"my_class\">red text!</p>");
+///
+/// # }
+/// ```
 
 #[macro_export]
 macro_rules! class {
@@ -23,6 +57,33 @@ macro_rules! class {
     };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// // create your own custom id.
+/// id!(my_id);
+/// let css = css!(
+///     #my_id {
+///         color: "red"
+///     }).render();
+/// // this css renders to
+/// // #my_id {
+/// //   color: "red";
+/// //  }
+/// assert_eq!(css, "#my_id {\n  color: red;\n  }\n");
+///
+/// // it can be used in conjunction with html macros
+///
+/// let html = p! { .id = my_id, "red text!" }.render();
+/// // this html renders to
+/// // <p id="my_id">red text!</p>
+/// assert_eq!(html, "<p id=\"my_id\">red text!</p>");
+///
+/// # }
+/// ```
 #[macro_export]
 macro_rules! id {
     ($ident:ident) => {
@@ -600,14 +661,17 @@ macro_rules! css {
 
 #[macro_export]
 macro_rules! selector {
-    (.$class:ident $($inner:tt)*) => {
-        format_args!(".{}{}", $class, combinator!($($inner)*))
-    };
-    (#$id:ident $($inner:tt)*) => {
-        format_args!("#{}{}", $ident, combinator!($($inner)*))
-    };
+    (.$class:ident $($inner:tt)*) => {{
+        CssClass::is_class(&$class);
+        format_args!(".{}{}", $class.clone(), combinator!($($inner)*))
+    }};
+    (#$id:ident $($inner:tt)*) => {{
+        CssId::is_id(&$id);
+        format_args!("#{}{}", $id.clone(), combinator!($($inner)*))
+    }};
     ($tag:ident $($inner:tt)*) => {{
         let ident = paste::paste! { [< _ $tag _ >] };
+        CssSelector::is_selector(&ident);
         format_args!("{}{}", ident.clone(), combinator!($($inner)*))
     }};
     (* $($inner:tt)*) => {
@@ -637,6 +701,7 @@ macro_rules! combinator {
     };
     ($head:ident $($selector:tt)+) => {{
         let ident = paste::paste! { [< _ $head _ >] };
+        CssSelector::is_selector(&ident);
         format_args!(" {}{}", ident.clone(), selector!($($selector)*))
     }};
     (_ $($selector:tt)+) => {

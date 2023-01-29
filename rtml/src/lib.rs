@@ -92,6 +92,18 @@ pub mod tests {
     }
 
     #[test]
+    fn test_ids() {
+        id!(my_id);
+        let css = css!(
+        #my_id {
+            color: "red"
+        })
+        .render();
+        assert_eq!(css, "#my_id {\n  color: red;\n  }\n");
+    }
+
+    // the purpose of this test is to determine if we can forgo using .render() immediately.
+    #[test]
     fn test_html() {
         let html = html! {
          .lang = "en",
