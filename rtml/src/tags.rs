@@ -12,6 +12,7 @@ pub trait TagValue: ToString {
 
 macro_rules! tagit {
     ($tag:ident, $val:expr, $trait:ident $(,$attr:ident)*) => {
+        #[derive(Clone)]
         pub struct $tag;
         impl fmt::Display for $tag {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -31,16 +32,6 @@ macro_rules! tagit {
             })*
     };
 }
-
-// need a special dataAttr as its attribute name is dynamic
-#[allow(non_camel_case_types)]
-pub struct data_(String);
-impl fmt::Display for data_ {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        return write!(f, "{}-{}=\"", "data", self.0);
-    }
-}
-impl Attribute for data_ {}
 
 tagit! {ATag, "a", ACompat, download, href, hreflang, media, ping, referrerpolicy, rel, target }
 tagit! {AbbrTag, "abbr", AbbrCompat}

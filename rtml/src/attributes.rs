@@ -13,6 +13,17 @@ pub trait AttributeValue: ToString {
     }
 }
 
+// need a special dataAttr as its attribute name is dynamic
+#[allow(non_camel_case_types)]
+#[derive(Clone)]
+pub struct data_(String);
+impl fmt::Display for data_ {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        return write!(f, "{}-{}=\"", "data", self.0);
+    }
+}
+impl Attribute for data_ {}
+
 macro_rules! globalattributeit {
     ($attr:ident, $val:expr) => {
         paste::paste! {

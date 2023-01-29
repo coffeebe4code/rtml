@@ -37,6 +37,7 @@ pub mod tests {
             "<a href=\"link\" download=\"yes\">Text<a>Nested</a></a>"
         );
     }
+
     #[test]
     fn test_tag_inner() {
         assert_eq!(tag_inner!(ATag).render(), "<a></a>");
