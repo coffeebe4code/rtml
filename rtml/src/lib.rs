@@ -10,10 +10,7 @@ pub use tags::*;
 
 #[cfg(test)]
 pub mod tests {
-    use super::render::*;
     use super::*;
-    use paste::*;
-    use std::fmt;
 
     #[test]
     fn test_a() {
@@ -145,6 +142,10 @@ pub mod tests {
         assert_eq!(
             property!(background-color: "red", float: "left",).render(),
             "background-color: red;\n  float: left;\n  "
+        );
+        assert_eq!(
+            property!(align-self: "stretch", float: "left",).render(),
+            "align-self: stretch;\n  float: left;\n  "
         );
     }
 

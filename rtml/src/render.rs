@@ -1,5 +1,3 @@
-use std::fmt;
-use std::fmt::Display;
 pub trait Render: ToString {
     fn render(&self) -> String {
         self.to_string()
@@ -8,7 +6,7 @@ pub trait Render: ToString {
 
 impl Render for &'static str {}
 
-impl Render for fmt::Arguments<'_> {
+impl Render for std::fmt::Arguments<'_> {
     fn render(&self) -> String {
         format!("{}", self)
     }
