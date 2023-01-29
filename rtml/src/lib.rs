@@ -3,12 +3,14 @@ pub mod css;
 pub mod render;
 pub mod tags;
 
+pub use attributes::*;
+pub use css::*;
+pub use render::*;
+pub use tags::*;
+
 #[cfg(test)]
 pub mod tests {
-    use super::attributes::*;
-    use super::css::*;
     use super::render::*;
-    use super::tags::*;
     use super::*;
     use paste::*;
     use std::fmt;

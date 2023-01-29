@@ -1,4 +1,4 @@
-use crate::tags::*;
+use crate::*;
 use std::fmt;
 use std::fmt::Display;
 
