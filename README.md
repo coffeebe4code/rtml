@@ -3,7 +3,8 @@
 __**description**__
 
 (r)ust macros for h(tml) expansion => rtml
-but also (r)ust type safe (css) => rcss
+
+(r)ust type safe (css) => rcss
 
 __**usage**__
 
