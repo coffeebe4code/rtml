@@ -2,6 +2,8 @@
 
 __**0.10.0**__
 
+- make css and html parsing recursive descent
+
 ---
 - make css and html parsing recursive descent
   * Would make data- attributes, accept-charset, http-equiv, and other css rules easier
