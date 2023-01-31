@@ -167,12 +167,15 @@ tagit! {WbrTag, "wbr", WbrCompat}
 /// ```
 #[macro_export]
 macro_rules! a {
-    () => {tag_inner!(ATag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ATag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+    ($all:tt) => {
+        parse_full_tag!(ATag $all)
     };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ATag, $inner_left $(,$inner)*)
-    };
+   // () => {tag_inner!(ATag) };
+   // ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+   //     tag_inner!(ATag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+   // };
+   // ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ATag, $inner_left $(,$inner)*)
+   // };
 }
 
 /// # Example
@@ -2493,5 +2496,62 @@ macro_rules! attr_inner {
             $tag.type_check(&ident);
             format_args!(" {}=\"{}\"{}", ident.clone(), $value, attr_inner!($(,.$right_attr = $right_expr)*))
         }
+    };
+}
+
+#[macro_export]
+macro_rules! parse_full_tag {
+    ($tag:ident) => {
+        format_args!("<{}></{}>", $tag, $tag)
+    };
+    ($tag:ident $(,$inner:expr)*) => {
+        format_args!("<{}>{}</{}>", $tag, parse_inner!($($inner)*), $tag)
+    };
+    ($tag:ident $(,.$attr:ident = $value:expr)*) => {
+        format_args!("<{}{}></{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), $tag)
+    };
+    ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
+        format_args!("<{}{}>{}</{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), parse_full_tag!($(,$inner)*), $tag)
+    };
+}
+
+#[macro_export]
+macro_rules! parse_inner {
+    () => {
+        format_args!("{}", "")
+    };
+    ($left:expr $(,$inner:expr)*) => {
+        format_args!("{}{}", $left, parse_inner!($($inner)*))
+    };
+}
+
+#[macro_export]
+macro_rules! parse_tag {
+    ($tag:ident) => {
+        format_args!("<{}>", $tag)
+    };
+    ($tag:ident $(,.$attr:ident = $value:expr)*) => {
+        format_args!("<{}{}>", $tag, parse_attr!($tag $(,.$attr = $value)*))
+    };
+}
+
+#[macro_export]
+macro_rules! parse_attr {
+    ($tag:ident) => {
+        format_args!("{}", "")
+    };
+    ($tag:ident, .$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {{
+        let ident = paste::paste! { [<$attr _>] };
+        format_args!(" {}{}{}", ident.clone(), parse_attr_val!($value), parse_attr!($tag $(,.$right_attr = $right_expr)*))
+    }};
+}
+
+#[macro_export]
+macro_rules! parse_attr_val {
+    () => {
+        format_args!("{}", "")
+    };
+    ($val:expr) => {
+        format_args!("=\"{}\"", "")
     };
 }
