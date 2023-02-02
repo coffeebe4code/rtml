@@ -9,7 +9,10 @@ pub trait CssId: CssSelector {
 }
 pub trait CssElement: CssSelector {}
 pub trait CssAttribute: CssSelector {}
-pub trait CssPseudo: CssSelector {}
+pub trait CssPseudoClass: CssSelector {
+    fn is_pseudo_class(&self) {}
+}
+pub trait CssIsParenable {}
 pub trait CssGlobal: CssSelector {}
 
 /// # Example
@@ -630,6 +633,105 @@ propit!(word_spacing, "word-spacing");
 propit!(writing_mode, "writing-mode");
 propit!(z_index, "z-index");
 
+macro_rules! pseudoclassit {
+    ($ident:ident, $lit:literal) => {
+        paste::paste! {
+        #[derive(Clone)]
+        #[allow(non_camel_case_types)]
+        pub struct [<___$ident>];
+        impl CssPseudoClass for [<___$ident>] {}
+        impl CssSelector for [<___$ident>] {}
+
+        impl std::fmt::Display for [<___$ident>] {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                return write!(f, "{}", $lit);
+            }
+        }
+        }
+    };
+}
+
+macro_rules! parenable {
+    ($ident:ident) => {
+        paste::paste! {
+        impl CssIsParenable for [<___$ident>] {}
+        }
+    };
+}
+
+pseudoclassit!(active, "active");
+pseudoclassit!(any_link, "any-link");
+pseudoclassit!(autofill, "autofill");
+pseudoclassit!(checked, "checked");
+pseudoclassit!(current, "current");
+pseudoclassit!(default, "default");
+pseudoclassit!(defined, "defined");
+pseudoclassit!(dir, "dir");
+parenable!(dir);
+pseudoclassit!(disabled, "disabled");
+pseudoclassit!(empty, "empty");
+pseudoclassit!(enabled, "enabled");
+pseudoclassit!(first, "first");
+pseudoclassit!(first_child, "first-child");
+pseudoclassit!(first_of_type, "first-of-type");
+pseudoclassit!(focus, "focus");
+pseudoclassit!(focus_visible, "focus-visible");
+pseudoclassit!(focus_within, "focus-within");
+pseudoclassit!(fullscreen, "fullscreen");
+pseudoclassit!(future, "future");
+pseudoclassit!(has, "has");
+parenable!(has);
+pseudoclassit!(hover, "hover");
+pseudoclassit!(in_range, "in-range");
+pseudoclassit!(indeterminate, "indeterminate");
+pseudoclassit!(invalid, "invalid");
+pseudoclassit!(is, "is");
+parenable!(is);
+pseudoclassit!(lang, "lang");
+parenable!(lang);
+pseudoclassit!(last_child, "last-child");
+parenable!(last_child);
+pseudoclassit!(last_of_type, "last-of-type");
+pseudoclassit!(left, "left");
+pseudoclassit!(link, "link");
+pseudoclassit!(local_link, "local-link");
+pseudoclassit!(modal, "modal");
+pseudoclassit!(not, "not");
+parenable!(not);
+pseudoclassit!(nth_child, "nth-child");
+parenable!(nth_child);
+pseudoclassit!(nth_col, "nth-col");
+parenable!(nth_col);
+pseudoclassit!(nth_last_child, "nth-last-child");
+parenable!(nth_last_child);
+pseudoclassit!(nth_last_col, "nth-last-col");
+parenable!(nth_last_col);
+pseudoclassit!(nth_last_of_type, "nth-last-of-type");
+parenable!(nth_last_of_type);
+pseudoclassit!(nth_of_type, "nth-of-type");
+parenable!(nth_of_type);
+pseudoclassit!(only_child, "only-child");
+pseudoclassit!(only_of_type, "only-of-type");
+pseudoclassit!(optional, "optional");
+pseudoclassit!(out_of_range, "out-of-range");
+pseudoclassit!(past, "past");
+pseudoclassit!(paused, "paused");
+pseudoclassit!(picture_in_picture, "picture-in-picture");
+pseudoclassit!(placeholder_shown, "placeholder-shown");
+pseudoclassit!(playing, "playing");
+pseudoclassit!(read_only, "read-only");
+pseudoclassit!(read_write, "read-write");
+pseudoclassit!(required, "required");
+pseudoclassit!(right, "right");
+pseudoclassit!(root, "root");
+pseudoclassit!(scope, "scope");
+pseudoclassit!(target, "target");
+pseudoclassit!(target_within, "target-within");
+pseudoclassit!(valid, "valid");
+pseudoclassit!(visited, "valid");
+pseudoclassit!(where, "where");
+parenable!(where);
+
 /// # Example
 /// ```
 /// # #[macro_use] extern crate rtml;
@@ -644,9 +746,7 @@ propit!(z_index, "z-index");
 ///         float: "left"
 ///     }
 ///    )
-///    .render();
-/// assert_eq!(
-///     css,
+///    .render(); assert_eq!( css,
 ///     "p > div {\n  background-color: green;\n  }\np div {\n  float: left;\n  }\n"
 /// );
 ///
@@ -674,6 +774,9 @@ macro_rules! selector {
         CssSelector::is_selector(&ident);
         format_args!("{}{}", ident.clone(), combinator!($($inner)*))
     }};
+    (:$($inner:tt)*) => {
+        pseudo_class!(:$($inner)*)
+    };
     (* $($inner:tt)*) => {
         format_args!("*{}", combinator!($($inner)*))
     };
@@ -684,6 +787,38 @@ macro_rules! selector {
         format_args!("{}{}", css_body!($($inner)*), selector!($($next)*))
     };
 }
+
+#[macro_export]
+macro_rules! pseudo_class {
+    (:$head:ident$(-$next:ident)+ ($lit:expr) $($rest:tt)+) => {
+        {
+            let ident = paste::paste!{[<___$head $(_$next)*>]};
+            CssPseudoClass::is_pseudo_class(&ident);
+            format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
+        }
+    };
+    (:$head:ident$(-$next:ident)+ $($rest:tt)+) => {
+        {
+            let ident = paste::paste!{[<___$head $(_$next)*>]};
+            CssPseudoClass::is_pseudo_class(&ident);
+            format_args!(":{}{}", ident.clone(), combinator!($($rest)*))
+        }
+    };
+    (:$head:ident ($lit:expr) $($rest:tt)+) => {
+        {
+            let ident = paste::paste!{[<___$head >]};
+            CssPseudoClass::is_pseudo_class(&ident);
+            format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
+        }
+    };
+    (:$head:ident $($rest:tt)+) => {
+        {
+            let ident = paste::paste!{[<___$head >]};
+            CssPseudoClass::is_pseudo_class(&ident);
+            format_args!(":{}{}", ident.clone(), combinator!($($rest)*))
+        }
+    };
+    }
 
 #[macro_export]
 macro_rules! combinator {
@@ -712,6 +847,9 @@ macro_rules! combinator {
     };
     ({$($selector:tt)*} $($next:tt)+) => {
         format_args!("{}{}", css_body!($($selector)*), selector!($($next)*))
+    };
+    ($($rest:tt)*) => {
+        format_args!("{}", selector!($($rest)*))
     };
 }
 
