@@ -167,15 +167,12 @@ tagit! {WbrTag, "wbr", WbrCompat}
 /// ```
 #[macro_export]
 macro_rules! a {
-    ($all:tt) => {
-        parse_full_tag!(ATag $all)
-    };
-   // () => {tag_inner!(ATag) };
-   // ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-   //     tag_inner!(ATag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-   // };
-   // ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ATag, $inner_left $(,$inner)*)
-   // };
+    () => {tag_inner!(ATag) };
+    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
+            parse_full_tag!(ATag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
+        };
+    ( $inner_left:expr $(,$inner:expr)*) => { parse_full_tag!(ATag, $inner_left $(,$inner)*)
+        };
 }
 
 /// # Example
@@ -2504,24 +2501,26 @@ macro_rules! parse_full_tag {
     ($tag:ident) => {
         format_args!("<{}></{}>", $tag, $tag)
     };
-    ($tag:ident $(,$inner:expr)*) => {
+    ($tag:ident $(,$inner:expr)+) => {
         format_args!("<{}>{}</{}>", $tag, parse_inner!($($inner)*), $tag)
     };
-    ($tag:ident $(,.$attr:ident = $value:expr)*) => {
+    ($tag:ident $(,.$attr:ident = $value:expr)+) => {
         format_args!("<{}{}></{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
-        format_args!("<{}{}>{}</{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), parse_full_tag!($(,$inner)*), $tag)
+        format_args!("<{}{}>{}</{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), parse_inner!($($inner)*), $tag)
     };
 }
 
 #[macro_export]
 macro_rules! parse_inner {
-    () => {
-        format_args!("{}", "")
-    };
     ($left:expr $(,$inner:expr)*) => {
         format_args!("{}{}", $left, parse_inner!($($inner)*))
+    };
+    ($left:expr) => {
+        format_args!("{}", $left)
+    };
+    () => { format_args!("{}", "")
     };
 }
 
