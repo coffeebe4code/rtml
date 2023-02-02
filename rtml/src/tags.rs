@@ -734,10 +734,7 @@ macro_rules! em {
 /// ```
 #[macro_export]
 macro_rules! embed {
-    () => {tag_no_inner!(EmbedTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(EmbedTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(EmbedTag, $($all)*) };
 }
 
 /// # Example
@@ -1070,7 +1067,7 @@ macro_rules! iframe {
 /// ```
 #[macro_export]
 macro_rules! img {
-    ($($all:tt)*) => {parse_img_tag!(ImgTag, $($all)*) };
+    ($($all:tt)*) => {parse_single_tag!(ImgTag, $($all)*) };
 }
 
 /// # Example
@@ -1092,7 +1089,7 @@ macro_rules! img {
 /// ```
 #[macro_export]
 macro_rules! input {
-    ($($all:tt)*) => {parse_double_tag!(InputTag, $($all)*) };
+    ($($all:tt)*) => {parse_single_tag!(InputTag, $($all)*) };
 }
 
 /// # Example
@@ -1283,7 +1280,7 @@ macro_rules! menu {
 /// ```
 #[macro_export]
 macro_rules! meta {
-    ($($all:tt)*) => {parse_double_tag!(MenuTag, $($all)*) };
+    ($($all:tt)*) => {parse_single_tag!(MetaTag, $($all)*) };
 }
 
 /// # Example
@@ -1870,6 +1867,27 @@ macro_rules! textarea {
     ($($all:tt)*) => {parse_double_tag!(TextareaTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     table![
+///         tr![
+///             td!["Cell 1,1"]
+///         ],
+///         tfoot![
+///             tr![
+///                 td!["Footer 1"]
+///             ]
+///         ]
+///     ].render(),
+///     "<table><tr><td>Cell 1,1</td></tr><tfoot><tr><td>Footer 1</td></tr></tfoot></table>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! tfoot {
     ($($all:tt)*) => {parse_double_tag!(TfootTag, $($all)*) };
