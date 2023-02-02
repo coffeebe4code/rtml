@@ -1,6 +1,6 @@
 [package]
 name = "rtml"
-version = "0.9.2"
+version = "0.10.0"
 edition = "2021"
 license-file = "../LICENSE"
 description = "(r)ust macros for h(tml) expansion => rtml.\n (r)ust type safe (css) => rcss."
