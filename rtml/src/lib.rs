@@ -40,53 +40,44 @@ pub mod tests {
 
     #[test]
     fn test_tag_inner() {
-        assert_eq!(tag_inner!(ATag).render(), "<a></a>");
-        assert_eq!(tag_inner!(ATag, "inner").render(), "<a>inner</a>");
+        assert_eq!(parse_double_tag!(ATag).render(), "<a></a>");
+        assert_eq!(parse_double_tag!(ATag, "inner").render(), "<a>inner</a>");
         assert_eq!(
-            tag_inner!(ATag, .href = "link", .download= "file.html").render(),
+            parse_double_tag!(ATag, .href = "link", .download= "file.html").render(),
             "<a href=\"link\" download=\"file.html\"></a>"
         );
         assert_eq!(
-            tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
+            parse_double_tag!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
             "<a href=\"link\" download=\"file.html\">Cool Link</a>"
         );
         assert_eq!(
-            tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link", tag_inner!(ATag))
+            parse_double_tag!(ATag, .href = "link", .download= "file.html", "Cool Link", parse_double_tag!(ATag))
                 .render(),
             "<a href=\"link\" download=\"file.html\">Cool Link<a></a></a>"
         );
     }
     #[test]
     fn test_tag_no_inner() {
-        assert_eq!(tag_no_inner!(WbrTag).render(), "<wbr>");
+        assert_eq!(parse_single_tag!(WbrTag).render(), "<wbr>");
         assert_eq!(
-            tag_no_inner!(AreaTag, .shape = "rect").render(),
+            parse_single_tag!(AreaTag, .shape = "rect").render(),
             "<area shape=\"rect\">"
         );
         assert_eq!(
-            tag_no_inner!(SourceTag, .src = "link", .muted="true").render(),
+            parse_single_tag!(SourceTag, .src = "link", .muted="true").render(),
             "<source src=\"link\" muted=\"true\">"
-        );
-        assert_eq!(
-            tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link").render(),
-            "<a href=\"link\" download=\"file.html\">Cool Link</a>"
-        );
-        assert_eq!(
-            tag_inner!(ATag, .href = "link", .download= "file.html", "Cool Link", tag_inner!(ATag))
-                .render(),
-            "<a href=\"link\" download=\"file.html\">Cool Link<a></a></a>"
         );
     }
     #[test]
     fn test_attr_inner() {
-        assert_eq!(attr_inner!(ATag,.href = "link").render(), " href=\"link\"");
+        assert_eq!(parse_attr!(ATag,.href = "link").render(), " href=\"link\"");
         assert_eq!(
-            attr_inner!(ATag, .href = "link", .download = "yes please", .hreflang="en").render(),
+            parse_attr!(ATag, .href = "link", .download = "yes please", .hreflang="en").render(),
             " href=\"link\" download=\"yes please\" hreflang=\"en\""
         );
-        assert_eq!(attr_inner!().render(), "");
+        assert_eq!(parse_attr!().render(), "");
         assert_eq!(
-            attr_inner!(FieldsetTag, .name = "yes").render(),
+            parse_attr!(FieldsetTag, .name = "yes").render(),
             " name=\"yes\""
         );
     }

@@ -118,7 +118,7 @@ tagit! {ScriptTag, "script", ScriptCompat, async, crossorigin, defer, integrity,
 tagit! {SectionTag, "section", SectionCompat}
 tagit! {SelectTag, "select", SelectCompat, autocomplete, autofocus, disabled, form, multiple, name, required, size }
 tagit! {SmallTag, "small", SmallCompat}
-tagit! {SourceTag, "source", SourceCompat, media, sizes, src, srcset, type }
+tagit! {SourceTag, "source", SourceCompat, muted, media, sizes, src, srcset, type }
 tagit! {SpanTag, "span", SpanCompat}
 tagit! {StrongTag, "strong", StrongCompat}
 tagit! {StyleTag, "style", StyleCompat, media, nonce, type }
@@ -167,12 +167,7 @@ tagit! {WbrTag, "wbr", WbrCompat}
 /// ```
 #[macro_export]
 macro_rules! a {
-    () => {tag_inner!(ATag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-            parse_full_tag!(ATag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-        };
-    ( $inner_left:expr $(,$inner:expr)*) => { parse_full_tag!(ATag, $inner_left $(,$inner)*)
-        };
+    ($($all:tt)*) => {parse_double_tag!(ATag, $($all)*) };
 }
 
 /// # Example
@@ -194,12 +189,7 @@ macro_rules! a {
 /// ```
 #[macro_export]
 macro_rules! abbr {
-    () => {tag_inner!(AbbrTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(AbbrTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AbbrTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(AbbrTag, $($all)*) };
 }
 
 /// # Example
@@ -447,12 +437,7 @@ macro_rules! blockquote {
 /// ```
 #[macro_export]
 macro_rules! body {
-    () => {tag_inner!(BodyTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(BodyTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BodyTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(BodyTag, $($all)*) };
 }
 
 /// # Example
@@ -785,12 +770,7 @@ macro_rules! dialog {
 /// ```
 #[macro_export]
 macro_rules! div {
-    () => {tag_inner!(DivTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DivTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DivTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DivTag, $($all)*) };
 }
 
 /// # Example
@@ -1008,12 +988,7 @@ macro_rules! form {
 /// ```
 #[macro_export]
 macro_rules! h1 {
-    () => {tag_inner!(H1Tag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(H1Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H1Tag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(H1Tag, $($all)*) };
 }
 
 /// # Example
@@ -1140,12 +1115,7 @@ macro_rules! h6 {
 /// ```
 #[macro_export]
 macro_rules! head {
-    () => {tag_inner!(HeadTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(HeadTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(HeadTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(HeadTag, $($all)*) };
 }
 
 /// # Example
@@ -1226,12 +1196,7 @@ macro_rules! hr {
 /// ```
 #[macro_export]
 macro_rules! html {
-    () => {tag_inner!(HtmlTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(HtmlTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(HtmlTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(HtmlTag, $($all)*) };
 }
 
 /// # Example
@@ -1743,12 +1708,7 @@ macro_rules! output {
 /// ```
 #[macro_export]
 macro_rules! p {
-    () => {tag_inner!(PTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(PTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(PTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(PTag, $($all)*) };
 }
 
 #[macro_export]
@@ -2359,12 +2319,7 @@ macro_rules! time {
 
 #[macro_export]
 macro_rules! title {
-    () => {tag_inner!(TitleTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TitleTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TitleTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TitleTag, $($all)*) };
 }
 
 #[macro_export]
@@ -2435,98 +2390,27 @@ macro_rules! wbr {
 }
 
 #[macro_export]
-macro_rules! tag_inner {
-    (,$inner_left:expr) => {
-        format_args!("{}", $inner_left)
+macro_rules! parse_double_tag {
+    () => {
+        format_args!("{}", "")
     };
-    (,$inner_left:expr $(,$inner:expr)+) => {
-        format_args!("{}{}", $inner_left, tag_inner!($(,$inner)*))
+    (,$inner_left:expr $(,$inner:expr)*) => {
+        format_args!("{}{}", $inner_left, parse_double_tag!($(,$inner)*))
     };
     ($tag:ident,) => {
         format_args!("<{}></{}>", $tag, $tag)
     };
-    ($tag:ident) => {
-        format_args!("<{}></{}>", $tag, $tag)
-    };
-    ($tag:ident $(,$inner:expr)+) => {
-        format_args!("<{}>{}</{}>", $tag, tag_inner!($(,$inner)*), $tag)
-    };
-    ($tag:ident $(,.$attr:ident = $value:expr)*) => {
-        format_args!("<{}{}></{}>", $tag, attr_inner!($tag $(,.$attr = $value)*), $tag)
+    ($tag:ident $(,$inner:expr)*) => {
+        format_args!("<{}>{}</{}>", $tag, parse_double_tag!($(,$inner)*), $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
-        format_args!("<{}{}>{}</{}>", $tag, attr_inner!($tag $(,.$attr = $value)*), tag_inner!($(,$inner)*), $tag)
+        format_args!("<{}{}>{}</{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), parse_double_tag!($(,$inner)*), $tag)
     };
 }
 
 #[macro_export]
-macro_rules! tag_no_inner {
+macro_rules! parse_single_tag {
     ($tag:ident,) => {
-        format_args!("<{}>", $tag)
-    };
-    ($tag:ident) => {
-        format_args!("<{}>", $tag)
-    };
-    ($tag:ident $(,.$attr:ident = $value:expr)*) => {
-        format_args!("<{}{}>", $tag, attr_inner!($tag $(,.$attr = $value)*))
-    };
-}
-
-#[macro_export]
-macro_rules! attr_inner {
-    () => { format_args!("{}", "") };
-    ($tag:ident) => { format_args!("{}", "") };
-    ($tag:ident, .$attr:ident = $value:expr) => {
-        {
-            let ident = paste::paste! { [<$attr _>] };
-            $tag.type_check(&ident);
-            format_args!(" {}=\"{}\"", ident.clone(), $value)
-        }
-    };
-    (,.$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {{
-        let ident = paste::paste! { [<$attr _>] };
-        format_args!(" {}=\"{}\"{}", ident.clone(), $value, attr_inner!($(,.$right_attr = $right_expr)*))
-    }};
-    ($tag:ident, .$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {
-        {
-            let ident = paste::paste! { [<$attr _>] };
-            $tag.type_check(&ident);
-            format_args!(" {}=\"{}\"{}", ident.clone(), $value, attr_inner!($(,.$right_attr = $right_expr)*))
-        }
-    };
-}
-
-#[macro_export]
-macro_rules! parse_full_tag {
-    ($tag:ident) => {
-        format_args!("<{}></{}>", $tag, $tag)
-    };
-    ($tag:ident $(,$inner:expr)+) => {
-        format_args!("<{}>{}</{}>", $tag, parse_inner!($($inner)*), $tag)
-    };
-    ($tag:ident $(,.$attr:ident = $value:expr)+) => {
-        format_args!("<{}{}></{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), $tag)
-    };
-    ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
-        format_args!("<{}{}>{}</{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), parse_inner!($($inner)*), $tag)
-    };
-}
-
-#[macro_export]
-macro_rules! parse_inner {
-    ($left:expr $(,$inner:expr)*) => {
-        format_args!("{}{}", $left, parse_inner!($($inner)*))
-    };
-    ($left:expr) => {
-        format_args!("{}", $left)
-    };
-    () => { format_args!("{}", "")
-    };
-}
-
-#[macro_export]
-macro_rules! parse_tag {
-    ($tag:ident) => {
         format_args!("<{}>", $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)*) => {
@@ -2536,21 +2420,23 @@ macro_rules! parse_tag {
 
 #[macro_export]
 macro_rules! parse_attr {
+    () => { format_args!("{}", "") };
     ($tag:ident) => {
         format_args!("{}", "")
     };
     ($tag:ident, .$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {{
         let ident = paste::paste! { [<$attr _>] };
-        format_args!(" {}{}{}", ident.clone(), parse_attr_val!($value), parse_attr!($tag $(,.$right_attr = $right_expr)*))
+        $tag.type_check(&ident);
+        format_args!(" {}{}{}", ident.clone(), parse_val!($value), parse_attr!($tag $(,.$right_attr = $right_expr)*))
     }};
 }
 
 #[macro_export]
-macro_rules! parse_attr_val {
+macro_rules! parse_val {
     () => {
         format_args!("{}", "")
     };
     ($val:expr) => {
-        format_args!("=\"{}\"", "")
+        format_args!("=\"{}\"", $val)
     };
 }
