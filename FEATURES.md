@@ -5,6 +5,7 @@ __**0.10.0**__
 - make css and html parsing recursive descent
 
 ---
+- add doc tests to later tags alphabetically
 - make css and html parsing recursive descent
   * Would make data- attributes, accept-charset, http-equiv, and other css rules easier
 - get data- attributes to work in tags

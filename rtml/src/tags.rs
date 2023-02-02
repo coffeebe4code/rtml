@@ -138,7 +138,7 @@ tagit! {TitleTag, "title", TitleCompat}
 tagit! {TrTag, "tr", TrCompat}
 tagit! {TrackTag, "track", TrackCompat, default, kind, label, src, srclang }
 tagit! {UTag, "u", UCompat}
-tagit! {ULTag, "ul", ULCompat}
+tagit! {UlTag, "ul", UlCompat}
 tagit! {VarTag, "var", VarCompat}
 tagit! {VideoTag, "video", VideoCompat, autoplay, controls, crossorigin, height, loop, muted, playsinline, poster, preload, src, width }
 tagit! {WbrTag, "wbr", WbrCompat}
@@ -207,12 +207,7 @@ macro_rules! abbr {
 /// ```
 #[macro_export]
 macro_rules! address {
-    () => {tag_inner!(AddressTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(AddressTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AddressTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(AddressTag, $($all)*) };
 }
 
 /// # Example
@@ -230,10 +225,7 @@ macro_rules! address {
 /// ```
 #[macro_export]
 macro_rules! area {
-    () => {tag_no_inner!(AreaTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(AreaTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(AreaTag, $($all)*) };
 }
 
 /// # Example
@@ -255,12 +247,7 @@ macro_rules! area {
 /// ```
 #[macro_export]
 macro_rules! article {
-    () => {tag_inner!(ArticleTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ArticleTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ArticleTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(ArticleTag, $($all)*) };
 }
 
 /// # Example
@@ -277,12 +264,7 @@ macro_rules! article {
 /// ```
 #[macro_export]
 macro_rules! aside {
-    () => {tag_inner!(AsideTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(AsideTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(AsideTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(AsideTag, $($all)*) };
 }
 
 /// # Example
@@ -304,10 +286,7 @@ macro_rules! aside {
 /// ```
 #[macro_export]
 macro_rules! audio {
-    () => {tag_no_inner!(AudioTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(AudioTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(AudioTag, $($all)*) };
 }
 
 /// # Example
@@ -324,12 +303,7 @@ macro_rules! audio {
 /// ```
 #[macro_export]
 macro_rules! b {
-    () => {tag_inner!(BTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(BTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(BTag, $($all)*) };
 }
 
 /// # Example
@@ -346,10 +320,7 @@ macro_rules! b {
 /// ```
 #[macro_export]
 macro_rules! base {
-    () => {tag_no_inner!(BaseTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(BaseTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(BaseTag, $($all)*) };
 }
 
 /// # Example
@@ -366,12 +337,7 @@ macro_rules! base {
 /// ```
 #[macro_export]
 macro_rules! bdi {
-    () => {tag_inner!(BdiTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(BdiTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BdiTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(BdiTag, $($all)*) };
 }
 
 /// # Example
@@ -388,12 +354,7 @@ macro_rules! bdi {
 /// ```
 #[macro_export]
 macro_rules! bdo {
-    () => {tag_inner!(BdoTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(BdoTag,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BdoTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(BdoTag, $($all)*) };
 }
 
 /// # Example
@@ -415,12 +376,7 @@ macro_rules! bdo {
 /// ```
 #[macro_export]
 macro_rules! blockquote {
-    () => {tag_inner!(BlockquoteTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(BlockquoteTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(BlockquoteTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(BlockquoteTag, $($all)*) };
 }
 
 /// # Example
@@ -454,9 +410,7 @@ macro_rules! body {
 /// ```
 #[macro_export]
 macro_rules! br {
-    () => {
-        format_args!("<{}>", BrTag)
-    };
+    ($($all:tt)*) => {parse_single_tag!(BrTag, $($all)*) };
 }
 
 /// # Example
@@ -475,12 +429,7 @@ macro_rules! br {
 
 #[macro_export]
 macro_rules! button {
-    () => {tag_inner!(ButtonTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ButtonTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ButtonTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(ButtonTag, $($all)*) };
 }
 
 /// # Example
@@ -502,12 +451,7 @@ macro_rules! button {
 /// ```
 #[macro_export]
 macro_rules! canvas {
-    () => {tag_inner!(CanvasTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(CanvasTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(CanvasTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(CanvasTag, $($all)*) };
 }
 
 /// # Example
@@ -524,12 +468,7 @@ macro_rules! canvas {
 /// ```
 #[macro_export]
 macro_rules! caption {
-    () => {tag_inner!(CaptionTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(CaptionTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(CaptionTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(CaptionTag, $($all)*) };
 }
 
 /// # Example
@@ -546,12 +485,7 @@ macro_rules! caption {
 /// ```
 #[macro_export]
 macro_rules! cite {
-    () => {tag_inner!(CiteTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(CiteTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(CiteTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(CiteTag, $($all)*) };
 }
 
 /// # Example
@@ -568,12 +502,7 @@ macro_rules! cite {
 /// ```
 #[macro_export]
 macro_rules! code {
-    () => {tag_inner!(CodeTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(CodeTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(CodeTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(CodeTag, $($all)*) };
 }
 
 /// # Example
@@ -590,10 +519,7 @@ macro_rules! code {
 /// ```
 #[macro_export]
 macro_rules! col {
-    () => {tag_no_inner!(ColTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(ColTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(ColTag, $($all)*) };
 }
 
 /// # Example
@@ -611,12 +537,7 @@ macro_rules! col {
 /// ```
 #[macro_export]
 macro_rules! colgroup {
-    () => {tag_inner!(ColgroupTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ColgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ColgroupTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(ColgroupTag, $($all)*) };
 }
 
 /// # Example
@@ -638,12 +559,7 @@ macro_rules! colgroup {
 /// ```
 #[macro_export]
 macro_rules! data {
-    () => {tag_inner!(DataTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DataTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DataTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DataTag, $($all)*) };
 }
 
 /// # Example
@@ -660,12 +576,7 @@ macro_rules! data {
 /// ```
 #[macro_export]
 macro_rules! datalist {
-    () => {tag_inner!(DatalistTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DatalistTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DatalistTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DatalistTag, $($all)*) };
 }
 
 /// # Example
@@ -682,12 +593,7 @@ macro_rules! datalist {
 /// ```
 #[macro_export]
 macro_rules! dd {
-    () => {tag_inner!(DdTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DdTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DdTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DdTag, $($all)*) };
 }
 
 /// # Example
@@ -704,12 +610,7 @@ macro_rules! dd {
 /// ```
 #[macro_export]
 macro_rules! del {
-    () => {tag_inner!(DelTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DelTag,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DelTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DelTag, $($all)*) };
 }
 
 /// # Example
@@ -726,12 +627,7 @@ macro_rules! del {
 /// # }
 #[macro_export]
 macro_rules! details {
-    () => {tag_inner!(DetailsTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DetailsTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DetailsTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DetailsTag, $($all)*) };
 }
 
 /// # Example
@@ -748,12 +644,7 @@ macro_rules! details {
 /// ```
 #[macro_export]
 macro_rules! dialog {
-    () => {tag_inner!(DialogTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DialogTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DialogTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DialogTag, $($all)*) };
 }
 
 /// # Example
@@ -787,12 +678,7 @@ macro_rules! div {
 /// ```
 #[macro_export]
 macro_rules! dl {
-    () => {tag_inner!(DlTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DlTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DlTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DlTag, $($all)*) };
 }
 
 /// # Example
@@ -809,12 +695,7 @@ macro_rules! dl {
 /// ```
 #[macro_export]
 macro_rules! dt {
-    () => {tag_inner!(DtTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(DtTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(DtTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(DtTag, $($all)*) };
 }
 
 /// # Example
@@ -831,12 +712,7 @@ macro_rules! dt {
 /// ```
 #[macro_export]
 macro_rules! em {
-    () => {tag_inner!(EmTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(EmTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(EmTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(EmTag, $($all)*) };
 }
 
 /// # Example
@@ -878,12 +754,7 @@ macro_rules! embed {
 /// ```
 #[macro_export]
 macro_rules! fieldset {
-    () => {tag_inner!(FieldsetTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(FieldsetTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FieldsetTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(FieldsetTag, $($all)*) };
 }
 
 /// # Example
@@ -900,12 +771,7 @@ macro_rules! fieldset {
 /// ```
 #[macro_export]
 macro_rules! figcaption {
-    () => {tag_inner!(FigcaptionTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(FigcaptionTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FigcaptionTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(FigcaptionTag, $($all)*) };
 }
 
 /// # Example
@@ -922,12 +788,7 @@ macro_rules! figcaption {
 /// ```
 #[macro_export]
 macro_rules! figure {
-    () => {tag_inner!(FigureTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(FigureTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FigureTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(FigureTag, $($all)*) };
 }
 
 /// # Example
@@ -944,12 +805,7 @@ macro_rules! figure {
 /// ```
 #[macro_export]
 macro_rules! footer {
-    () => {tag_inner!(FooterTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(FooterTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FooterTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(FooterTag, $($all)*) };
 }
 
 /// # Example
@@ -966,12 +822,7 @@ macro_rules! footer {
 /// ```
 #[macro_export]
 macro_rules! form {
-    () => {tag_inner!(FormTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(FormTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(FormTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(FormTag, $($all)*) };
 }
 
 /// # Example
@@ -1005,12 +856,7 @@ macro_rules! h1 {
 /// ```
 #[macro_export]
 macro_rules! h2 {
-    () => {tag_inner!(H2Tag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(H2Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H2Tag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(H2Tag, $($all)*) };
 }
 
 /// # Example
@@ -1027,12 +873,7 @@ macro_rules! h2 {
 /// ```
 #[macro_export]
 macro_rules! h3 {
-    () => {tag_inner!(H3Tag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(H3Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H3Tag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(H3Tag, $($all)*) };
 }
 
 /// # Example
@@ -1049,12 +890,7 @@ macro_rules! h3 {
 /// ```
 #[macro_export]
 macro_rules! h4 {
-    () => {tag_inner!(H4Tag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(H4Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H4Tag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(H4Tag, $($all)*) };
 }
 
 /// # Example
@@ -1071,12 +907,7 @@ macro_rules! h4 {
 /// ```
 #[macro_export]
 macro_rules! h5 {
-    () => {tag_inner!(H5Tag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(H5Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H5Tag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(H5Tag, $($all)*) };
 }
 
 /// # Example
@@ -1093,12 +924,7 @@ macro_rules! h5 {
 /// ```
 #[macro_export]
 macro_rules! h6 {
-    () => {tag_inner!(H6Tag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(H6Tag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(H6Tag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(H6Tag, $($all)*) };
 }
 
 /// # Example
@@ -1132,12 +958,7 @@ macro_rules! head {
 /// ```
 #[macro_export]
 macro_rules! header {
-    () => {tag_inner!(HeaderTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(HeaderTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(HeaderTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(HeaderTag, $($all)*) };
 }
 
 /// # Example
@@ -1154,10 +975,7 @@ macro_rules! header {
 /// ```
 #[macro_export]
 macro_rules! hr {
-    () => {tag_no_inner!(HrTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(HrTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(HrTag, $($all)*) };
 }
 
 /// # Example
@@ -1213,12 +1031,7 @@ macro_rules! html {
 /// ```
 #[macro_export]
 macro_rules! i {
-    () => {tag_inner!(ITag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ITag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ITag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(ITag, $($all)*) };
 }
 
 /// # Example
@@ -1240,12 +1053,7 @@ macro_rules! i {
 /// ```
 #[macro_export]
 macro_rules! iframe {
-    () => {tag_inner!(IframeTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(IframeTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(IframeTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(IframeTag, $($all)*) };
 }
 
 /// # Example
@@ -1262,10 +1070,7 @@ macro_rules! iframe {
 /// ```
 #[macro_export]
 macro_rules! img {
-    () => {tag_no_inner!(ImgTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(ImgTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_img_tag!(ImgTag, $($all)*) };
 }
 
 /// # Example
@@ -1287,10 +1092,7 @@ macro_rules! img {
 /// ```
 #[macro_export]
 macro_rules! input {
-    () => {tag_no_inner!(InputTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(InputTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(InputTag, $($all)*) };
 }
 
 /// # Example
@@ -1307,12 +1109,7 @@ macro_rules! input {
 /// ```
 #[macro_export]
 macro_rules! ins {
-    () => {tag_inner!(InsTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(InsTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(InsTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(InsTag, $($all)*) };
 }
 
 /// # Example
@@ -1329,12 +1126,7 @@ macro_rules! ins {
 /// ```
 #[macro_export]
 macro_rules! kbd {
-    () => {tag_inner!(KbdTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(KbdTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(KbdTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(KbdTag, $($all)*) };
 }
 
 /// # Example
@@ -1351,12 +1143,7 @@ macro_rules! kbd {
 /// ```
 #[macro_export]
 macro_rules! label {
-    () => {tag_inner!(LabelTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(LabelTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(LabelTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(LabelTag, $($all)*) };
 }
 
 /// # Example
@@ -1373,12 +1160,7 @@ macro_rules! label {
 /// ```
 #[macro_export]
 macro_rules! legend {
-    () => {tag_inner!(LegendTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(LegendTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(LegendTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(LegendTag, $($all)*) };
 }
 
 /// # Example
@@ -1400,12 +1182,7 @@ macro_rules! legend {
 /// ```
 #[macro_export]
 macro_rules! li {
-    () => {tag_inner!(LiTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(LiTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(LiTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(LiTag, $($all)*) };
 }
 
 /// # Example
@@ -1422,10 +1199,7 @@ macro_rules! li {
 /// ```
 #[macro_export]
 macro_rules! link {
-    () => {tag_no_inner!(LinkTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(LinkTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(LinkTag, $($all)*) };
 }
 
 /// # Example
@@ -1442,12 +1216,7 @@ macro_rules! link {
 /// ```
 #[macro_export]
 macro_rules! main {
-    () => {tag_inner!(MainTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(MainTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(MainTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(MainTag, $($all)*) };
 }
 
 /// # Example
@@ -1463,12 +1232,7 @@ macro_rules! main {
 /// # }
 #[macro_export]
 macro_rules! map {
-    () => {tag_inner!(MapTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(MapTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(MapTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(MapTag, $($all)*) };
 }
 
 /// # Example
@@ -1485,12 +1249,7 @@ macro_rules! map {
 /// ```
 #[macro_export]
 macro_rules! mark {
-    () => {tag_inner!(MarkTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(MarkTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(MarkTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(MarkTag, $($all)*) };
 }
 
 /// # Example
@@ -1507,12 +1266,7 @@ macro_rules! mark {
 /// ```
 #[macro_export]
 macro_rules! menu {
-    () => {tag_inner!(MenuTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(MenuTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(MenuTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(MenuTag, $($all)*) };
 }
 
 /// # Example
@@ -1529,10 +1283,7 @@ macro_rules! menu {
 /// ```
 #[macro_export]
 macro_rules! meta {
-    () => {tag_no_inner!(MetaTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(MetaTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(MenuTag, $($all)*) };
 }
 
 /// # Example
@@ -1549,12 +1300,7 @@ macro_rules! meta {
 /// ```
 #[macro_export]
 macro_rules! meter {
-    () => {tag_inner!(MeterTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(MeterTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(MeterTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(MeterTag, $($all)*) };
 }
 
 /// # Example
@@ -1571,12 +1317,7 @@ macro_rules! meter {
 /// ```
 #[macro_export]
 macro_rules! nav {
-    () => {tag_inner!(NavTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(NavTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(NavTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(NavTag, $($all)*) };
 }
 
 /// # Example
@@ -1593,12 +1334,7 @@ macro_rules! nav {
 /// ```
 #[macro_export]
 macro_rules! noscript {
-    () => {tag_inner!(NoscriptTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(NoscriptTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(NoscriptTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(NoscriptTag, $($all)*) };
 }
 
 /// # Example
@@ -1615,12 +1351,7 @@ macro_rules! noscript {
 /// ```
 #[macro_export]
 macro_rules! ol {
-    () => {tag_inner!(OlTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(OlTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(OlTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(OlTag, $($all)*) };
 }
 
 /// # Example
@@ -1637,12 +1368,7 @@ macro_rules! ol {
 /// ```
 #[macro_export]
 macro_rules! optgroup {
-    () => {tag_inner!(OptgroupTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(OptgroupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(OptgroupTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(OptgroupTag, $($all)*) };
 }
 
 /// # Example
@@ -1664,12 +1390,7 @@ macro_rules! optgroup {
 /// ```
 #[macro_export]
 macro_rules! option {
-    () => {tag_inner!(OptionTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(OptionTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(OptionTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(OptionTag, $($all)*) };
 }
 
 /// # Example
@@ -1686,12 +1407,7 @@ macro_rules! option {
 /// ```
 #[macro_export]
 macro_rules! output {
-    () => {tag_inner!(OutputTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(OutputTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(OutputTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(OutputTag, $($all)*) };
 }
 
 /// # Example
@@ -1713,12 +1429,7 @@ macro_rules! p {
 
 #[macro_export]
 macro_rules! picture {
-    () => {tag_inner!(PictureTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(PictureTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(PictureTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(PictureTag, $($all)*) };
 }
 
 /// # Example
@@ -1735,12 +1446,7 @@ macro_rules! picture {
 /// ```
 #[macro_export]
 macro_rules! pre {
-    () => {tag_inner!(PreTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(PreTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(PreTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(PreTag, $($all)*) };
 }
 
 /// # Example
@@ -1757,12 +1463,7 @@ macro_rules! pre {
 /// ```
 #[macro_export]
 macro_rules! progress {
-    () => {tag_inner!(ProgressTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ProgressTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ProgressTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(ProgressTag, $($all)*) };
 }
 
 /// # Example
@@ -1784,12 +1485,7 @@ macro_rules! progress {
 /// ```
 #[macro_export]
 macro_rules! q {
-    () => {tag_inner!(QTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(QTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(QTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(QTag, $($all)*) };
 }
 
 /// # Example
@@ -1806,12 +1502,7 @@ macro_rules! q {
 /// ```
 #[macro_export]
 macro_rules! rp {
-    () => {tag_inner!(RpTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(RpTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(RpTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(RpTag, $($all)*) };
 }
 
 /// # Example
@@ -1828,12 +1519,7 @@ macro_rules! rp {
 /// ```
 #[macro_export]
 macro_rules! rt {
-    () => {tag_inner!(RtTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(RtTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(RtTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(RtTag, $($all)*) };
 }
 
 /// # Example
@@ -1850,12 +1536,7 @@ macro_rules! rt {
 /// ```
 #[macro_export]
 macro_rules! ruby {
-    () => {tag_inner!(RubyTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(RubyTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(RubyTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(RubyTag, $($all)*) };
 }
 
 /// # Example
@@ -1872,12 +1553,7 @@ macro_rules! ruby {
 /// ```
 #[macro_export]
 macro_rules! s {
-    () => {tag_inner!(STag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(STag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(STag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(STag, $($all)*) };
 }
 
 /// # Example
@@ -1894,12 +1570,7 @@ macro_rules! s {
 /// ```
 #[macro_export]
 macro_rules! samp {
-    () => {tag_inner!(SampTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SampTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SampTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SampTag, $($all)*) };
 }
 
 /// # Example
@@ -1916,12 +1587,7 @@ macro_rules! samp {
 /// ```
 #[macro_export]
 macro_rules! script {
-    () => {tag_inner!(ScriptTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ScriptTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ScriptTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(ScriptTag, $($all)*) };
 }
 
 /// # Example
@@ -1938,12 +1604,7 @@ macro_rules! script {
 /// ```
 #[macro_export]
 macro_rules! section {
-    () => {tag_inner!(SectionTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SectionTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SectionTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SectionTag, $($all)*) };
 }
 
 /// # Example
@@ -1964,12 +1625,7 @@ macro_rules! section {
 /// ```
 #[macro_export]
 macro_rules! select {
-    () => {tag_inner!(SelectTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SelectTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SelectTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SelectTag, $($all)*) };
 }
 
 /// # Example
@@ -1986,12 +1642,7 @@ macro_rules! select {
 /// ```
 #[macro_export]
 macro_rules! small {
-    () => {tag_inner!(SmallTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SmallTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SmallTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SmallTag, $($all)*) };
 }
 
 /// # Example
@@ -2008,10 +1659,7 @@ macro_rules! small {
 /// ```
 #[macro_export]
 macro_rules! source {
-    () => {tag_no_inner!(SourceTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)*) => {
-        tag_no_inner!(SourceTag ,.$attr_left = $value_left $(,.$attr = $value)*)
-    };
+    ($($all:tt)*) => {parse_single_tag!(SourceTag, $($all)*) };
 }
 
 /// # Example
@@ -2028,12 +1676,7 @@ macro_rules! source {
 /// ```
 #[macro_export]
 macro_rules! span {
-    () => {tag_inner!(SpanTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SpanTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SpanTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SpanTag, $($all)*) };
 }
 
 /// # Example
@@ -2050,12 +1693,7 @@ macro_rules! span {
 /// ```
 #[macro_export]
 macro_rules! strong {
-    () => {tag_inner!(StrongTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(StrongTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(StrongTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(StrongTag, $($all)*) };
 }
 
 /// # Example
@@ -2072,12 +1710,7 @@ macro_rules! strong {
 /// ```
 #[macro_export]
 macro_rules! style {
-    () => {tag_inner!(StyleTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(StyleTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(StyleTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(StyleTag, $($all)*) };
 }
 
 /// # Example
@@ -2094,12 +1727,7 @@ macro_rules! style {
 /// ```
 #[macro_export]
 macro_rules! sub {
-    () => {tag_inner!(SubTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SubTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SubTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SubTag, $($all)*) };
 }
 
 /// # Example
@@ -2116,12 +1744,7 @@ macro_rules! sub {
 /// ```
 #[macro_export]
 macro_rules! summary {
-    () => {tag_inner!(SummaryTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SummaryTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SummaryTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SummaryTag, $($all)*) };
 }
 
 /// # Example
@@ -2138,12 +1761,7 @@ macro_rules! summary {
 /// ```
 #[macro_export]
 macro_rules! sup {
-    () => {tag_inner!(SupTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(SupTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(SupTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(SupTag, $($all)*) };
 }
 
 /// # Example
@@ -2169,12 +1787,7 @@ macro_rules! sup {
 /// ```
 #[macro_export]
 macro_rules! table {
-    () => {tag_inner!(TableTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TableTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TableTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TableTag, $($all)*) };
 }
 
 /// # Example
@@ -2200,12 +1813,7 @@ macro_rules! table {
 /// ```
 #[macro_export]
 macro_rules! tbody {
-    () => {tag_inner!(TbodyTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TbodyTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TbodyTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TbodyTag, $($all)*) };
 }
 
 /// # Example
@@ -2222,12 +1830,7 @@ macro_rules! tbody {
 /// ```
 #[macro_export]
 macro_rules! td {
-    () => {tag_inner!(TdTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TdTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TdTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TdTag, $($all)*) };
 }
 
 /// # Example
@@ -2247,12 +1850,7 @@ macro_rules! td {
 /// ```
 #[macro_export]
 macro_rules! template {
-    () => {tag_inner!(TemplateTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TemplateTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TemplateTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TemplateTag, $($all)*) };
 }
 
 /// # Example
@@ -2269,52 +1867,27 @@ macro_rules! template {
 /// ```
 #[macro_export]
 macro_rules! textarea {
-    () => {tag_inner!(TextareaTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TextareaTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TextareaTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TextareaTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! tfoot {
-    () => {tag_inner!(TfootTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TfootTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TfootTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TfootTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! th {
-    () => {tag_inner!(ThTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(ThTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(ThTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(ThTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! thead {
-    () => {tag_inner!(TheadTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TheadTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TheadTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TheadTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! time {
-    () => {tag_inner!(TimeTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TimeTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TimeTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TimeTag, $($all)*) };
 }
 
 #[macro_export]
@@ -2324,69 +1897,37 @@ macro_rules! title {
 
 #[macro_export]
 macro_rules! tr {
-    () => {tag_inner!(TrTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TrTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TrTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TrTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! track {
-    () => {tag_inner!(TrackTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(TrackTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(TrackTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(TrackTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! u {
-    () => {tag_inner!(UTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(UTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(UTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(UTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! ul {
-    () => {tag_inner!(UlTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(UlTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(UlTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(UlTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! var {
-    () => {tag_inner!(VarTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(VarTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(VarTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(VarTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! video {
-    () => {tag_inner!(VideoTag) };
-    ( .$attr_left:ident = $value_left:expr $(,.$attr:ident = $value:expr)* $(,$inner:expr)* ) => {
-        tag_inner!(VideoTag ,.$attr_left = $value_left $(,.$attr = $value)* $(,$inner)*)
-    };
-    ( $inner_left:expr $(,$inner:expr)*) => { tag_inner!(VideoTag, $inner_left $(,$inner)*)
-    };
+    ($($all:tt)*) => {parse_double_tag!(VideoTag, $($all)*) };
 }
 
 #[macro_export]
 macro_rules! wbr {
-    () => {
-        format_args!("<{}>", WbrTag)
-    };
+    ($($all:tt)*) => {parse_single_tag!(WbrTag, $($all)*) };
 }
 
 #[macro_export]
