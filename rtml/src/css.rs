@@ -1,3 +1,5 @@
+use crate::attributes::*;
+
 pub trait CssSelector {
     fn is_selector(&self) {}
 }
@@ -12,7 +14,9 @@ pub trait CssAttribute: CssSelector {}
 pub trait CssPseudoClass: CssSelector {
     fn is_pseudo_class(&self) {}
 }
-pub trait CssIsParenable {}
+pub trait CssIsParenable {
+    fn is_parenable(&self) {}
+}
 pub trait CssGlobal: CssSelector {}
 
 /// # Example
@@ -808,6 +812,7 @@ macro_rules! pseudo_class {
         {
             let ident = paste::paste!{[<___$head >]};
             CssPseudoClass::is_pseudo_class(&ident);
+            CssIsParenable::is_parenable(&ident);
             format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
         }
     };
@@ -848,8 +853,8 @@ macro_rules! combinator {
     ({$($selector:tt)*} $($next:tt)+) => {
         format_args!("{}{}", css_body!($($selector)*), selector!($($next)*))
     };
-    ([.$attr:ident = $val:expr $(,.$attrs:ident = $vals:expr)*] $($rest:tt)*) => {
-        format_args!("[{}=\"{}\"{}", $attr, $val, selector!($($rest)*))
+    ([$($inner:tt)*] $($next:tt)+) => {
+        format_args!("{}{}", attr_selector!([$($inner)*]), selector!($($next)*))
     };
     ($($rest:tt)*) => {
         format_args!("{}", selector!($($rest)*))
@@ -857,7 +862,21 @@ macro_rules! combinator {
 }
 
 #[macro_export]
-macro_rules! 
+macro_rules! attr_selector {
+    () => {
+        format_args!("{}","")
+    };
+    (,.$attr:ident = $val:expr $(,.$attrs:ident = $vals:expr)*) => {{
+        let ident = paste::paste! { [<$attr _>] };
+
+        format_args!(" {}=\"{}\"{}", ident.clone(), $val, attr_selector!($(,.$attrs = $vals)*))
+    }
+    };
+    ([.$attr:ident = $val:expr $(,.$attrs:ident = $vals:expr)*]) => {{
+        let ident = paste::paste! { [<$attr _>] };
+        format_args!("[{}=\"{}\"{}]", ident.clone(), $val, attr_selector!($(,.$attrs = $vals)*))
+    }};
+}
 
 #[macro_export]
 macro_rules! css_body {
@@ -879,7 +898,7 @@ macro_rules! property {
     ($head:ident : $val:literal) => {{
         let ident = paste::paste!{[<_$head>]};
         CssProperty::is_prop(&ident);
-        format_args!("{}: {};\n  ", ident.clone(), property_value!($val))
+        format_args!("{}: {};\n  ", ident.clone(), property_value!($val).clone())
     }};
     (: $val:literal) => {
         format_args!(": {};\n  ", property_value!($val))

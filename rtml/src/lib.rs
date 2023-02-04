@@ -179,6 +179,17 @@ pub mod tests {
     }
 
     #[test]
+    fn test_attr_selectors() {
+        class!(my_class);
+        assert_eq!(attr_selector!([.href = "#"]).render(), "[href=\"#\"]");
+        assert_eq!(
+            attr_selector!([.href="#", .class=my_class]).render(),
+            "[href=\"#\" class=\"my_class\"]"
+        );
+        assert_eq!(css!(a[.href = "#"] {}).render(), "a[href=\"#\"] {\n  }\n");
+    }
+
+    #[test]
     fn test_css() {
         let css = css!(
             p > div {
@@ -186,7 +197,6 @@ pub mod tests {
             }
             p div {
                 float: "left"
-
             }
         )
         .render();

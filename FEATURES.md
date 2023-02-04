@@ -1,16 +1,16 @@
 ## Feature Roadmap
 
-__**0.11.0**__
+__**0.12.0**__
 
 - add pseudo-classes in css
+- add attribute selectors
 
 ---
-- add doc tests to later tags alphabetically
+- finish universal selector capability
+- add doc tests to the later tags alphabetically
 - get data- attributes to work in tags
 - get chained combinators working (might need a special character)
 - parse on - for accept_charset and http_equiv
-- add attribute selectors in css
-- add pseudo-elements in css
 - add at-rules in css
 - add functions in css
 - add property values in css
