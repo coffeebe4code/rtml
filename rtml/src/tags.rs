@@ -1983,10 +1983,10 @@ macro_rules! parse_attr {
     ($tag:ident) => {
         format_args!("{}", "")
     };
-    ($tag:ident, .$attr:ident = $value:expr $(,.$right_attr:ident = $right_expr:expr)*) => {{
-        let ident = paste::paste! { [<$attr _>] };
+    ($tag:ident, .$attr:ident$(-$next:ident)* = $value:expr $(,.$right_attr:ident$(-$nexts:ident)* = $right_expr:expr)*) => {{
+        let ident = paste::paste! { [<$attr $(_$next)*_>] };
         $tag.type_check(&ident);
-        format_args!(" {}{}{}", ident.clone(), parse_val!($value), parse_attr!($tag $(,.$right_attr = $right_expr)*))
+        format_args!(" {}{}{}", ident.clone(), parse_val!($value), parse_attr!($tag $(,.$right_attr$(-$nexts)* = $right_expr)*))
     }};
 }
 

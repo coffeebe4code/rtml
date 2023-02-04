@@ -99,16 +99,6 @@ The major difference between real inline css and rcss is that values are in stri
 Attribute selectors, Pseudo-classes, Pseudo-elements, At-rules, and functions are not yet implemented.
 Css Properties, Selectors, and Combinators are implemented in full.
 
-
-__**Attributes**__
-
-There are two attributes that have been changed to make parsing easier as '-' is not a valid token stream in an identifier. 
-
-| html5 | rtml |
-|:------|:-----|
-| http-equiv | http_equiv |
-| accept-charset | accept_charset |
-
 __**Type Safe Attributes**__
 
 rtml allows an additional layer of type safety with tag use. For example,

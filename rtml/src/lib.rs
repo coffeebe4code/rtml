@@ -71,20 +71,39 @@ pub mod tests {
     #[test]
     fn test_attr_inner() {
         assert_eq!(parse_attr!(ATag,.href = "link").render(), " href=\"link\"");
+        assert_eq!(parse_attr!(ATag,.href = "link").render(), " href=\"link\"");
         assert_eq!(
             parse_attr!(ATag, .href = "link", .download = "yes please", .hreflang="en").render(),
             " href=\"link\" download=\"yes please\" hreflang=\"en\""
         );
         assert_eq!(parse_attr!().render(), "");
         assert_eq!(
+            parse_attr!(MetaTag, .http-equiv="value").render(),
+            " http-equiv=\"value\""
+        );
+        assert_eq!(
+            parse_attr!(FormTag, .accept-charset="value").render(),
+            " accept-charset=\"value\""
+        );
+        assert_eq!(
             parse_attr!(FieldsetTag, .name = "yes").render(),
             " name=\"yes\""
+        );
+        make_data!(cy - optional);
+        make_data!(cy);
+        assert_eq!(
+            parse_attr!(FormTag, .data-cy-optional = "link").render(),
+            " data-cy-optional=\"link\""
+        );
+        assert_eq!(
+            parse_attr!(FormTag, .data-cy = "link").render(),
+            " data-cy=\"link\""
         );
     }
 
     #[test]
     fn test_ids() {
-        id!(my_id);
+        make_id!(my_id);
         let css = css!(
         #my_id {
             color: "red"
@@ -163,7 +182,7 @@ pub mod tests {
 
     #[test]
     fn test_selector_and_class() {
-        class!(my_class);
+        make_class!(my_class);
         assert_eq!(selector!(.my_class {}).render(), ".my_class {\n  }\n");
         assert_eq!(
             selector!(.my_class {background-color: "red"}).render(),
@@ -180,11 +199,16 @@ pub mod tests {
 
     #[test]
     fn test_attr_selectors() {
-        class!(my_class);
+        make_class!(my_class);
+        make_data!(test);
         assert_eq!(attr_selector!([.href = "#"]).render(), "[href=\"#\"]");
         assert_eq!(
             attr_selector!([.href="#", .class=my_class]).render(),
             "[href=\"#\" class=\"my_class\"]"
+        );
+        assert_eq!(
+            attr_selector!([.data-test="#", .class=my_class]).render(),
+            "[data-test=\"#\" class=\"my_class\"]"
         );
         assert_eq!(css!(a[.href = "#"] {}).render(), "a[href=\"#\"] {\n  }\n");
     }

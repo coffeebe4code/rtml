@@ -1,5 +1,3 @@
-use crate::attributes::*;
-
 pub trait CssSelector {
     fn is_selector(&self) {}
 }
@@ -26,7 +24,7 @@ pub trait CssGlobal: CssSelector {}
 /// use rtml::*;
 ///
 /// // create your own custom class.
-/// class!(my_class);
+/// make_class!(my_class);
 /// let css = css!(
 ///     .my_class {
 ///         color: "red"
@@ -48,7 +46,7 @@ pub trait CssGlobal: CssSelector {}
 /// ```
 
 #[macro_export]
-macro_rules! class {
+macro_rules! make_class {
     ($ident:ident) => {
         #[allow(non_camel_case_types)]
         #[derive(Clone)]
@@ -71,7 +69,7 @@ macro_rules! class {
 /// use rtml::*;
 ///
 /// // create your own custom id.
-/// id!(my_id);
+/// make_id!(my_id);
 /// let css = css!(
 ///     #my_id {
 ///         color: "red"
@@ -92,7 +90,7 @@ macro_rules! class {
 /// # }
 /// ```
 #[macro_export]
-macro_rules! id {
+macro_rules! make_id {
     ($ident:ident) => {
         #[allow(non_camel_case_types)]
         #[derive(Clone)]
@@ -866,15 +864,15 @@ macro_rules! attr_selector {
     () => {
         format_args!("{}","")
     };
-    (,.$attr:ident = $val:expr $(,.$attrs:ident = $vals:expr)*) => {{
-        let ident = paste::paste! { [<$attr _>] };
+    (,.$attr:ident$(-$next:ident)* = $val:expr $(,.$attrs:ident$(-$nexts:ident)* = $vals:expr)*) => {{
+        let ident = paste::paste! { [<$attr $(_$next)*_>] };
 
-        format_args!(" {}=\"{}\"{}", ident.clone(), $val, attr_selector!($(,.$attrs = $vals)*))
+        format_args!(" {}=\"{}\"{}", ident.clone(), $val, attr_selector!($(,.$attrs$(-$nexts)* = $vals)*))
     }
     };
-    ([.$attr:ident = $val:expr $(,.$attrs:ident = $vals:expr)*]) => {{
-        let ident = paste::paste! { [<$attr _>] };
-        format_args!("[{}=\"{}\"{}]", ident.clone(), $val, attr_selector!($(,.$attrs = $vals)*))
+    ([.$attr:ident$(-$next:ident)* = $val:expr $(,.$attrs:ident$(-$nexts:ident)* = $vals:expr)*]) => {{
+        let ident = paste::paste! { [<$attr $(_$next)*_>] };
+        format_args!("[{}=\"{}\"{}]", ident.clone(), $val, attr_selector!($(,.$attrs$(-$nexts)* = $vals)*))
     }};
 }
 
