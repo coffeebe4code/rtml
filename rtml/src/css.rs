@@ -848,10 +848,16 @@ macro_rules! combinator {
     ({$($selector:tt)*} $($next:tt)+) => {
         format_args!("{}{}", css_body!($($selector)*), selector!($($next)*))
     };
+    ([.$attr:ident = $val:expr $(,.$attrs:ident = $vals:expr)*] $($rest:tt)*) => {
+        format_args!("[{}=\"{}\"{}", $attr, $val, selector!($($rest)*))
+    };
     ($($rest:tt)*) => {
         format_args!("{}", selector!($($rest)*))
     };
 }
+
+#[macro_export]
+macro_rules! 
 
 #[macro_export]
 macro_rules! css_body {
