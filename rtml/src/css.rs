@@ -12,6 +12,10 @@ pub trait CssAttribute: CssSelector {}
 pub trait CssPseudoClass: CssSelector {
     fn is_pseudo_class(&self) {}
 }
+
+pub trait CssPseudoElement: CssSelector {
+    fn is_pseudo_element(&self) {}
+}
 pub trait CssIsParenable {
     fn is_parenable(&self) {}
 }
@@ -734,6 +738,40 @@ pseudoclassit!(visited, "valid");
 pseudoclassit!(where, "where");
 parenable!(where);
 
+macro_rules! pseudoelementit {
+    ($ident:ident, $lit:literal) => {
+        paste::paste! {
+        #[derive(Clone)]
+        #[allow(non_camel_case_types)]
+        pub struct [<___$ident>];
+        impl CssPseudoElement for [<___$ident>] {}
+        impl CssSelector for [<___$ident>] {}
+
+        impl std::fmt::Display for [<___$ident>] {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                return write!(f, "{}", $lit);
+            }
+        }
+        }
+    };
+}
+
+pseudoelementit!(after, "after");
+pseudoelementit!(backdrop, "backdrop");
+pseudoelementit!(before, "before");
+pseudoelementit!(cue, "cue");
+pseudoelementit!(cue_region, "cue-region");
+pseudoelementit!(file_selector_button, "file-selector-button");
+pseudoelementit!(first_letter, "first-letter");
+pseudoelementit!(first_line, "first-line");
+pseudoelementit!(marker, "marker");
+pseudoelementit!(part, "part");
+parenable!(part);
+pseudoelementit!(placeholder, "placeholder");
+pseudoelementit!(selection, "selection");
+pseudoelementit!(slotted, "slotted");
+parenable!(slotted);
+
 /// # Example
 /// ```
 /// # #[macro_use] extern crate rtml;
@@ -779,6 +817,9 @@ macro_rules! selector {
     (:$($inner:tt)*) => {
         pseudo_class!($($inner)*)
     };
+    (::$($inner:tt)*) => {
+        pseudo_element!($($inner)*)
+    };
     (* $($inner:tt)*) => {
         format_args!("*{}", combinator!($($inner)*))
     };
@@ -792,36 +833,40 @@ macro_rules! selector {
 
 #[macro_export]
 macro_rules! pseudo_class {
-    ($head:ident$(-$next:ident)+ ($lit:expr) $($rest:tt)+) => {
+    ($head:ident$(-$next:ident)* ($lit:expr) $($rest:tt)+) => {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoClass::is_pseudo_class(&ident);
             format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
         }
     };
-    ($head:ident$(-$next:ident)+ $($rest:tt)+) => {
+    ($head:ident$(-$next:ident)* $($rest:tt)+) => {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoClass::is_pseudo_class(&ident);
             format_args!(":{}{}", ident.clone(), combinator!($($rest)*))
         }
     };
-    ($head:ident ($lit:expr) $($rest:tt)+) => {
+}
+
+#[macro_export]
+macro_rules! pseudo_element {
+    ($head:ident$(-$next:ident)* $($rest:tt)+) => {
         {
-            let ident = paste::paste!{[<___$head >]};
-            CssPseudoClass::is_pseudo_class(&ident);
-            CssIsParenable::is_parenable(&ident);
-            format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
+            let ident = paste::paste!{[<___$head $(_$next)*>]};
+            CssPseudoElement::is_pseudo_element(&ident);
+            format_args!("::{}{}", ident.clone(), combinator!($($rest)*))
+        }
+
+    };
+    ($head:ident$(-$next:ident)* ($lit:expr) $($rest:tt)+) => {
+        {
+            let ident = paste::paste!{[<___$head $(_$next)*>]};
+            CssPseudoElement::is_pseudo_element(&ident);
+            format_args!("::{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
         }
     };
-    ($head:ident $($rest:tt)+) => {
-        {
-            let ident = paste::paste!{[<___$head >]};
-            CssPseudoClass::is_pseudo_class(&ident);
-            format_args!(":{}{}", ident.clone(), combinator!($($rest)*))
-        }
-    };
-    }
+}
 
 #[macro_export]
 macro_rules! combinator {

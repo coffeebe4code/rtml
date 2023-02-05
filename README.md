@@ -96,9 +96,9 @@ fn main() {
 
 The major difference between real inline css and rcss is that values are in strings. type safe values are not yet supported. Another difference is that properties are split on commas `,` instead of semicolons `;`
 
-Pseudo-elements, At-rules, and Functions are not yet implemented.
+At-rules and Functions are not yet implemented.
 
-__**Type Safe Attributes**__
+__**Type Safe HTML Attributes**__
 
 rtml allows an additional layer of type safety with tag use. For example,
 

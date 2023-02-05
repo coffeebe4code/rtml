@@ -195,6 +195,13 @@ pub mod tests {
         assert_eq!(pseudo_class!(active {}).render(), ":active {\n  }\n");
         assert_eq!(pseudo_class!(dir("rtl") {}).render(), ":dir(rtl) {\n  }\n");
         assert_eq!(css!(p:dir("rtl") {}).render(), "p:dir(rtl) {\n  }\n");
+        assert_eq!(css!(div:hover p {}).render(), "div:hover p {\n  }\n");
+    }
+
+    #[test]
+    fn test_pseudo_elements() {
+        assert_eq!(pseudo_element!(after {}).render(), "::after {\n  }\n");
+        assert_eq!(css!(p::after {}).render(), "p::after {\n  }\n");
     }
 
     #[test]
