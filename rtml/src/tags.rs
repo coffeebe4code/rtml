@@ -2148,26 +2148,26 @@ macro_rules! parse_double_tag {
         ""
     };
     (,$inner_left:expr $(,$inner:expr)*) => {
-        format_args!("{}{}", $inner_left, parse_double_tag!($(,$inner)*))
+        render_fn!("{}{}", $inner_left, parse_double_tag!($(,$inner)*))
     };
     ($tag:ident,) => {
-        format_args!("<{}></{}>", $tag, $tag)
+        render_fn!("<{}></{}>", $tag, $tag)
     };
     ($tag:ident $(,$inner:expr)*) => {
-        format_args!("<{}>{}</{}>", $tag, parse_double_tag!($(,$inner)*), $tag)
+        render_fn!("<{}>{}</{}>", $tag, parse_double_tag!($(,$inner)*), $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)* $(,$inner:expr)*) => {
-        format_args!("<{}{}>{}</{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), parse_double_tag!($(,$inner)*), $tag)
+        render_fn!("<{}{}>{}</{}>", $tag, parse_attr!($tag $(,.$attr = $value)*), parse_double_tag!($(,$inner)*), $tag)
     };
 }
 
 #[macro_export]
 macro_rules! parse_single_tag {
     ($tag:ident,) => {
-        format_args!("<{}>", $tag)
+        render_fn!("<{}>", $tag)
     };
     ($tag:ident $(,.$attr:ident = $value:expr)*) => {
-        format_args!("<{}{}>", $tag, parse_attr!($tag $(,.$attr = $value)*))
+        render_fn!("<{}{}>", $tag, parse_attr!($tag $(,.$attr = $value)*))
     };
 }
 
@@ -2180,7 +2180,7 @@ macro_rules! parse_attr {
     ($tag:ident, .$attr:ident$(-$next:ident)* = $value:expr $(,.$right_attr:ident$(-$nexts:ident)* = $right_expr:expr)*) => {{
         let ident = paste::paste! { [<$attr $(_$next)*_>] };
         $tag.type_check(&ident);
-        format_args!(" {}{}{}", ident.clone(), parse_val!($value), parse_attr!($tag $(,.$right_attr$(-$nexts)* = $right_expr)*))
+        render_fn!(" {}{}{}", ident, parse_val!($value), parse_attr!($tag $(,.$right_attr$(-$nexts)* = $right_expr)*))
     }};
 }
 
@@ -2190,6 +2190,6 @@ macro_rules! parse_val {
         ""
     };
     ($val:expr) => {
-        format_args!("=\"{}\"", $val)
+        render_fn!("=\"{}\"", $val)
     };
 }

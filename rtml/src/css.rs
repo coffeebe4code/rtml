@@ -803,16 +803,16 @@ macro_rules! css {
 macro_rules! selector {
     (.$class:ident $($inner:tt)*) => {{
         CssClass::is_class(&$class);
-        format_args!(".{}{}", $class.clone(), combinator!($($inner)*))
+        render_fn!(".{}{}", $class, combinator!($($inner)*))
     }};
     (#$id:ident $($inner:tt)*) => {{
         CssId::is_id(&$id);
-        format_args!("#{}{}", $id.clone(), combinator!($($inner)*))
+        render_fn!("#{}{}", $id, combinator!($($inner)*))
     }};
     ($tag:ident $($inner:tt)*) => {{
         let ident = paste::paste! { [< _ $tag _ >] };
         CssSelector::is_selector(&ident);
-        format_args!("{}{}", ident.clone(), combinator!($($inner)*))
+        render_fn!("{}{}", ident, combinator!($($inner)*))
     }};
     (:$($inner:tt)*) => {
         pseudo_class!($($inner)*)
@@ -821,13 +821,13 @@ macro_rules! selector {
         pseudo_element!($($inner)*)
     };
     (* $($inner:tt)*) => {
-        format_args!("*{}", combinator!($($inner)*))
+        render_fn!("*{}", combinator!($($inner)*))
     };
     ({ $($inner:tt)* }) => {
         css_body!($($inner)*)
     };
     ({ $($inner:tt)* } $($next:tt)+) => {
-        format_args!("{}{}", css_body!($($inner)*), selector!($($next)*))
+        render_fn!("{}{}", css_body!($($inner)*), selector!($($next)*))
     };
 }
 
@@ -837,14 +837,14 @@ macro_rules! pseudo_class {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoClass::is_pseudo_class(&ident);
-            format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
+            render_fn!(":{}({}){}", ident, $lit, combinator!($($rest)*))
         }
     };
     ($head:ident$(-$next:ident)* $($rest:tt)+) => {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoClass::is_pseudo_class(&ident);
-            format_args!(":{}{}", ident.clone(), combinator!($($rest)*))
+            render_fn!(":{}{}", ident, combinator!($($rest)*))
         }
     };
 }
@@ -855,7 +855,7 @@ macro_rules! pseudo_element {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoElement::is_pseudo_element(&ident);
-            format_args!("::{}{}", ident.clone(), combinator!($($rest)*))
+            render_fn!("::{}{}", ident, combinator!($($rest)*))
         }
 
     };
@@ -863,7 +863,7 @@ macro_rules! pseudo_element {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoElement::is_pseudo_element(&ident);
-            format_args!("::{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
+            render_fn!("::{}({}){}", ident, $lit, combinator!($($rest)*))
         }
     };
 }
@@ -871,33 +871,33 @@ macro_rules! pseudo_element {
 #[macro_export]
 macro_rules! combinator {
     (~ $($selector:tt)+) => {
-        format_args!(" ~ {}", selector!($($selector)*))
+        render_fn!(" ~ {}", selector!($($selector)*))
     };
     (+ $($selector:tt)+) => {
-        format_args!(" + {}", selector!($($selector)*))
+        render_fn!(" + {}", selector!($($selector)*))
     };
     (, $($selector:tt)+) => {
-        format_args!(",\n{}", selector!($($selector)*))
+        render_fn!(",\n{}", selector!($($selector)*))
     };
     (> $($selector:tt)+) => {
-        format_args!(" > {}", selector!($($selector)*))
+        render_fn!(" > {}", selector!($($selector)*))
     };
     ($head:ident $($selector:tt)+) => {{
         let ident = paste::paste! { [< _ $head _ >] };
         CssSelector::is_selector(&ident);
-        format_args!(" {}{}", ident.clone(), selector!($($selector)*))
+        render_fn!(" {}{}", ident, selector!($($selector)*))
     }};
     (_ $($selector:tt)+) => {
-        format_args!(" {}", selector!($($selector)*))
+        render_fn!(" {}", selector!($($selector)*))
     };
     ({$($selector:tt)*}) => {
         css_body!($($selector)*)
     };
     ({$($selector:tt)*} $($next:tt)+) => {
-        format_args!("{}{}", css_body!($($selector)*), selector!($($next)*))
+        render_fn!("{}{}", css_body!($($selector)*), selector!($($next)*))
     };
     ([$($inner:tt)*] $($next:tt)+) => {
-        format_args!("{}{}", attr_selector!([$($inner)*]), selector!($($next)*))
+        render_fn!("{}{}", attr_selector!([$($inner)*]), selector!($($next)*))
     };
     ($($rest:tt)*) => {
         selector!($($rest)*)
@@ -912,19 +912,19 @@ macro_rules! attr_selector {
     (,.$attr:ident$(-$next:ident)* = $val:expr $(,.$attrs:ident$(-$nexts:ident)* = $vals:expr)*) => {{
         let ident = paste::paste! { [<$attr $(_$next)*_>] };
 
-        format_args!(" {}=\"{}\"{}", ident.clone(), $val, attr_selector!($(,.$attrs$(-$nexts)* = $vals)*))
+        render_fn!(" {}=\"{}\"{}", ident, $val, attr_selector!($(,.$attrs$(-$nexts)* = $vals)*))
     }
     };
     ([.$attr:ident$(-$next:ident)* = $val:expr $(,.$attrs:ident$(-$nexts:ident)* = $vals:expr)*]) => {{
         let ident = paste::paste! { [<$attr $(_$next)*_>] };
-        format_args!("[{}=\"{}\"{}]", ident.clone(), $val, attr_selector!($(,.$attrs$(-$nexts)* = $vals)*))
+        render_fn!("[{}=\"{}\"{}]", ident,$val, attr_selector!($(,.$attrs$(-$nexts)* = $vals)*))
     }};
 }
 
 #[macro_export]
 macro_rules! css_body {
     ($($inner:tt)*) => {
-        format_args!(" {{\n  {}}}\n", property!($($inner)*))
+        render_fn!(" {{\n  {}}}\n", property!($($inner)*))
     };
 }
 
@@ -941,33 +941,33 @@ macro_rules! property {
     ($head:ident : $val:literal) => {{
         let ident = paste::paste!{[<_$head>]};
         CssProperty::is_prop(&ident);
-        format_args!("{}: {};\n  ", ident.clone(), property_value!($val).clone())
+        render_fn!("{}: {};\n  ", ident, property_value!($val))
     }};
     (: $val:literal) => {
-        format_args!(": {};\n  ", property_value!($val))
+        render_fn!(": {};\n  ", property_value!($val))
     };
     (: $val:literal, $($next:tt)*) => {
-        format_args!(": {};\n  {}", property_value!($val), property!($($next)*))
+        render_fn!(": {};\n  {}", property_value!($val), property!($($next)*))
     };
     ($head:ident : $val:literal, $($next:tt)*) => {{
             let ident = paste::paste!{[<_$head>]};
             CssProperty::is_prop(&ident);
 
-        format_args!("{}: {};\n  {}", ident.clone(), property_value!($val), property!($($next)*))
+        render_fn!("{}: {};\n  {}", ident, property_value!($val), property!($($next)*))
     }
     };
     ($head:ident$(-$next:ident)+: $($rest:tt)*) => {
         {
             let ident = paste::paste!{[<_$head $(_$next)*>]};
             CssProperty::is_prop(&ident);
-            format_args!("{}{}", ident.clone(), property!(: $($rest)*))
+            render_fn!("{}{}", ident, property!(: $($rest)*))
         }
     };
     (-$head:ident$(-$next:ident)+: $($rest:tt)*) => {
         {
             let ident = paste::paste!{[<__$head $(_$next)*>]};
             CssProperty::is_prop(&ident);
-            format_args!("{}{}", ident.clone(), property!(: $($rest)*))
+            render_fn!("{}{}", ident, property!(: $($rest)*))
         }
     };
 }

@@ -7,12 +7,6 @@ pub trait EventAttribute {}
 
 pub trait Attribute: Display + 'static {}
 
-pub trait AttributeValue: ToString {
-    fn render(&self) -> String {
-        self.to_string()
-    }
-}
-
 #[macro_export]
 macro_rules! allattrs {
     ($attr:ident) => {

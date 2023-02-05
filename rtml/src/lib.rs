@@ -245,19 +245,19 @@ pub mod tests {
             p div {
                 float: "left"
             }
-        )
-        .render();
+        );
 
         assert_eq!(
-            css,
+            css.render(),
             "p > div {\n  background-color: green;\n  }\np div {\n  float: left;\n  }\n"
         );
     }
 
     #[test]
     fn test_css_render() {
-        let css = property_value!("left");
-
-        assert_eq!(css.render(), "left");
+        let property_value = property_value!("left");
+        assert_eq!(property_value.render(), "left");
+        let property = property!(float: "left");
+        assert_eq!(property.render(), "float: left;\n  ");
     }
 }
