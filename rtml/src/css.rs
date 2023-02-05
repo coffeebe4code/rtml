@@ -795,7 +795,7 @@ parenable!(slotted);
 #[macro_export]
 macro_rules! css {
     ($($next:tt)*) => {
-        format_args!("{}", selector!($($next)*))
+        selector!($($next)*)
     };
 }
 
@@ -824,7 +824,7 @@ macro_rules! selector {
         format_args!("*{}", combinator!($($inner)*))
     };
     ({ $($inner:tt)* }) => {
-        format_args!("{}", css_body!($($inner)*))
+        css_body!($($inner)*)
     };
     ({ $($inner:tt)* } $($next:tt)+) => {
         format_args!("{}{}", css_body!($($inner)*), selector!($($next)*))
@@ -891,7 +891,7 @@ macro_rules! combinator {
         format_args!(" {}", selector!($($selector)*))
     };
     ({$($selector:tt)*}) => {
-        format_args!("{}", css_body!($($selector)*))
+        css_body!($($selector)*)
     };
     ({$($selector:tt)*} $($next:tt)+) => {
         format_args!("{}{}", css_body!($($selector)*), selector!($($next)*))
@@ -900,14 +900,14 @@ macro_rules! combinator {
         format_args!("{}{}", attr_selector!([$($inner)*]), selector!($($next)*))
     };
     ($($rest:tt)*) => {
-        format_args!("{}", selector!($($rest)*))
+        selector!($($rest)*)
     };
 }
 
 #[macro_export]
 macro_rules! attr_selector {
     () => {
-        format_args!("{}","")
+        ""
     };
     (,.$attr:ident$(-$next:ident)* = $val:expr $(,.$attrs:ident$(-$nexts:ident)* = $vals:expr)*) => {{
         let ident = paste::paste! { [<$attr $(_$next)*_>] };
@@ -931,7 +931,7 @@ macro_rules! css_body {
 #[macro_export]
 macro_rules! property_value {
     ($val:literal) => {
-        format_args!("{}", $val)
+        $val
     };
 }
 

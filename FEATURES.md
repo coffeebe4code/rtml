@@ -1,10 +1,9 @@
 ## Feature Roadmap
 
-__**0.14.0**__
+__**0.15.0**__
 
-- add pseudo elements in css
-- finish universal selector capability
-- add doc tests to the later tags alphabetically
+- rework format_args so render can be deferred
+- removed some format_args that were not necessary
 
 ---
 - add trailing commas back to tags

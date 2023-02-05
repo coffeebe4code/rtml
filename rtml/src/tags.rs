@@ -2145,7 +2145,7 @@ macro_rules! wbr {
 #[macro_export]
 macro_rules! parse_double_tag {
     () => {
-        format_args!("{}", "")
+        ""
     };
     (,$inner_left:expr $(,$inner:expr)*) => {
         format_args!("{}{}", $inner_left, parse_double_tag!($(,$inner)*))
@@ -2173,9 +2173,9 @@ macro_rules! parse_single_tag {
 
 #[macro_export]
 macro_rules! parse_attr {
-    () => { format_args!("{}", "") };
+    () => { "" };
     ($tag:ident) => {
-        format_args!("{}", "")
+        ""
     };
     ($tag:ident, .$attr:ident$(-$next:ident)* = $value:expr $(,.$right_attr:ident$(-$nexts:ident)* = $right_expr:expr)*) => {{
         let ident = paste::paste! { [<$attr $(_$next)*_>] };
@@ -2187,7 +2187,7 @@ macro_rules! parse_attr {
 #[macro_export]
 macro_rules! parse_val {
     () => {
-        format_args!("{}", "")
+        ""
     };
     ($val:expr) => {
         format_args!("=\"{}\"", $val)

@@ -253,4 +253,11 @@ pub mod tests {
             "p > div {\n  background-color: green;\n  }\np div {\n  float: left;\n  }\n"
         );
     }
+
+    #[test]
+    fn test_css_render() {
+        let css = property_value!("left");
+
+        assert_eq!(css.render(), "left");
+    }
 }
