@@ -777,7 +777,7 @@ macro_rules! selector {
         format_args!("{}{}", ident.clone(), combinator!($($inner)*))
     }};
     (:$($inner:tt)*) => {
-        pseudo_class!(:$($inner)*)
+        pseudo_class!($($inner)*)
     };
     (* $($inner:tt)*) => {
         format_args!("*{}", combinator!($($inner)*))
@@ -792,21 +792,21 @@ macro_rules! selector {
 
 #[macro_export]
 macro_rules! pseudo_class {
-    (:$head:ident$(-$next:ident)+ ($lit:expr) $($rest:tt)+) => {
+    ($head:ident$(-$next:ident)+ ($lit:expr) $($rest:tt)+) => {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoClass::is_pseudo_class(&ident);
             format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
         }
     };
-    (:$head:ident$(-$next:ident)+ $($rest:tt)+) => {
+    ($head:ident$(-$next:ident)+ $($rest:tt)+) => {
         {
             let ident = paste::paste!{[<___$head $(_$next)*>]};
             CssPseudoClass::is_pseudo_class(&ident);
             format_args!(":{}{}", ident.clone(), combinator!($($rest)*))
         }
     };
-    (:$head:ident ($lit:expr) $($rest:tt)+) => {
+    ($head:ident ($lit:expr) $($rest:tt)+) => {
         {
             let ident = paste::paste!{[<___$head >]};
             CssPseudoClass::is_pseudo_class(&ident);
@@ -814,7 +814,7 @@ macro_rules! pseudo_class {
             format_args!(":{}({}){}", ident.clone(), $lit, combinator!($($rest)*))
         }
     };
-    (:$head:ident $($rest:tt)+) => {
+    ($head:ident $($rest:tt)+) => {
         {
             let ident = paste::paste!{[<___$head >]};
             CssPseudoClass::is_pseudo_class(&ident);

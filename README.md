@@ -96,8 +96,7 @@ fn main() {
 
 The major difference between real inline css and rcss is that values are in strings. type safe values are not yet supported. Another difference is that properties are split on commas `,` instead of semicolons `;`
 
-Attribute selectors, Pseudo-classes, Pseudo-elements, At-rules, and functions are not yet implemented.
-Css Properties, Selectors, and Combinators are implemented in full.
+Pseudo-elements, At-rules, and Functions are not yet implemented.
 
 __**Type Safe Attributes**__
 

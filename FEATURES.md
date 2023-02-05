@@ -1,13 +1,12 @@
 ## Feature Roadmap
 
-__**0.13.0**__
+__**0.14.0**__
 
-- get data- attributes to work in tags
-- parse on - for accept_charset and http_equiv
-
----
+- add pseudo elements in css
 - finish universal selector capability
 - add doc tests to the later tags alphabetically
+
+---
 - get chained combinators working (might need a special character)
 - add at-rules in css
 - add functions in css

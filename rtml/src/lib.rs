@@ -192,8 +192,8 @@ pub mod tests {
 
     #[test]
     fn test_pseudo_class() {
-        assert_eq!(pseudo_class!(:active {}).render(), ":active {\n  }\n");
-        assert_eq!(pseudo_class!(:dir("rtl") {}).render(), ":dir(rtl) {\n  }\n");
+        assert_eq!(pseudo_class!(active {}).render(), ":active {\n  }\n");
+        assert_eq!(pseudo_class!(dir("rtl") {}).render(), ":dir(rtl) {\n  }\n");
         assert_eq!(css!(p:dir("rtl") {}).render(), "p:dir(rtl) {\n  }\n");
     }
 
