@@ -1893,56 +1893,250 @@ macro_rules! tfoot {
     ($($all:tt)*) => {parse_double_tag!(TfootTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     table![
+///         thead![
+///             tr![
+///                 th!["Header 1"]
+///             ]
+///         ],
+///         tbody![
+///             tr![
+///                 td!["Cell 1,1"]
+///             ]
+///         ],
+///         tfoot![
+///             tr![
+///                 td!["Footer 1"]
+///             ]
+///         ]
+///     ].render(),
+///     "<table><thead><tr><th>Header 1</th></tr></thead><tbody><tr><td>Cell 1,1</td></tr></tbody><tfoot><tr><td>Footer 1</td></tr></tfoot></table>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! th {
     ($($all:tt)*) => {parse_double_tag!(ThTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     table![
+///         thead![
+///             tr![
+///                 th!["Header 1"]
+///             ]
+///         ],
+///         tbody![
+///             tr![
+///                 td!["Cell 1,1"]
+///             ]
+///         ],
+///         tfoot![
+///             tr![
+///                 td!["Footer 1"]
+///             ]
+///         ]
+///     ].render(),
+///     "<table><thead><tr><th>Header 1</th></tr></thead><tbody><tr><td>Cell 1,1</td></tr></tbody><tfoot><tr><td>Footer 1</td></tr></tfoot></table>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! thead {
     ($($all:tt)*) => {parse_double_tag!(TheadTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     time![
+///         .datetime="2022-07-05T18:00:00Z",
+///         "July 5th, 2022 6:00 PM"
+///     ].render(),
+///     "<time datetime=\"2022-07-05T18:00:00Z\">July 5th, 2022 6:00 PM</time>"
+///     );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! time {
     ($($all:tt)*) => {parse_double_tag!(TimeTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     title![
+///         "Page Title"
+///     ].render(),
+///     "<title>Page Title</title>"
+///     );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! title {
     ($($all:tt)*) => {parse_double_tag!(TitleTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     table![
+///         tr![
+///             td!["Cell 1,1"]
+///         ],
+///         tfoot![
+///             tr![
+///                 td!["Footer 1"]
+///             ]
+///         ]
+///     ].render(),
+///     "<table><tr><td>Cell 1,1</td></tr><tfoot><tr><td>Footer 1</td></tr></tfoot></table>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! tr {
     ($($all:tt)*) => {parse_double_tag!(TrTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     track![
+///         .kind="captions",
+///         .src="https://example.com/captions.vtt",
+///         .srclang="en",
+///         .label="English Captions"
+///     ].render(),
+///     "<track kind=\"captions\" src=\"https://example.com/captions.vtt\" srclang=\"en\" label=\"English Captions\"></track>"
+/// );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! track {
     ($($all:tt)*) => {parse_double_tag!(TrackTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     u![
+///         "Underlined text"
+///     ].render(),
+///     "<u>Underlined text</u>"
+///     );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! u {
     ($($all:tt)*) => {parse_double_tag!(UTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     ul![
+///         li!["Item 1"],
+///         li!["Item 2"],
+///         li!["Item 3"]
+///     ].render(),
+///     "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>"
+///     );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! ul {
     ($($all:tt)*) => {parse_double_tag!(UlTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     var![ "math" ].render(),
+///     "<var>math</var>"
+///     );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! var {
     ($($all:tt)*) => {parse_double_tag!(VarTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///     video![
+///         .src="https://example.com/video.mp4",
+///         .width="720",
+///         .height="480",
+///         .controls="true"
+///     ].render(),
+///     "<video src=\"https://example.com/video.mp4\" width=\"720\" height=\"480\" controls=\"true\"></video>"
+///     );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! video {
     ($($all:tt)*) => {parse_double_tag!(VideoTag, $($all)*) };
 }
 
+/// # Example
+/// ```
+/// # #[macro_use] extern crate rtml;
+/// # fn main() {
+/// use rtml::*;
+///
+/// assert_eq!(
+///    wbr![].render(),
+///    "<wbr>"
+///    );
+/// # }
+/// ```
 #[macro_export]
 macro_rules! wbr {
     ($($all:tt)*) => {parse_single_tag!(WbrTag, $($all)*) };

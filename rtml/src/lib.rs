@@ -13,6 +13,13 @@ pub mod tests {
     use super::*;
 
     #[test]
+    fn test_ul() {
+        assert_eq!(
+            ul![li!["Item 1"], li!["Item 2"], li!["Item 3"]].render(),
+            "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>"
+        );
+    }
+    #[test]
     fn test_a() {
         assert_eq!(a! {}.render(), "<a></a>");
         assert_eq!(
@@ -187,6 +194,15 @@ pub mod tests {
         assert_eq!(
             selector!(.my_class {background-color: "red"}).render(),
             ".my_class {\n  background-color: red;\n  }\n"
+        );
+    }
+
+    #[test]
+    fn test_universal() {
+        assert_eq!(selector!(*{}).render(), "* {\n  }\n");
+        assert_eq!(
+            selector!(time + * { clear: "left" }).render(),
+            "time + * {\n  clear: left;\n  }\n"
         );
     }
 
