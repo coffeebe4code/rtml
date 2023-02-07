@@ -260,4 +260,18 @@ pub mod tests {
         let property = property!(float: "left");
         assert_eq!(property.render(), "float: left;\n  ");
     }
+
+    #[test]
+    fn test_iter() {
+        let val = ["one", "two", "three"];
+        let html = ul!(
+            .class="new",
+            iter_fold!(val, |x| li!{ x })
+        );
+
+        assert_eq!(
+            html.render(),
+            "<ul class=\"new\"><li>one</li><li>two</li><li>three</li></ul>"
+        );
+    }
 }

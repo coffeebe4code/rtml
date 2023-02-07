@@ -113,6 +113,7 @@ macro_rules! allattrs {
         impl TrCompat for $attr {}
         impl TrackCompat for $attr {}
         impl UCompat for $attr {}
+        impl UlCompat for $attr {}
         impl VarCompat for $attr {}
         impl VideoCompat for $attr {}
         impl WbrCompat for $attr {}

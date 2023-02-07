@@ -13,6 +13,14 @@ macro_rules! render_fn {
     };
 }
 
+#[macro_export]
+macro_rules! iter_fold {
+    ($val:ident, |$tok:ident| $expr:expr) => {
+        $val.iter()
+            .fold(String::new(), |acc, $tok| format!("{}{}", acc, $expr))
+    };
+}
+
 pub trait Render: ToString {
     fn render(&self) -> String {
         self.to_string()
