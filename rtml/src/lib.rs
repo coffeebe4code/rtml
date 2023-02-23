@@ -8,6 +8,9 @@ pub use css::*;
 pub use render::*;
 pub use tags::*;
 
+#[macro_use]
+extern crate paste;
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
