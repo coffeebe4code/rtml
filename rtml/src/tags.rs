@@ -1,8 +1,6 @@
 use crate::*;
-use std::fmt;
-use std::fmt::Display;
 
-pub trait Tag: Display + 'static {}
+pub trait Tag: std::fmt::Display + 'static {}
 
 pub trait TagValue: ToString {
     fn render(&self) -> String {
@@ -11,14 +9,7 @@ pub trait TagValue: ToString {
 }
 
 macro_rules! tagit {
-    ($tag:ident, $val:expr, $trait:ident $(,$attr:ident)*) => {
-        #[derive(Clone)]
-        pub struct $tag;
-        impl fmt::Display for $tag {
-            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                return write!(f, "{}", $val);
-            }
-        }
+    ($tag:ident, $trait:ident $(,$attr:ident)*) => {
         #[allow(unused_variables)]
         impl $tag {
             pub fn type_check(&self, attr: &dyn $trait){}
@@ -27,121 +18,119 @@ macro_rules! tagit {
         pub trait $trait {}
         impl Tag for $tag {}
 
-        $(
-            paste::paste! {impl $trait for [< $attr _ >] {}
-            })*
+        $(impl $trait for $attr {})*
     };
 }
 
-tagit! {ATag, "a", ACompat, download, href, hreflang, media, ping, referrerpolicy, rel, target }
-tagit! {AbbrTag, "abbr", AbbrCompat}
-tagit! {AddressTag, "address", AddressCompat}
-tagit! {AreaTag, "area", AreaCompat, alt, coords, download, href, hreflang, media, rel, shape, target }
-tagit! {ArticleTag, "article", ArticleCompat}
-tagit! {AsideTag, "aside", AsideCompat}
-tagit! {AudioTag, "audio", AudioCompat, autoplay, controls, loop, muted, preload, src }
-tagit! {BTag, "b", BCompat}
-tagit! {BaseTag, "base", BaseCompat, href, target }
-tagit! {BdiTag, "bdi", BdiCompat}
-tagit! {BdoTag, "bdo", BdoCompat}
-tagit! {BlockquoteTag, "blockquote", BlockquoteCompat, cite }
-tagit! {BodyTag, "body", BodyCompat}
-tagit! {BrTag, "br", BrCompat}
-tagit! {ButtonTag, "button", ButtonCompat, autofocus, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, name, type, value }
-tagit! {CanvasTag, "canvas", CanvasCompat, height, width }
-tagit! {CaptionTag, "caption", CaptionCompat}
-tagit! {CiteTag, "cite", CiteCompat}
-tagit! {CodeTag, "code", CodeCompat}
-tagit! {ColTag, "col", ColCompat, span }
-tagit! {ColgroupTag, "colgroup", ColgroupCompat, span }
-tagit! {DataTag, "data", DataCompat, value }
-tagit! {DatalistTag, "datalist", DatalistCompat}
-tagit! {DdTag, "dd", DdCompat}
-tagit! {DelTag, "del", DelCompat, cite, datetime }
-tagit! {DetailsTag, "details", DetailsCompat, open }
-tagit! {DfnTag, "dfn", DfnCompat}
-tagit! {DialogTag, "dialog", DialogCompat, open }
-tagit! {DivTag, "div", DivCompat}
-tagit! {DlTag, "dl", DlCompat}
-tagit! {DtTag, "dt", DtCompat}
-tagit! {EmTag, "em", EmCompat}
-tagit! {EmbedTag, "embed", EmbedCompat, height, src, type, width }
-tagit! {FieldsetTag, "fieldset", FieldsetCompat, disabled, form, name }
-tagit! {FigcaptionTag, "figcaption", FigcaptionCompat}
-tagit! {FigureTag, "figure", FigureCompat}
-tagit! {FooterTag, "footer", FooterCompat}
-tagit! {FormTag, "form", FormCompat, accept_charset, action, autocomplete, enctype, method, name, novalidate, target }
-tagit! {H1Tag, "h1", H1Compat}
-tagit! {H2Tag, "h2", H2Compat}
-tagit! {H3Tag, "h3", H3Compat}
-tagit! {H4Tag, "h4", H4Compat}
-tagit! {H5Tag, "h5", H5Compat}
-tagit! {H6Tag, "h6", H6Compat}
-tagit! {HeadTag, "head", HeadCompat}
-tagit! {HeaderTag, "header", HeaderCompat}
-tagit! {HrTag, "hr", HrCompat}
-tagit! {HtmlTag, "html", HtmlCompat}
-tagit! {ITag, "i", ICompat}
-tagit! {IframeTag, "iframe", IframeCompat, allow, allowfullscreen, height, name, referrerpolicy, sandbox, src, srcdoc, width }
-tagit! {ImgTag, "img", ImgCompat, alt, crossorigin, decoding, height, referrerpolicy, sizes, src, srcset, usemap, width }
-tagit! {InputTag, "input", InputCompat, accept, alt, autocomplete, autofocus, checked, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, height, list, max, maxlength, min, minlength, multiple, name, pattern, placeholder, readonly, required, size, src, step, type, value, width }
-tagit! {InsTag, "ins", InsCompat, cite, datetime }
-tagit! {KbdTag, "kbd", KbdCompat}
-tagit! {LabelTag, "label", LabelCompat, form }
-tagit! {LegendTag, "legend", LegendCompat}
-tagit! {LiTag, "li", LiCompat, value }
-tagit! {LinkTag, "link", LinkCompat, as, crossorigin, href, hreflang, media, rel, sizes, type }
-tagit! {MainTag, "main", MainCompat}
-tagit! {MapTag, "map", MapCompat, name }
-tagit! {MarkTag, "mark", MarkCompat}
-tagit! {MenuTag, "menu", MenuCompat, type }
-tagit! {MetaTag, "meta", MetaCompat, charset, content, http_equiv, name }
-tagit! {MeterTag, "meter", MeterCompat, high, low, max, min, optimum, value }
-tagit! {NavTag, "nav", NavCompat}
-tagit! {NoscriptTag, "noscript", NoscriptCompat}
-tagit! {ObjectTag, "object", ObjectCompat, data, form, height, name, type, width }
-tagit! {OlTag, "ol", OlCompat, reversed, start }
-tagit! {OptgroupTag, "optgroup", OptgroupCompat, disabled, label }
-tagit! {OptionTag, "option", OptionCompat, disabled, label, selected, value }
-tagit! {OutputTag, "output", OutputCompat, for, form, name }
-tagit! {PTag, "p", PCompat}
-tagit! {PictureTag, "picture", PictureCompat}
-tagit! {PreTag, "pre", PreCompat}
-tagit! {ProgressTag, "progress", ProgressCompat, max, value }
-tagit! {QTag, "q", QCompat, cite }
-tagit! {RpTag, "rp", RpCompat}
-tagit! {RtTag, "rt", RtCompat}
-tagit! {RubyTag, "ruby", RubyCompat}
-tagit! {STag, "s", SCompat}
-tagit! {SampTag, "samp", SampCompat}
-tagit! {ScriptTag, "script", ScriptCompat, async, crossorigin, defer, integrity, nomodule, src, type }
-tagit! {SectionTag, "section", SectionCompat}
-tagit! {SelectTag, "select", SelectCompat, autocomplete, autofocus, disabled, form, multiple, name, required, size }
-tagit! {SmallTag, "small", SmallCompat}
-tagit! {SourceTag, "source", SourceCompat, muted, media, sizes, src, srcset, type }
-tagit! {SpanTag, "span", SpanCompat}
-tagit! {StrongTag, "strong", StrongCompat}
-tagit! {StyleTag, "style", StyleCompat, media, nonce, type }
-tagit! {SubTag, "sub", SubCompat}
-tagit! {SummaryTag, "summary", SummaryCompat}
-tagit! {SupTag, "sup", SupCompat}
-tagit! {TableTag, "table", TableCompat}
-tagit! {TbodyTag, "tbody", TbodyCompat}
-tagit! {TdTag, "td", TdCompat, colspan, headers, rowspan, scope }
-tagit! {TemplateTag, "template", TemplateCompat}
-tagit! {TextareaTag, "textarea", TextareaCompat, autocomplete, autofocus, cols, disabled, form, maxlength, minlength, name, placeholder, readonly, required, rows, wrap }
-tagit! {TfootTag, "tfoot", TfootCompat}
-tagit! {ThTag, "th", ThCompat, colspan, headers, rowspan, scope }
-tagit! {TheadTag, "thead", TheadCompat}
-tagit! {TimeTag, "time", TimeCompat, datetime }
-tagit! {TitleTag, "title", TitleCompat}
-tagit! {TrTag, "tr", TrCompat}
-tagit! {TrackTag, "track", TrackCompat, default, kind, label, src, srclang }
-tagit! {UTag, "u", UCompat}
-tagit! {UlTag, "ul", UlCompat}
-tagit! {VarTag, "var", VarCompat}
-tagit! {VideoTag, "video", VideoCompat, autoplay, controls, crossorigin, height, loop, muted, playsinline, poster, preload, src, width }
-tagit! {WbrTag, "wbr", WbrCompat}
+tagit! {ATag, ACompat, download, href, hreflang, media, ping, referrerpolicy, rel, target }
+tagit! {AbbrTag, AbbrCompat}
+tagit! {AddressTag, AddressCompat}
+tagit! {AreaTag, AreaCompat, alt, coords, download, href, hreflang, media, rel, shape, target }
+tagit! {ArticleTag, ArticleCompat}
+tagit! {AsideTag, AsideCompat}
+tagit! {AudioTag, AudioCompat, autoplay, controls, _loop, muted, preload, src }
+tagit! {BTag, BCompat}
+tagit! {BaseTag, BaseCompat, href, target }
+tagit! {BdiTag, BdiCompat}
+tagit! {BdoTag, BdoCompat}
+tagit! {BlockquoteTag, BlockquoteCompat, cite }
+tagit! {BodyTag, BodyCompat}
+tagit! {BrTag, BrCompat}
+tagit! {ButtonTag, ButtonCompat, autofocus, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, name, _type, value }
+tagit! {CanvasTag, CanvasCompat, height, width }
+tagit! {CaptionTag, CaptionCompat}
+tagit! {CiteTag, CiteCompat}
+tagit! {CodeTag, CodeCompat}
+tagit! {ColTag, ColCompat, span }
+tagit! {ColgroupTag, ColgroupCompat, span }
+tagit! {DataTag, DataCompat, value }
+tagit! {DatalistTag, DatalistCompat}
+tagit! {DdTag, DdCompat}
+tagit! {DelTag, DelCompat, cite, datetime }
+tagit! {DetailsTag, DetailsCompat, open }
+tagit! {DfnTag, DfnCompat}
+tagit! {DialogTag, DialogCompat, open }
+tagit! {DivTag, DivCompat}
+tagit! {DlTag, DlCompat}
+tagit! {DtTag, DtCompat}
+tagit! {EmTag, EmCompat}
+tagit! {EmbedTag, EmbedCompat, height, src, _type, width }
+tagit! {FieldsetTag, FieldsetCompat, disabled, form, name }
+tagit! {FigcaptionTag, FigcaptionCompat}
+tagit! {FigureTag, FigureCompat}
+tagit! {FooterTag, FooterCompat}
+tagit! {FormTag, FormCompat, accept_charset, action, autocomplete, enctype, method, name, novalidate, target }
+tagit! {H1Tag, H1Compat}
+tagit! {H2Tag, H2Compat}
+tagit! {H3Tag, H3Compat}
+tagit! {H4Tag, H4Compat}
+tagit! {H5Tag, H5Compat}
+tagit! {H6Tag, H6Compat}
+tagit! {HeadTag, HeadCompat}
+tagit! {HeaderTag, HeaderCompat}
+tagit! {HrTag, HrCompat}
+tagit! {HtmlTag, HtmlCompat}
+tagit! {ITag, ICompat}
+tagit! {IframeTag, IframeCompat, allow, allowfullscreen, height, name, referrerpolicy, sandbox, src, srcdoc, width }
+tagit! {ImgTag, ImgCompat, alt, crossorigin, decoding, height, referrerpolicy, sizes, src, srcset, usemap, width }
+tagit! {InputTag, InputCompat, accept, alt, autocomplete, autofocus, checked, disabled, form, formaction, formenctype, formmethod, formnovalidate, formtarget, height, list, max, maxlength, min, minlength, multiple, name, pattern, placeholder, readonly, required, size, src, step, _type, value, width }
+tagit! {InsTag, InsCompat, cite, datetime }
+tagit! {KbdTag, KbdCompat}
+tagit! {LabelTag, LabelCompat, form }
+tagit! {LegendTag, LegendCompat}
+tagit! {LiTag, LiCompat, value }
+tagit! {LinkTag, LinkCompat, _as, crossorigin, href, hreflang, media, rel, sizes, _type }
+tagit! {MainTag, MainCompat}
+tagit! {MapTag, MapCompat, name }
+tagit! {MarkTag, MarkCompat}
+tagit! {MenuTag, MenuCompat, _type }
+tagit! {MetaTag, MetaCompat, charset, content, http_equiv, name }
+tagit! {MeterTag, MeterCompat, high, low, max, min, optimum, value }
+tagit! {NavTag, NavCompat}
+tagit! {NoscriptTag, NoscriptCompat}
+tagit! {ObjectTag, ObjectCompat, data, form, height, name, _type, width }
+tagit! {OlTag, OlCompat, reversed, start }
+tagit! {OptgroupTag, OptgroupCompat, disabled, label }
+tagit! {OptionTag, OptionCompat, disabled, label, selected, value }
+tagit! {OutputTag, OutputCompat, _for, form, name }
+tagit! {PTag, PCompat}
+tagit! {PictureTag, PictureCompat}
+tagit! {PreTag, PreCompat}
+tagit! {ProgressTag, ProgressCompat, max, value }
+tagit! {QTag, QCompat, cite }
+tagit! {RpTag, RpCompat}
+tagit! {RtTag, RtCompat}
+tagit! {RubyTag, RubyCompat}
+tagit! {STag, SCompat}
+tagit! {SampTag, SampCompat}
+tagit! {ScriptTag, ScriptCompat, _async, crossorigin, defer, integrity, nomodule, src, _type }
+tagit! {SectionTag, SectionCompat}
+tagit! {SelectTag, SelectCompat, autocomplete, autofocus, disabled, form, multiple, name, required, size }
+tagit! {SmallTag, SmallCompat}
+tagit! {SourceTag, SourceCompat, muted, media, sizes, src, srcset, _type }
+tagit! {SpanTag, SpanCompat}
+tagit! {StrongTag, StrongCompat}
+tagit! {StyleTag, StyleCompat, media, nonce, _type }
+tagit! {SubTag, SubCompat}
+tagit! {SummaryTag, SummaryCompat}
+tagit! {SupTag, SupCompat}
+tagit! {TableTag, TableCompat}
+tagit! {TbodyTag, TbodyCompat}
+tagit! {TdTag, TdCompat, colspan, headers, rowspan, scope }
+tagit! {TemplateTag, TemplateCompat}
+tagit! {TextareaTag, TextareaCompat, autocomplete, autofocus, cols, disabled, form, maxlength, minlength, name, placeholder, readonly, required, rows, wrap }
+tagit! {TfootTag, TfootCompat}
+tagit! {ThTag, ThCompat, colspan, headers, rowspan, scope }
+tagit! {TheadTag, TheadCompat}
+tagit! {TimeTag, TimeCompat, datetime }
+tagit! {TitleTag, TitleCompat}
+tagit! {TrTag, TrCompat}
+tagit! {TrackTag, TrackCompat, default, _kind, label, src, srclang }
+tagit! {UTag, UCompat}
+tagit! {UlTag, UlCompat}
+tagit! {VarTag, VarCompat}
+tagit! {VideoTag, VideoCompat, autoplay, controls, crossorigin, height, _loop, muted, playsinline, poster, preload, src, width }
+tagit! {WbrTag, WbrCompat}
 
 /// # Example
 /// ```
@@ -2177,10 +2166,10 @@ macro_rules! parse_attr {
     ($tag:ident) => {
         ""
     };
-    ($tag:ident, .$attr:ident$(-$next:ident)* = $value:expr $(,.$right_attr:ident$(-$nexts:ident)* = $right_expr:expr)*) => {{
-        let ident = paste::paste! { [<$attr $(_$next)*_>] };
+    ($tag:ident, .$attr:ident = $value:expr $(,.$right_attr:ident$(-$nexts:ident)* = $right_expr:expr)*) => {{
+        let ident = $attr;
         $tag.type_check(&ident);
-        render_fn!(" {}{}{}", ident, parse_val!($value), parse_attr!($tag $(,.$right_attr$(-$nexts)* = $right_expr)*))
+        render_fn!(" {}{}{}", ident, parse_val!($value), parse_attr!($tag $(,.$right_attr = $right_expr)*))
     }};
 }
 

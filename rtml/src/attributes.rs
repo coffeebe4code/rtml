@@ -1,11 +1,9 @@
 use crate::*;
-use std::fmt;
-use std::fmt::Display;
 
 pub trait GlobalAttribute {}
 pub trait EventAttribute {}
 
-pub trait Attribute: Display + 'static {}
+pub trait Attribute: std::fmt::Display + 'static {}
 
 #[macro_export]
 macro_rules! allattrs {
@@ -124,282 +122,293 @@ macro_rules! allattrs {
 
 #[macro_export]
 macro_rules! globalattributeit {
-    ($attr:ident, $val:expr) => {
-        paste::paste! {
-        #[allow(non_camel_case_types)]
-        #[derive(Clone)]
-        pub struct [<$attr _>];
-        impl std::fmt::Display for [<$attr _>] {
-            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-                return write!(f, "{}", $val);
-            }
-        }
-        allattrs!([< $attr _>]);
-        }
+    ($attr:ident) => {
+        allattrs!($attr);
     };
 }
+//#[macro_export]
+//macro_rules! globalattributeit {
+//    ($attr:ident, $val:expr) => {
+//        paste::paste! {
+//        #[allow(non_camel_case_types)]
+//        #[derive(Clone)]
+//        pub struct [<$attr _>];
+//        impl std::fmt::Display for [<$attr _>] {
+//            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+//                return write!(f, "{}", $val);
+//            }
+//        }
+//        allattrs!([< $attr _>]);
+//        }
+//    };
+//}
 
 #[macro_export]
 macro_rules! make_data {
-    ($attr:ident $(-$additional:ident)*) => {
+    ($attr:ident) => {
         paste::paste! {
         #[allow(non_camel_case_types)]
         #[derive(Clone)]
-        pub struct [<data _ $attr $(_$additional)*_>];
-        impl std::fmt::Display for [<data _ $attr $(_$additional)*_>] {
+        pub struct [<data _ $attr>];
+        impl std::fmt::Display for [<data _ $attr>] {
             fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-                return write!(f, "{}", str::replace(stringify!([<data _ $attr $(_$additional)*>]), "_", "-"));
+                return write!(f, "{}", str::replace(stringify!([<data _ $attr >]), "_", "-"));
             }
         }
-        allattrs!([< data _ $attr $(_$additional)*_>]);
+        allattrs!([< data _ $attr>]);
         }
     };
 }
+
+//macro_rules! attributeit {
+//    ($attr:ident, $val:expr) => {
+//        paste::paste! {
+//        #[allow(non_camel_case_types)]
+//        #[derive(Clone)]
+//        pub struct [< $attr _ >];
+//        impl fmt::Display for [<$attr _>] {
+//            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//                return write!(f, "{}", $val);
+//            }
+//        }
+//        impl Attribute for [<$attr _>] {}
+//        }
+//    };
+//}
 
 macro_rules! attributeit {
-    ($attr:ident, $val:expr) => {
-        paste::paste! {
-        #[allow(non_camel_case_types)]
-        #[derive(Clone)]
-        pub struct [< $attr _ >];
-        impl fmt::Display for [<$attr _>] {
-            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                return write!(f, "{}", $val);
-            }
-        }
-        impl Attribute for [<$attr _>] {}
-        }
+    ($attr:ident) => {
+        impl Attribute for $attr {}
     };
 }
-
 // Global Attributes
-globalattributeit! {accesskey, "accesskey"}
-globalattributeit! {class, "class"}
-globalattributeit! {contenteditable, "contenteditable"}
-globalattributeit! {dir, "dir"}
-globalattributeit! {draggable, "draggable"}
-globalattributeit! {hidden, "hidden"}
-globalattributeit! {id, "id"}
-globalattributeit! {lang, "lang"}
-globalattributeit! {spellcheck, "spellcheck"}
-globalattributeit! {style, "style"}
-globalattributeit! {tabindex, "tabindex"}
-globalattributeit! {title, "title"}
-globalattributeit! {translate, "translate"}
+globalattributeit! {accesskey}
+globalattributeit! {class}
+globalattributeit! {contenteditable}
+globalattributeit! {dir}
+globalattributeit! {draggable}
+globalattributeit! {hidden}
+globalattributeit! {id}
+globalattributeit! {lang}
+globalattributeit! {spellcheck}
+globalattributeit! {style}
+globalattributeit! {tabindex}
+globalattributeit! {title}
+globalattributeit! {translate}
 
 // Special
-attributeit! {type, "type"}
-attributeit! {loop, "loop"}
-attributeit! {for, "for"}
-attributeit! {http_equiv, "http-equiv"}
-attributeit! {accept_charset, "accept-charset"}
-attributeit! {as, "as"}
-attributeit! {async, "async"}
-attributeit! {kind, "kind"}
+attributeit! {_type}
+attributeit! {_loop}
+attributeit! {_for}
+attributeit! {http_equiv}
+attributeit! {accept_charset}
+attributeit! {_as}
+attributeit! {_async}
+attributeit! {_kind}
 
 // Event
 // Window
-attributeit! {onafterprint, "onafterprint"}
-attributeit! {onbeforeprint, "onbeforeprint"}
-attributeit! {onbeforeunload, "onbeforeunload"}
-attributeit! {onerror, "onerror"}
-attributeit! {onhashchange, "onhashchange"}
-attributeit! {onload, "onload"}
-attributeit! {onmessage, "onmessage"}
-attributeit! {onoffline, "onoffline"}
-attributeit! {ononline, "ononline"}
-attributeit! {onpagehide, "onpagehide"}
-attributeit! {onpageshow, "onpageshow"}
-attributeit! {onpopstate, "onpopstate"}
-attributeit! {onresize, "onresize"}
-attributeit! {onunload, "onunload"}
+attributeit! {onafterprint}
+attributeit! {onbeforeprint}
+attributeit! {onbeforeunload}
+attributeit! {onerror}
+attributeit! {onhashchange}
+attributeit! {onload}
+attributeit! {onmessage}
+attributeit! {onoffline}
+attributeit! {ononline}
+attributeit! {onpagehide}
+attributeit! {onpageshow}
+attributeit! {onpopstate}
+attributeit! {onresize}
+attributeit! {onunload}
 
 // Form
-attributeit! {onblur, "onblur"}
-attributeit! {onchange, "onchange"}
-attributeit! {oncontextmenu, "oncontextmenu"}
-attributeit! {onfocus, "onfocus"}
-attributeit! {oninput, "oninput"}
-attributeit! {onreset, "onreset"}
-attributeit! {onsearch, "onsearch"}
-attributeit! {onselect, "onselect"}
-attributeit! {onsubmit, "onsubmit"}
+attributeit! {onblur}
+attributeit! {onchange}
+attributeit! {oncontextmenu}
+attributeit! {onfocus}
+attributeit! {oninput}
+attributeit! {onreset}
+attributeit! {onsearch}
+attributeit! {onselect}
+attributeit! {onsubmit}
 
 // Keyboard
-attributeit! {onkeydown, "onkeydown"}
-attributeit! {onkeypress, "onkeypress"}
-attributeit! {onkeyup, "onkeyup"}
+attributeit! {onkeydown}
+attributeit! {onkeypress}
+attributeit! {onkeyup}
 
 // Mouse
-attributeit! {onclick, "onclick"}
-attributeit! {ondblclick, "ondblclick"}
-attributeit! {onmousedown, "onmousedown"}
-attributeit! {onmousemove, "onmousemove"}
-attributeit! {onmouseout, "onmouseout"}
-attributeit! {onmouseover, "onmouseover"}
-attributeit! {onmouseup, "onmouseup"}
-attributeit! {onwheel, "onwheel"}
+attributeit! {onclick}
+attributeit! {ondblclick}
+attributeit! {onmousedown}
+attributeit! {onmousemove}
+attributeit! {onmouseout}
+attributeit! {onmouseover}
+attributeit! {onmouseup}
+attributeit! {onwheel}
 
 // Drag
-attributeit! {ondrag, "ondrag"}
-attributeit! {ondragend, "ondragend"}
-attributeit! {ondragenter, "ondragenter"}
-attributeit! {ondragleave, "ondragleave"}
-attributeit! {ondragover, "ondragover"}
-attributeit! {ondragstart, "ondragstart"}
-attributeit! {ondrop, "ondrop"}
-attributeit! {onscroll, "onscroll"}
+attributeit! {ondrag}
+attributeit! {ondragend}
+attributeit! {ondragenter}
+attributeit! {ondragleave}
+attributeit! {ondragover}
+attributeit! {ondragstart}
+attributeit! {ondrop}
+attributeit! {onscroll}
 
 // Clipboard
-attributeit! {oncopy, "oncopy"}
-attributeit! {oncut, "oncut"}
-attributeit! {onpaste, "onpaste"}
+attributeit! {oncopy}
+attributeit! {oncut}
+attributeit! {onpaste}
 
 // Media
-attributeit! {onabort, "onabort"}
-attributeit! {oncanplay, "oncanplay"}
-attributeit! {oncanplaythrough, "oncanplaythrough"}
-attributeit! {oncuechange, "oncuechange"}
-attributeit! {ondurationchange, "ondurationchange"}
-attributeit! {onemptied, "onemptied"}
-attributeit! {onended, "onended"}
-attributeit! {onloadeddata, "onloadeddata"}
-attributeit! {onloadedmetadata, "onloadedmetadata"}
-attributeit! {onloadstart, "onloadstart"}
-attributeit! {onpause, "onpause"}
-attributeit! {onplay, "onplay"}
-attributeit! {onplaying, "onplaying"}
-attributeit! {onprogress, "onprogress"}
-attributeit! {onratechange, "onratechange"}
-attributeit! {onseeked, "onseeked"}
-attributeit! {onseeking, "onseeking"}
-attributeit! {onstalled, "onstalled"}
-attributeit! {onsuspend, "onsuspend"}
-attributeit! {ontimeupdate, "ontimeupdate"}
-attributeit! {onvolumechange, "onvolumechange"}
-attributeit! {onwaiting, "onwaiting"}
+attributeit! {onabort}
+attributeit! {oncanplay}
+attributeit! {oncanplaythrough}
+attributeit! {oncuechange}
+attributeit! {ondurationchange}
+attributeit! {onemptied}
+attributeit! {onended}
+attributeit! {onloadeddata}
+attributeit! {onloadedmetadata}
+attributeit! {onloadstart}
+attributeit! {onpause}
+attributeit! {onplay}
+attributeit! {onplaying}
+attributeit! {onprogress}
+attributeit! {onratechange}
+attributeit! {onseeked}
+attributeit! {onseeking}
+attributeit! {onstalled}
+attributeit! {onsuspend}
+attributeit! {ontimeupdate}
+attributeit! {onvolumechange}
+attributeit! {onwaiting}
 
 // Misc
-attributeit! {ontoggle, "ontoggle"}
+attributeit! {ontoggle}
 
 // Specific Attributes
 // a
-attributeit! {href, "href"}
-attributeit! {src, "src"}
-attributeit! {download, "download"}
-attributeit! {media, "media"}
-attributeit! {ping, "ping"}
-attributeit! {referrerpolicy, "referrerpolicy"}
-attributeit! {rel, "rel"}
-attributeit! {hreflang, "hreflang"}
-attributeit! {target, "target"}
+attributeit! {href}
+attributeit! {src}
+attributeit! {download}
+attributeit! {media}
+attributeit! {ping}
+attributeit! {referrerpolicy}
+attributeit! {rel}
+attributeit! {hreflang}
+attributeit! {target}
 // area
-attributeit! {alt, "alt"}
-attributeit! {coords, "coords"}
-attributeit! {shape, "shape"}
+attributeit! {alt}
+attributeit! {coords}
+attributeit! {shape}
 // audio
-attributeit! {autoplay, "autoplay"}
-attributeit! {controls, "controls"}
-attributeit! {muted, "muted"}
-attributeit! {preload, "preload"}
-attributeit! {cite, "cite"}
+attributeit! {autoplay}
+attributeit! {controls}
+attributeit! {muted}
+attributeit! {preload}
+attributeit! {cite}
 // button
-attributeit! {autofocus, "autofocus"}
-attributeit! {disabled, "disabled"}
-attributeit! {form, "form"}
-attributeit! {formaction, "formaction"}
-attributeit! {formenctype, "formenctype"}
-attributeit! {formmethod, "formmethod"}
-attributeit! {formnovalidate, "formnovalidate"}
-attributeit! {formtarget, "formtarget"}
-attributeit! {name, "name"}
-attributeit! {value, "value"}
+attributeit! {autofocus}
+attributeit! {disabled}
+attributeit! {form}
+attributeit! {formaction}
+attributeit! {formenctype}
+attributeit! {formmethod}
+attributeit! {formnovalidate}
+attributeit! {formtarget}
+attributeit! {name}
+attributeit! {value}
 // canvas
-attributeit! {height, "height"}
-attributeit! {width, "width"}
+attributeit! {height}
+attributeit! {width}
 // col
-attributeit! {span, "span"}
+attributeit! {span}
 // del
-attributeit! {datetime, "datetime"}
+attributeit! {datetime}
 // details
-attributeit! {open, "open"}
+attributeit! {open}
 // form
-attributeit! {action, "action"}
-attributeit! {autocomplete, "autocomplete"}
-attributeit! {enctype, "enctype"}
-attributeit! {method, "method"}
-attributeit! {novalidate, "novalidate"}
+attributeit! {action}
+attributeit! {autocomplete}
+attributeit! {enctype}
+attributeit! {method}
+attributeit! {novalidate}
 // html
-attributeit! {xmlns, "xmlns"}
+attributeit! {xmlns}
 // iframe
-attributeit! {allow, "allow"}
-attributeit! {allowfullscreen, "allowfullscreen"}
-attributeit! {allowpaymentrequest, "allowpaymentrequest"}
-attributeit! {loading, "loading"}
-attributeit! {sandbox, "sandbox"}
-attributeit! {srcdoc, "srcdoc"}
+attributeit! {allow}
+attributeit! {allowfullscreen}
+attributeit! {allowpaymentrequest}
+attributeit! {loading}
+attributeit! {sandbox}
+attributeit! {srcdoc}
 // img
-attributeit! {crossorigin, "crossorigin"}
-attributeit! {decoding, "decoding"}
-attributeit! {ismap, "ismap"}
-attributeit! {longdesc, "longdesc"}
-attributeit! {srcset, "srcset"}
-attributeit! {sizes, "sizes"}
-attributeit! {usemap, "usemap"}
+attributeit! {crossorigin}
+attributeit! {decoding}
+attributeit! {ismap}
+attributeit! {longdesc}
+attributeit! {srcset}
+attributeit! {sizes}
+attributeit! {usemap}
 // input
-attributeit! {accept, "accept"}
-attributeit! {checked, "checked"}
-attributeit! {dirname, "dirname"}
-attributeit! {list, "list"}
-attributeit! {max, "max"}
-attributeit! {maxlength, "maxlength"}
-attributeit! {min, "min"}
-attributeit! {minlength, "minlength"}
-attributeit! {multiple, "multiple"}
-attributeit! {pattern, "pattern"}
-attributeit! {placeholder, "placeholder"}
-attributeit! {readonly, "readonly"}
-attributeit! {required, "required"}
-attributeit! {step, "step"}
+attributeit! {accept}
+attributeit! {checked}
+attributeit! {dirname}
+attributeit! {list}
+attributeit! {max}
+attributeit! {maxlength}
+attributeit! {min}
+attributeit! {minlength}
+attributeit! {multiple}
+attributeit! {pattern}
+attributeit! {placeholder}
+attributeit! {readonly}
+attributeit! {required}
+attributeit! {step}
 // meta
-attributeit! {content, "content"}
-attributeit! {charset, "charset"}
+attributeit! {content}
+attributeit! {charset}
 // meter
-attributeit! {high, "high"}
-attributeit! {low, "low"}
-attributeit! {optimum, "optimum"}
+attributeit! {high}
+attributeit! {low}
+attributeit! {optimum}
 // object
-attributeit! {data, "data"}
+attributeit! {data}
 // ol
-attributeit! {reversed, "reversed"}
-attributeit! {start, "start"}
+attributeit! {reversed}
+attributeit! {start}
 // optgroup
-attributeit! {label, "label"}
+attributeit! {label}
 // option
-attributeit! {selected, "selected"}
+attributeit! {selected}
 // script
-attributeit! {defer, "defer"}
-attributeit! {integrity, "integrity"}
-attributeit! {nomodule, "nomodule"}
+attributeit! {defer}
+attributeit! {integrity}
+attributeit! {nomodule}
 // select
-attributeit! {size, "size"}
+attributeit! {size}
 // style
-attributeit! {nonce, "nonce"}
+attributeit! {nonce}
 // table
-attributeit! {colspan, "colspan"}
+attributeit! {colspan}
 // textarea
-attributeit! {cols, "cols"}
-attributeit! {rows, "rows"}
+attributeit! {cols}
+attributeit! {rows}
 // td
-attributeit! {rowspan, "rowspan"}
+attributeit! {rowspan}
 // textarea
-attributeit! {wrap, "wrap"}
+attributeit! {wrap}
 // track
-attributeit! {default, "default"}
-attributeit! {srclang, "srclang"}
+attributeit! {default}
+attributeit! {srclang}
 // th
-attributeit! {headers, "headers"}
-attributeit! {scope, "scope"}
+attributeit! {headers}
+attributeit! {scope}
 // video
-attributeit! {playsinline, "playsinline"}
-attributeit! {poster, "poster"}
+attributeit! {playsinline}
+attributeit! {poster}

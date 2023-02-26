@@ -1,14 +1,15 @@
 pub mod attributes;
+pub mod basic_structs;
 pub mod css;
 pub mod render;
 pub mod tags;
 
 pub use attributes::*;
+pub use basic_structs::*;
 pub use css::*;
 pub use render::*;
 pub use tags::*;
 
-#[macro_use]
 extern crate paste;
 
 #[cfg(test)]
@@ -88,25 +89,25 @@ pub mod tests {
         );
         assert_eq!(parse_attr!().render(), "");
         assert_eq!(
-            parse_attr!(MetaTag, .http-equiv="value").render(),
+            parse_attr!(MetaTag, .http_equiv="value").render(),
             " http-equiv=\"value\""
         );
         assert_eq!(
-            parse_attr!(FormTag, .accept-charset="value").render(),
+            parse_attr!(FormTag, .accept_charset="value").render(),
             " accept-charset=\"value\""
         );
         assert_eq!(
             parse_attr!(FieldsetTag, .name = "yes").render(),
             " name=\"yes\""
         );
-        make_data!(cy - optional);
+        make_data!(cy_optional);
         make_data!(cy);
         assert_eq!(
-            parse_attr!(FormTag, .data-cy-optional = "link").render(),
+            parse_attr!(FormTag, .data_cy_optional = "link").render(),
             " data-cy-optional=\"link\""
         );
         assert_eq!(
-            parse_attr!(FormTag, .data-cy = "link").render(),
+            parse_attr!(FormTag, .data_cy = "link").render(),
             " data-cy=\"link\""
         );
     }
@@ -125,7 +126,7 @@ pub mod tests {
     // the purpose of this test is to determine if we can forgo using .render() immediately.
     #[test]
     fn test_html() {
-        let html = html! {
+        let result = html! {
          .lang = "en",
              head!{
                  title!{
@@ -157,27 +158,27 @@ pub mod tests {
     #[test]
     fn test_property() {
         assert_eq!(
-            property!(background-color: "red",).render(),
+            property!(background_color: "red",).render(),
             "background-color: red;\n  "
         );
         assert_eq!(
-            property!(border-top-width: "20px",).render(),
+            property!(border_top_width: "20px",).render(),
             "border-top-width: 20px;\n  "
         );
         assert_eq!(
-            property!(-webkit-line-clamp: "yes",).render(),
+            property!(_webkit_line_clamp: "yes",).render(),
             "-webkit-line-clamp: yes;\n  "
         );
         assert_eq!(
-            property!(background-color: "red").render(),
+            property!(background_color: "red").render(),
             "background-color: red;\n  "
         );
         assert_eq!(
-            property!(background-color: "red", float: "left",).render(),
+            property!(background_color: "red", float: "left",).render(),
             "background-color: red;\n  float: left;\n  "
         );
         assert_eq!(
-            property!(align-self: "stretch", float: "left",).render(),
+            property!(align_self: "stretch", float: "left",).render(),
             "align-self: stretch;\n  float: left;\n  "
         );
     }
@@ -185,7 +186,7 @@ pub mod tests {
     #[test]
     fn test_css_body() {
         assert_eq!(
-            css_body!(background-color: "red",).render(),
+            css_body!(background_color: "red",).render(),
             " {\n  background-color: red;\n  }\n"
         );
     }
@@ -195,7 +196,7 @@ pub mod tests {
         make_class!(my_class);
         assert_eq!(selector!(.my_class {}).render(), ".my_class {\n  }\n");
         assert_eq!(
-            selector!(.my_class {background-color: "red"}).render(),
+            selector!(.my_class {background_color: "red"}).render(),
             ".my_class {\n  background-color: red;\n  }\n"
         );
     }
@@ -233,7 +234,7 @@ pub mod tests {
             "[href=\"#\" class=\"my_class\"]"
         );
         assert_eq!(
-            attr_selector!([.data-test="#", .class=my_class]).render(),
+            attr_selector!([.data_test="#", .class=my_class]).render(),
             "[data-test=\"#\" class=\"my_class\"]"
         );
         assert_eq!(css!(a[.href = "#"] {}).render(), "a[href=\"#\"] {\n  }\n");
@@ -243,7 +244,7 @@ pub mod tests {
     fn test_css() {
         let css = css!(
             p > div {
-                background-color: "green",
+                background_color: "green",
             }
             p div {
                 float: "left"
