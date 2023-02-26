@@ -268,13 +268,13 @@ pub mod tests {
     #[test]
     fn test_iter() {
         let val = ["one", "two", "three"];
-        let html = ul!(
+        let result = ul!(
             .class="new",
             iter_fold!(val, |x| li!{ x })
         );
 
         assert_eq!(
-            html.render(),
+            result.render(),
             "<ul class=\"new\"><li>one</li><li>two</li><li>three</li></ul>"
         );
     }

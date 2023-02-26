@@ -12,7 +12,7 @@ __**usage**__
 fn main() {
     use rtml::*;
     // Use the macros to generate some HTML
-    let html = html! {
+    let document = html! {
         .lang = "en",
             head!{
                 title!{
@@ -32,11 +32,11 @@ fn main() {
             }
     }.render();
 
-    println!("{}", html);
+    println!("{}", document);
 }
 ```
 
-the output html will be in non pretty form.
+the output html will be in non pretty form. But equivalent to:
 
 ```html
 <!DOCTYPE html>
@@ -76,6 +76,8 @@ use either specific tags you plan to use or reference all tags by adding this `u
   use rtml::*;
 ```
 
+
+
 __**CSS**__
 
 Rtml also supports type safe css.
@@ -94,7 +96,7 @@ fn main() {
 }
 ```
 
-The major difference between real inline css and rcss is that values are in strings. type safe values are not yet supported. Another difference is that properties are split on commas `,` instead of semicolons `;`
+The major difference between real inline css and rcss is that values are in strings. Another difference is that properties are split on commas `,` instead of semicolons `;`
 
 At-rules and Functions are not yet implemented.
 
@@ -142,6 +144,21 @@ Breaking this error down,
 - `src` : is the name of the attribute attempting to be used
 - `ACompat` : is the trait that would need to be implemented, every tag has their own version. Such as `DivCompat` and `StyleCompat`
 - `accesskey class contenteditable` : are a few of the attributes supported, Rust lists them in alphabetical order and therefore will not show all
+
+__**Special Characters**__
+
+rtml and rcss use structs and traits behind the scene, to ensure maximum type safety. Because of that, there are some special caveats due to rust having a few shared keywords between itself and rtml. The `-` character is not allowed in identifiers. So replace all `-` with an underscore `_`. Example: `-webkit-line-clamp` use `_webkit_line_clamp`
+
+|keyword|rtml|
+|---|---|
+|as|_as|
+|type|_type|
+|kind|_kind|
+|for|_for|
+|loop|_loop|
+|where|_where|
+|async|_async|
+
 
 __**Components**__
 

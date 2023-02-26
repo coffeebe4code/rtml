@@ -716,7 +716,7 @@ macro_rules! em {
 /// );
 ///
 /// assert_eq!(
-///     embed![.src="example.swf", .type="application/x-shockwave-flash", .width="400", .height="300"].render(),
+///     embed![.src="example.swf", ._type="application/x-shockwave-flash", .width="400", .height="300"].render(),
 ///     "<embed src=\"example.swf\" type=\"application/x-shockwave-flash\" width=\"400\" height=\"300\">"
 /// );
 /// # }
@@ -970,7 +970,7 @@ macro_rules! hr {
 /// # fn main() {
 /// use rtml::*;
 ///
-/// let html = html! {
+/// let result = html! {
 ///  .lang = "en",
 ///      head!{
 ///          title!{
@@ -990,7 +990,7 @@ macro_rules! hr {
 ///      }
 /// }.render();
 ///
-/// println!("{}", html);
+/// println!("{}", result);
 ///
 /// assert_eq!(
 ///     html![head![title!["This is a title"]], body!["This is the body"]].render(),
@@ -1066,12 +1066,12 @@ macro_rules! img {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     input![.type="text", .name="name"].render(),
+///     input![._type="text", .name="name"].render(),
 ///     "<input type=\"text\" name=\"name\">"
 /// );
 ///
 /// assert_eq!(
-///     input![.type="submit", .value="submit"].render(),
+///     input![._type="submit", .value="submit"].render(),
 ///     "<input type=\"submit\" value=\"submit\">"
 /// );
 /// # }
@@ -1566,7 +1566,7 @@ macro_rules! samp {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     script![.src="script.js", .type="text/javascript"].render(),
+///     script![.src="script.js", ._type="text/javascript"].render(),
 ///     "<script src=\"script.js\" type=\"text/javascript\"></script>"
 /// );
 /// # }
@@ -1638,7 +1638,7 @@ macro_rules! small {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     source![.src="audio.ogg", .type="audio/ogg"].render(),
+///     source![.src="audio.ogg", ._type="audio/ogg"].render(),
 ///     "<source src=\"audio.ogg\" type=\"audio/ogg\">"
 /// );
 /// # }
@@ -1689,7 +1689,7 @@ macro_rules! strong {
 /// use rtml::*;
 ///
 /// assert_eq!(
-///     style![.type="text/css", "body {background-color: black;} h1 {color: white;}"].render(),
+///     style![._type="text/css", "body {background-color: black;} h1 {color: white;}"].render(),
 ///     "<style type=\"text/css\">body {background-color: black;} h1 {color: white;}</style>"
 /// );
 /// # }
@@ -2021,7 +2021,7 @@ macro_rules! tr {
 ///
 /// assert_eq!(
 ///     track![
-///         .kind="captions",
+///         ._kind="captions",
 ///         .src="https://example.com/captions.vtt",
 ///         .srclang="en",
 ///         .label="English Captions"

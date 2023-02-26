@@ -43,10 +43,10 @@ pub trait CssGlobal: CssSelector {}
 ///
 /// // it can be used in conjunction with html macros
 ///
-/// let html = p! { .class = my_class, "red text!" }.render();
+/// let block = p! { .class = my_class, "red text!" }.render();
 /// // this html renders to
 /// // <p class="my_class">red text!</p>
-/// assert_eq!(html, "<p class=\"my_class\">red text!</p>");
+/// assert_eq!(block, "<p class=\"my_class\">red text!</p>");
 ///
 /// # }
 /// ```
@@ -88,10 +88,10 @@ macro_rules! make_class {
 ///
 /// // it can be used in conjunction with html macros
 ///
-/// let html = p! { .id = my_id, "red text!" }.render();
+/// let block = p! { .id = my_id, "red text!" }.render();
 /// // this html renders to
 /// // <p id="my_id">red text!</p>
-/// assert_eq!(html, "<p id=\"my_id\">red text!</p>");
+/// assert_eq!(block, "<p id=\"my_id\">red text!</p>");
 ///
 /// # }
 /// ```
@@ -737,7 +737,7 @@ parenable!(slotted);
 ///
 /// let css = css!(
 ///     p > div {
-///         background-color: "green",
+///         background_color: "green",
 ///     }
 ///     p div {
 ///         float: "left"
@@ -790,18 +790,18 @@ macro_rules! selector {
 
 #[macro_export]
 macro_rules! pseudo_class {
-    ($head:ident $($rest:tt)+) => {
-        {
-            let ident = $head ;
-            CssPseudoClass::is_pseudo_class(&ident);
-            render_fn!(":{}{}", ident, combinator!($($rest)*))
-        }
-    };
     ($head:ident ($lit:expr) $($rest:tt)+) => {
         {
             let ident = $head;
             CssPseudoClass::is_pseudo_class(&ident);
             render_fn!(":{}({}){}", ident, $lit, combinator!($($rest)*))
+        }
+    };
+    ($head:ident $($rest:tt)+) => {
+        {
+            let ident = $head ;
+            CssPseudoClass::is_pseudo_class(&ident);
+            render_fn!(":{}{}", ident, combinator!($($rest)*))
         }
     };
 }
