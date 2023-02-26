@@ -123,7 +123,6 @@ pub mod tests {
         assert_eq!(css, "#my_id {\n  color: red;\n  }\n");
     }
 
-    // the purpose of this test is to determine if we can forgo using .render() immediately.
     #[test]
     fn test_html() {
         let result = html! {
@@ -144,10 +143,9 @@ pub mod tests {
                          }
                      }
              }
-        }
-        .render();
+        };
 
-        println!("{}", html);
+        println!("{}", result.render());
     }
 
     #[test]
